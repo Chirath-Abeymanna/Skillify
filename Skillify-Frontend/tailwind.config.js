@@ -60,6 +60,9 @@ module.exports = {
         "65xl": ["65px", { lineHeight: "1" }],
         "80xl": ["80px", { lineHeight: "6rem" }],
       },
+      fontFamily: {
+        Inter: "Inter",
+      },
     },
   },
   plugins: [],

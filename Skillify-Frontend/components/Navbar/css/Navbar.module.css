@@ -1,0 +1,42 @@
+.navlinks {
+  font-size: 1.2rem;
+  @apply text-gray-500;
+  padding: 0 3rem;
+  transition: 0.5s ease-in-out;
+}
+
+.backdrop {
+  position: relative;
+  z-index: 150;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+}
+
+.underline::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 10%;
+  border-radius: 50px;
+  background-color: black;
+  top: 95%;
+  left: 50%; /* Start positioning from the center */
+  transform: translateX(-50%);
+  transition: width 0.5s ease;
+}
+
+.underline:hover {
+  @apply text-black;
+}
+
+.underline:hover::after {
+  width: 40%;
+  height: 10%;
+}
+
+.active {
+  @apply text-black;
+}
+.active::after {
+  width: 4%;
+}
