@@ -58,25 +58,25 @@ const Navbar = () => {
                   {dropdownVisible && (
                     <div className="absolute z-[9999] bg-white shadow-md mt-[0.1rem] p-3 rounded-md w-48 space-y-5">
                       <Link
-                        href="/pages/RoadMap"
+                        href="/RoadMap"
                         className="block text-black py-1 px-2 hover:bg-gray-100"
                       >
                         Dynamic Roadmap
                       </Link>
                       <Link
-                        href="/pages/JobSeeker"
+                        href="/JobSeeker"
                         className="block text-black py-1 px-2 hover:bg-gray-100"
                       >
                         Job Seeker
                       </Link>
                       <Link
-                        href="/pages/DegreeMatcher"
+                        href="/DegreeMatcher"
                         className="block text-black py-1 px-2 hover:bg-gray-100"
                       >
                         Degree Matcher
                       </Link>
                       <Link
-                        href="/pages/consultation"
+                        href="/Consultations"
                         className="block text-black py-1 px-2 hover:bg-gray-100"
                       >
                         Consultations

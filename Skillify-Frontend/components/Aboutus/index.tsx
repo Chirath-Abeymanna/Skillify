@@ -7,6 +7,7 @@ interface datatype {
   imgSrc: string;
   paragraph: string;
   link: string;
+  tag: string;
 }
 
 const Aboutdata: datatype[] = [
@@ -15,20 +16,23 @@ const Aboutdata: datatype[] = [
     imgSrc: "/images/aboutus/imgOne.svg",
     paragraph:
       "Enhance Your Job Search with CV Scanning and Job Matching Services.",
-    link: "Check out now",
+    link: "/JobSeeker",
+    tag: "Check out now",
   },
   {
     heading: "Consultations",
     imgSrc: "/images/aboutus/imgTwo.svg",
     paragraph: "Expert Consultations to Guide Your Career and Personal Growth.",
-    link: "Learn more",
+    link: "/Consultations",
+    tag: "Learn more",
   },
   {
     heading: "Degree Matcher",
     imgSrc: "/images/aboutus/imgThree.svg",
     paragraph:
       "Find the Perfect Degree Program to Match Your Career Goals and Ambitions.",
-    link: "Learn more",
+    link: "/DegreeMatcher",
+    tag: "Learn more",
   },
 ];
 
@@ -69,10 +73,10 @@ const Aboutus = () => {
                 {item.paragraph}
               </h4>
               <Link
-                href="/pages/JobSeeker"
+                href={item.link}
                 className="text-lg font-semibold group-hover:text-white text-blue hover-underline"
               >
-                {item.link}
+                {item.tag}
                 <ChevronRightIcon width={20} height={20} />
               </Link>
             </div>

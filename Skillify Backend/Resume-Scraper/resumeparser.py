@@ -4,6 +4,7 @@ import json
 
 # Load API Key from Config
 CONFIG_PATH = r"config.yaml"
+
 with open(CONFIG_PATH) as file:
     data = yaml.load(file, Loader=yaml.FullLoader)
 
