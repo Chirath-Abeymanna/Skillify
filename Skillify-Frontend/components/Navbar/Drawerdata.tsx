@@ -13,7 +13,7 @@ const navigation = [
 
 const services = [
   { name: "Dynamic Roadmap", href: "/pages/Roadmap" },
-  { name: "Job Seeker", href: "/pages/JobSeeker" },
+  { name: "Job Seeker", href: "/JobSeeker" },
   { name: "Degree Matcher", href: "/pages/DegreeMatcher" },
   { name: "Consultation", href: "/pages/Consultation" },
 ];
