@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 const ProfileSection = () => {
   const UserName: string = "Guest";
   return (
@@ -8,13 +10,19 @@ const ProfileSection = () => {
 
       <div className="top-5 lg:top-0 relative w-max left-6 lg:left-16 ">
         <div className="flex justify-end space-x-3 lg:space-x-10  font-Inter">
-          <button className="relative text-lg transition-all duration-500 ease-in-out after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-black after:transition-all after:duration-500 hover:after:w-full">
+          <Link
+            href={"/SignIn"}
+            className="relative text-lg transition-all duration-500 ease-in-out after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-black after:transition-all after:duration-500 hover:after:w-full"
+          >
             Sign In
-          </button>
-          <button className="px-5 py-2 bg-[#00224A] text-white rounded-full hover:bg-[#0f1c2a]">
+          </Link>
+          <Link
+            href={"/SignUp"}
+            className="px-5 py-2 bg-[#00224A] text-white rounded-full hover:bg-[#0f1c2a]"
+          >
             {" "}
             Sign Up
-          </button>
+          </Link>
         </div>
       </div>
 
