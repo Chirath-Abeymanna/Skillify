@@ -23,7 +23,7 @@ const Aboutdata: datatype[] = [
     heading: "Consultations",
     imgSrc: "/images/aboutus/imgTwo.svg",
     paragraph: "Expert Consultations to Guide Your Career and Personal Growth.",
-    link: "/Consultations",
+    link: "/consultation",
     tag: "Learn more",
   },
   {

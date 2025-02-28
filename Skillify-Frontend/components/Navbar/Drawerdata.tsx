@@ -8,14 +8,16 @@ const navigation = [
   { name: "Home", href: "/" },
   { name: "Services", href: "#", dropdown: true }, // No href to prevent navigation
   { name: "FAQ", href: "/#faq-section" },
+  { name: "Blogs", href: "/Blogs" },
   { name: "Contact Us", href: "/#joinUs-section" },
 ];
 
 const services = [
-  { name: "Dynamic Roadmap", href: "/pages/Roadmap" },
+  { name: "Career Map", href: "/Roadmap" },
   { name: "Job Seeker", href: "/JobSeeker" },
-  { name: "Degree Matcher", href: "/pages/DegreeMatcher" },
-  { name: "Consultation", href: "/pages/consultation" },
+  { name: "Salary Scope", href: "/SalaryPredictor" },
+  { name: "Degree Navigator", href: "/DegreeMatcher" },
+  { name: "Consultation", href: "/consultation" },
 ];
 
 interface DataProps {

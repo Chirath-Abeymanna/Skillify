@@ -1,8 +1,7 @@
 .navlinks {
-  font-size: 1.2rem;
   @apply text-gray-500;
-  padding: 0 3rem;
-  transition: 0.5s ease-in-out;
+  padding: 0.3rem;
+  transition: 0.3s ease-in-out;
 }
 
 .backdrop {
@@ -30,7 +29,7 @@
 }
 
 .underline:hover::after {
-  width: 40%;
+  width: 80%;
   height: 10%;
 }
 
@@ -38,5 +37,5 @@
   @apply text-black;
 }
 .active::after {
-  width: 4%;
+  width: 7%;
 }

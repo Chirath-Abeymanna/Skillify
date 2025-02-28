@@ -12,7 +12,7 @@ const ProfileSection = () => {
         <div className="flex justify-end space-x-3 lg:space-x-10  font-Inter">
           <Link
             href={"/SignIn"}
-            className="relative text-lg transition-all duration-500 ease-in-out after:absolute after:left-0 after:bottom-0 after:w-0 after:h-[2px] after:bg-black after:transition-all after:duration-500 hover:after:w-full"
+            className="relative top-2 text-lg transition-all duration-500 ease-in-out after:absolute after:left-0 after:bottom-1 after:w-0 after:h-[8%] after:rounded-full after:bg-black after:transition-all after:duration-500 hover:after:w-full"
           >
             Sign In
           </Link>
