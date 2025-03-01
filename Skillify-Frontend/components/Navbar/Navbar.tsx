@@ -100,9 +100,9 @@ const Navbar = () => {
                   FAQ
                 </Link>
                 <Link
-                  href={"/Blogs"}
+                  href={"/blogs"}
                   className={`${style.navlinks} ${
-                    isActive("/Blogs") ? style.active : ""
+                    isActive("/blogs") ? style.active : ""
                   } ${style.underline} relative`}
                 >
                   Blogs

@@ -8,7 +8,7 @@ const navigation = [
   { name: "Home", href: "/" },
   { name: "Services", href: "#", dropdown: true }, // No href to prevent navigation
   { name: "FAQ", href: "/#faq-section" },
-  { name: "Blogs", href: "/Blogs" },
+  { name: "Blogs", href: "/blogs" },
   { name: "Contact Us", href: "/#joinUs-section" },
 ];
 

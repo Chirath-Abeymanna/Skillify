@@ -62,6 +62,7 @@ module.exports = {
       },
       fontFamily: {
         Inter: "Inter",
+        Poppins: "Poppins",
       },
     },
   },
