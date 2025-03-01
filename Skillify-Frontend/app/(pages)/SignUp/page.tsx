@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 const Registration = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ const Registration = () => {
     username: "",
     email: "",
     password: "",
+    reEnterPassword: "",
     gender: "",
     age: "",
   });
@@ -20,6 +22,7 @@ const Registration = () => {
     username: "",
     email: "",
     password: "",
+    reEnterPassword: "",
     gender: "",
     age: "",
   });
@@ -69,6 +72,16 @@ const Registration = () => {
       newErrors.password = "";
     }
 
+    if (!formData.reEnterPassword) {
+      newErrors.reEnterPassword = "Re-enter password is required";
+      valid = false;
+    } else if (formData.password !== formData.reEnterPassword) {
+      newErrors.reEnterPassword = "Passwords do not match";
+      valid = false;
+    } else {
+      newErrors.reEnterPassword = "";
+    }
+
     if (!formData.gender) {
       newErrors.gender = "Gender is required";
       valid = false;
@@ -95,7 +108,7 @@ const Registration = () => {
   };
 
   return (
-    <div className="relative flex items-center justify-center min-h-screen bg-gray-100 p-4">
+    <div className="relative flex items-center justify-center min-h-screen bg-gray-100 p-4 font-Poppins">
       <svg
         className="absolute inset-0 w-full h-full"
         xmlns="http://www.w3.org/2000/svg"
@@ -107,123 +120,156 @@ const Registration = () => {
           <circle cx="400" cy="300" r="600" />
         </g>
       </svg>
-      <div className="relative w-full max-w-md shadow-lg bg-white rounded-xl p-6">
-        <h2 className="text-center text-2xl font-bold mb-4">Sign Up</h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="lg:flex lg:space-x-4 space-y-4 lg:space-y-0">
-            <div className="">
+      <div className="relative  main-container lg:h-[75vh] flex ">
+        <div className="hidden lg:flex  Picture-container relative lg:w-[50rem] bg-[#9BB2F8] lg:bottom-10 rounded-xl justify-center items-center z-10">
+          <img
+            src="/images/Signup_and_Signin/Signup.svg"
+            alt=""
+            className="relative w-[40rem]"
+          />
+        </div>
+        <motion.div
+          initial={{ x: "-100%" }}
+          animate={{ x: 0 }}
+          transition={{ type: "spring", stiffness: 80 }}
+          className="form-container relative lg:bottom-10 w-full max-w-md shadow-lg bg-white rounded-xl p-6 z-5"
+        >
+          <h2 className="text-center text-2xl font-bold mb-4">Sign Up</h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="lg:flex lg:space-x-4 space-y-4 lg:space-y-0">
+              <div className="">
+                <input
+                  type="text"
+                  name="firstName"
+                  placeholder="First Name"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-3 border border-gray-300 rounded"
+                />
+                {errors.firstName && (
+                  <p className="text-red-600 text-sm">{errors.firstName}</p>
+                )}
+              </div>
+              <div className="">
+                <input
+                  type="text"
+                  name="lastName"
+                  placeholder="Last Name"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-3 border border-gray-300 rounded"
+                />
+                {errors.lastName && (
+                  <p className="text-red-600 text-sm">{errors.lastName}</p>
+                )}
+              </div>
+            </div>
+            <div>
               <input
                 type="text"
-                name="firstName"
-                placeholder="First Name"
-                value={formData.firstName}
+                name="username"
+                placeholder="Username"
+                value={formData.username}
                 onChange={handleChange}
                 required
                 className="w-full p-3 border border-gray-300 rounded"
               />
-              {errors.firstName && (
-                <p className="text-red-600 text-sm">{errors.firstName}</p>
+              {errors.username && (
+                <p className="text-red-600 text-sm">{errors.username}</p>
               )}
             </div>
-            <div className="">
+            <div>
               <input
-                type="text"
-                name="lastName"
-                placeholder="Last Name"
-                value={formData.lastName}
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full p-3 border border-gray-300 rounded"
+                className="w-full p-2 border border-gray-300 rounded"
               />
-              {errors.lastName && (
-                <p className="text-red-600 text-sm">{errors.lastName}</p>
+              {errors.email && (
+                <p className="text-red-600 text-sm">{errors.email}</p>
               )}
             </div>
-          </div>
-          <div>
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-              className="w-full p-3 border border-gray-300 rounded"
-            />
-            {errors.username && (
-              <p className="text-red-600 text-sm">{errors.username}</p>
-            )}
-          </div>
-          <div>
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="w-full p-2 border border-gray-300 rounded"
-            />
-            {errors.email && (
-              <p className="text-red-600 text-sm">{errors.email}</p>
-            )}
-          </div>
-          <div>
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="w-full p-2 border border-gray-300 rounded"
-            />
-            {errors.password && (
-              <p className="text-red-600 text-sm">{errors.password}</p>
-            )}
-          </div>
-          <div>
-            <select
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-              required
-              className="w-full p-2 border border-gray-300 rounded"
+            <div>
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="w-full p-2 border border-gray-300 rounded"
+              />
+              {errors.password && (
+                <p className="text-red-600 text-sm">{errors.password}</p>
+              )}
+            </div>
+            <div>
+              <input
+                type="password"
+                name="reEnterPassword"
+                placeholder="Confirm Password"
+                value={formData.reEnterPassword}
+                onChange={handleChange}
+                required
+                className="w-full p-2 border border-gray-300 rounded"
+              />
+              {errors.reEnterPassword && (
+                <p className="text-red-600 text-sm">{errors.reEnterPassword}</p>
+              )}
+            </div>
+            <div className="lg:flex lg:space-x-14 lg:justify-between space-y-4 lg:space-y-0">
+              <div>
+                <select
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleChange}
+                  required
+                  className="w-full lg:w-[110%] p-2 border border-gray-300 rounded"
+                >
+                  <option value="">Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+                {errors.gender && (
+                  <p className="text-red-600 text-sm">{errors.gender}</p>
+                )}
+              </div>
+              <div>
+                <input
+                  type="text"
+                  name="age"
+                  placeholder="Age"
+                  value={formData.age}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+                {errors.age && (
+                  <p className="text-red-600 text-sm">{errors.age}</p>
+                )}
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full p-2 bg-[#0F41EF] text-white rounded hover:bg-[#00115B] transition duration-300"
             >
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-            {errors.gender && (
-              <p className="text-red-600 text-sm">{errors.gender}</p>
-            )}
-          </div>
-          <div>
-            <input
-              type="text"
-              name="age"
-              placeholder="Age"
-              value={formData.age}
-              onChange={handleChange}
-              required
-              className="w-full p-2 border border-gray-300 rounded"
-            />
-            {errors.age && <p className="text-red-600 text-sm">{errors.age}</p>}
-          </div>
-          <button
-            type="submit"
-            className="w-full p-2 bg-[#0F41EF] text-white rounded hover:bg-[#2d41a0] transition duration-200"
-          >
-            Sign Up
-          </button>
-        </form>
-        <p className="text-center text-sm text-gray-600 mt-4">
-          Already have an account?{" "}
-          <Link href="/SignIn" className="text-faqblue hover:underline">
-            Sign in
-          </Link>
-        </p>
+              Sign Up
+            </button>
+          </form>
+          <p className="text-center text-sm text-gray-600 mt-4">
+            Already have an account?{" "}
+            <Link href="/SignIn" className="text-faqblue hover:underline">
+              Sign in
+            </Link>
+          </p>
+        </motion.div>
       </div>
     </div>
   );
