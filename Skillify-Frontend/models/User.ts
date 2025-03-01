@@ -1,5 +1,5 @@
 import { Schema, model, Document, models } from "mongoose";
-import { unique } from "next/dist/build/utils";
+import bcrypt from "bcryptjs";
 
 const UserSchema = new Schema({
   lastName: {
@@ -23,6 +23,15 @@ const UserSchema = new Schema({
     type: String,
     default: "default",
   },
+});
+
+UserSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    return next();
+  }
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
 });
 
 const User = models.User || model("User", UserSchema);

@@ -7,15 +7,20 @@ import { motion } from "framer-motion";
 import { SessionProvider } from "next-auth/react";
 
 import GoogleSignInButton from "@/components/GoogleSignInButton";
+import MessageBox from "@/components/MessageBox";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
+  const [messages, setMessages] = useState<
+    { message: string; type: "success" | "info" | "warning" | "error" }[]
+  >([]);
+
   const [errors, setErrors] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -27,11 +32,11 @@ const SignIn = () => {
     let valid = true;
     let newErrors = { ...errors };
 
-    if (!formData.username) {
-      newErrors.username = "Username is required";
+    if (!formData.email) {
+      newErrors.email = "Email is required";
       valid = false;
     } else {
-      newErrors.username = "";
+      newErrors.email = "";
     }
 
     if (!formData.password) {
@@ -45,17 +50,47 @@ const SignIn = () => {
     return valid;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {
-      console.log("User Signed In:", formData);
-      // Implement sign-in logic here
+      const result = await signIn("credentials", {
+        redirect: false,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (result?.error) {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            message: result.error || "An unknown error occurred",
+            type: "error",
+          },
+        ]);
+      } else {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { message: "User Signed In Successfully!", type: "success" },
+        ]);
+        console.log("User Signed In:", formData);
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1000);
+      }
+    } else {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { message: "Please fix the errors in the form.", type: "warning" },
+      ]);
     }
   };
 
   return (
     <SessionProvider>
       <div className="relative flex items-center justify-center min-h-screen bg-gray-100 p-4 font-Poppins">
+        {messages.map((msg, index) => (
+          <MessageBox key={index} message={msg.message} type={msg.type} />
+        ))}
         {/* Background SVG */}
         <svg
           className="absolute inset-0 w-full h-full"
@@ -93,15 +128,15 @@ const SignIn = () => {
                 <div>
                   <input
                     type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={formData.username}
+                    name="email"
+                    placeholder="Email"
+                    value={formData.email}
                     onChange={handleChange}
                     required
                     className="w-full p-3 border border-gray-300 rounded"
                   />
-                  {errors.username && (
-                    <p className="text-red-600 text-sm">{errors.username}</p>
+                  {errors.email && (
+                    <p className="text-red-600 text-sm">{errors.email}</p>
                   )}
                 </div>
                 <div>

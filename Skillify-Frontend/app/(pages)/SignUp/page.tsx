@@ -4,20 +4,24 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
+import MessageBox from "@/components/MessageBox";
+
 const Registration = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    username: "",
     email: "",
     password: "",
-    reEnterPassword: "",
   });
+
+  const [reEnterPassword, setReEnterPassword] = useState("");
+  const [messages, setMessages] = useState<
+    { message: string; type: "success" | "info" | "warning" | "error" }[]
+  >([]);
 
   const [errors, setErrors] = useState({
     firstName: "",
     lastName: "",
-    username: "",
     email: "",
     password: "",
     reEnterPassword: "",
@@ -26,7 +30,12 @@ const Registration = () => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === "reEnterPassword") {
+      setReEnterPassword(value); // Handling re-enter password separately
+    } else {
+      setFormData({ ...formData, [name]: value }); // For other fields, update formData
+    }
   };
 
   const validate = () => {
@@ -47,13 +56,6 @@ const Registration = () => {
       newErrors.lastName = "";
     }
 
-    if (!formData.username) {
-      newErrors.username = "Username is required";
-      valid = false;
-    } else {
-      newErrors.username = "";
-    }
-
     if (!formData.email) {
       newErrors.email = "Email is required";
       valid = false;
@@ -68,10 +70,10 @@ const Registration = () => {
       newErrors.password = "";
     }
 
-    if (!formData.reEnterPassword) {
+    if (!reEnterPassword) {
       newErrors.reEnterPassword = "Re-enter password is required";
       valid = false;
-    } else if (formData.password !== formData.reEnterPassword) {
+    } else if (formData.password !== reEnterPassword) {
       newErrors.reEnterPassword = "Passwords do not match";
       valid = false;
     } else {
@@ -82,15 +84,50 @@ const Registration = () => {
     return valid;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validate()) {
-      console.log("User Registered:", formData);
+      try {
+        const response = await fetch("/api/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
+
+        if (!response.ok) {
+          const data = await response
+            .json()
+            .catch(() => ({ error: "Invalid response" }));
+          setMessages([
+            ...messages,
+            { message: data.error || "Registration failed", type: "error" },
+          ]);
+          return;
+        }
+
+        setMessages([
+          ...messages,
+          { message: "User registered successfully!", type: "success" },
+        ]);
+
+        setTimeout(() => {
+          window.location.href = "/SignIn";
+        }, 2000);
+      } catch (error) {
+        setMessages([
+          ...messages,
+          { message: "Error registering user.", type: "error" },
+        ]);
+        console.error("Error:", error);
+      }
     }
   };
 
   return (
     <div className="relative flex items-center justify-center min-h-screen bg-gray-100 p-4 font-Poppins">
+      {messages.map((msg, index) => (
+        <MessageBox key={index} message={msg.message} type={msg.type} />
+      ))}
       <svg
         className="absolute inset-0 w-full h-full"
         xmlns="http://www.w3.org/2000/svg"
@@ -102,12 +139,12 @@ const Registration = () => {
           <circle cx="400" cy="300" r="600" />
         </g>
       </svg>
-      <div className="relative  main-container lg:h-[75vh] flex ">
-        <div className="hidden lg:flex  Picture-container relative lg:w-[50rem] bg-[#9BB2F8] lg:bottom-10 rounded-xl justify-center items-center z-10">
+      <div className="relative  main-container lg:h-[60vh] flex ">
+        <div className="hidden lg:flex  Picture-container relative lg:w-[40rem] bg-[#9BB2F8] lg:bottom-10 rounded-xl justify-center items-center z-10">
           <img
             src="/images/Signup_and_Signin/Signup.svg"
             alt=""
-            className="relative w-[40rem]"
+            className="relative w-[30rem]"
           />
         </div>
         <motion.div
@@ -148,20 +185,7 @@ const Registration = () => {
                 )}
               </div>
             </div>
-            <div>
-              <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                value={formData.username}
-                onChange={handleChange}
-                required
-                className="w-full p-3 border border-gray-300 rounded"
-              />
-              {errors.username && (
-                <p className="text-red-600 text-sm">{errors.username}</p>
-              )}
-            </div>
+
             <div>
               <input
                 type="email"
@@ -195,7 +219,7 @@ const Registration = () => {
                 type="password"
                 name="reEnterPassword"
                 placeholder="Confirm Password"
-                value={formData.reEnterPassword}
+                value={reEnterPassword}
                 onChange={handleChange}
                 required
                 className="w-full p-2 border border-gray-300 rounded"
