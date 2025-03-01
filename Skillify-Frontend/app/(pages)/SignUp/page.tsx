@@ -12,8 +12,6 @@ const Registration = () => {
     email: "",
     password: "",
     reEnterPassword: "",
-    gender: "",
-    age: "",
   });
 
   const [errors, setErrors] = useState({
@@ -23,8 +21,6 @@ const Registration = () => {
     email: "",
     password: "",
     reEnterPassword: "",
-    gender: "",
-    age: "",
   });
 
   const handleChange = (
@@ -82,20 +78,6 @@ const Registration = () => {
       newErrors.reEnterPassword = "";
     }
 
-    if (!formData.gender) {
-      newErrors.gender = "Gender is required";
-      valid = false;
-    } else {
-      newErrors.gender = "";
-    }
-
-    if (!formData.age || isNaN(Number(formData.age))) {
-      newErrors.age = "Valid age is required";
-      valid = false;
-    } else {
-      newErrors.age = "";
-    }
-
     setErrors(newErrors);
     return valid;
   };
@@ -135,7 +117,7 @@ const Registration = () => {
           className="form-container relative lg:bottom-10 w-full max-w-md shadow-lg bg-white rounded-xl p-6 z-5"
         >
           <h2 className="text-center text-2xl font-bold mb-4">Sign Up</h2>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="relative top-3 space-y-4">
             <div className="lg:flex lg:space-x-4 space-y-4 lg:space-y-0">
               <div className="">
                 <input
@@ -222,48 +204,15 @@ const Registration = () => {
                 <p className="text-red-600 text-sm">{errors.reEnterPassword}</p>
               )}
             </div>
-            <div className="lg:flex lg:space-x-14 lg:justify-between space-y-4 lg:space-y-0">
-              <div>
-                <select
-                  name="gender"
-                  value={formData.gender}
-                  onChange={handleChange}
-                  required
-                  className="w-full lg:w-[110%] p-2 border border-gray-300 rounded"
-                >
-                  <option value="">Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
-                </select>
-                {errors.gender && (
-                  <p className="text-red-600 text-sm">{errors.gender}</p>
-                )}
-              </div>
-              <div>
-                <input
-                  type="text"
-                  name="age"
-                  placeholder="Age"
-                  value={formData.age}
-                  onChange={handleChange}
-                  required
-                  className="w-full p-2 border border-gray-300 rounded"
-                />
-                {errors.age && (
-                  <p className="text-red-600 text-sm">{errors.age}</p>
-                )}
-              </div>
-            </div>
 
             <button
               type="submit"
-              className="w-full p-2 bg-[#0F41EF] text-white rounded hover:bg-[#00115B] transition duration-300"
+              className="relative w-full top-3 p-2 bg-[#0F41EF] text-white rounded hover:bg-[#00115B] transition duration-300"
             >
               Sign Up
             </button>
           </form>
-          <p className="text-center text-sm text-gray-600 mt-4">
+          <p className="relative top-5 text-center text-sm text-gray-600 mt-4">
             Already have an account?{" "}
             <Link href="/SignIn" className="text-faqblue hover:underline">
               Sign in
