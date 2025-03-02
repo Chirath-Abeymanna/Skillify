@@ -1,8 +1,10 @@
-'use client';
+"use client";
+
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+
 
 // Define the type for a consultant
 interface Consultant {
@@ -24,6 +26,7 @@ export default function Consultations() {
   const consultants = [
     {
       id: 1,
+
       name: 'Dr. Jon Doe',
       title: 'PhD in Consultation',
       image: '/images/consultation/consultant1.jpg',
@@ -65,6 +68,10 @@ export default function Consultations() {
       email: 'senith20232345@iit.ac.lk',
       linkedin: 'https://www.linkedin.com/in/renal-perera-b880ba295/',
       company: 'EduPro Academy',
+
+      
+    },
+  
     },
   ];
 
@@ -75,11 +82,14 @@ export default function Consultations() {
   };
 
   return (
+
     <div className="min-h-screen relative bg-gray-100 flex flex-col items-center py-10 px-4">
       <h1 className="text-2xl font-semibold mb-6 text-gray-700 text-center">Consultations</h1>
 
+
       <div className="flex flex-col gap-6 w-full max-w-4xl">
         {consultants.map((consultant) => (
+
           <div key={consultant.id} className="relative">
             <div className="flex flex-col sm:flex-row items-center sm:justify-between bg-white p-4 sm:p-6 rounded-lg border border-gray-300 shadow-sm w-full relative">
               <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full">
@@ -91,6 +101,7 @@ export default function Consultations() {
                   <p className="text-sm text-gray-600">{consultant.title}</p>
                   <p className="text-xs text-gray-500 mt-1">{consultant.description}</p>
                 </div>
+
               </div>
 
               <div className="mt-4 sm:mt-0 w-full sm:w-auto flex flex-col items-center relative">

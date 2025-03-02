@@ -24,15 +24,16 @@ const Navbar = () => {
             <div className="flex flex-shrink-0 items-center border-right">
               <Link
                 href="/"
-                className="text-2xl sm:text-4xl font-semibold text-black"
+                className=" text-2xl sm:text-4xl font-semibold text-black"
               >
                 SKILLIFY
               </Link>
+              <p className="block "></p>
             </div>
 
             {/* LINKS */}
-            <div className="hidden lg:flex items-center border-right">
-              <div className="flex justify-end space-x-4">
+            <div className="hidden  lg:flex items-center border-right">
+              <div className="flex justify-center space-x-16">
                 <Link
                   href={"/#banner-section"}
                   className={`${style.navlinks} ${
@@ -61,7 +62,7 @@ const Navbar = () => {
                         href="/RoadMap"
                         className="block text-black py-1 px-2 hover:bg-gray-100"
                       >
-                        Dynamic Roadmap
+                        Career Map
                       </Link>
                       <Link
                         href="/JobSeeker"
@@ -70,10 +71,16 @@ const Navbar = () => {
                         Job Seeker
                       </Link>
                       <Link
+                        href="/SalaryPredictor"
+                        className="block text-black py-1 px-2 hover:bg-gray-100"
+                      >
+                        Salary Scope
+                      </Link>
+                      <Link
                         href="/DegreeMatcher"
                         className="block text-black py-1 px-2 hover:bg-gray-100"
                       >
-                        Degree Matcher
+                        Degree Navigator
                       </Link>
                       <Link
                         href="/consultation"
@@ -84,7 +91,6 @@ const Navbar = () => {
                     </div>
                   )}
                 </div>
-
                 <Link
                   href={"/#faq-section"}
                   className={`${style.navlinks} ${
@@ -94,12 +100,28 @@ const Navbar = () => {
                   FAQ
                 </Link>
                 <Link
+                  href={"/blogs"}
+                  className={`${style.navlinks} ${
+                    isActive("/blogs") ? style.active : ""
+                  } ${style.underline} relative`}
+                >
+                  Blogs
+                </Link>
+                <Link
                   href={"/#joinus-section"}
                   className={`${style.navlinks} ${
                     isActive("/#joinus-section") ? style.active : ""
                   } ${style.underline} relative`}
                 >
                   Contact Us
+                </Link>
+                <Link
+                  href={"/HelpCenter"}
+                  className={`${style.navlinks} ${
+                    isActive("/HelpCenter") ? style.active : ""
+                  } ${style.underline} relative`}
+                >
+                  Help Center
                 </Link>
               </div>
             </div>

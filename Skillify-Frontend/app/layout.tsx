@@ -1,6 +1,7 @@
 import "./globals.css";
 import Navbar from "../components/Navbar/index";
 import Footer from "../components/Footer/index";
+import Provider from "@/components/Provider";
 
 export const metadata = {
   title: "Skillify",
@@ -16,7 +17,8 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Navbar />
-        {children}
+        <Provider>{children}</Provider>
+
         <Footer />
       </body>
     </html>
