@@ -76,7 +76,7 @@ const Navbar = () => {
                         Degree Matcher
                       </Link>
                       <Link
-                        href="/Consultations"
+                        href="/consultation"
                         className="block text-black py-1 px-2 hover:bg-gray-100"
                       >
                         Consultations
