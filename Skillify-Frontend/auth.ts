@@ -35,7 +35,7 @@ export const authOptions = {
           user.password
         );
 
-        if (!isValidPassword) {
+        if (isValidPassword === false) {
           throw new Error("Incorrect password");
         }
 
@@ -65,6 +65,7 @@ export const authOptions = {
       session.user.email = token.email;
 
       const sessionUser = await User.findOne({ email: session.user.email });
+      session.user.name = sessionUser?.firstName + " " + sessionUser?.lastName;
 
       return session;
     },

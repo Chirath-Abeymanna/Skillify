@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface BlogCardProps {
   title: string;
@@ -6,7 +6,11 @@ interface BlogCardProps {
   imageUrl: string;
 }
 
-const BlogCard: React.FC<BlogCardProps> = ({ title, description, imageUrl }) => {
+const BlogCard: React.FC<BlogCardProps> = ({
+  title,
+  description,
+  imageUrl,
+}) => {
   return (
     <div className="blog-card">
       <img src={imageUrl} alt={title} className="blog-card-image" />

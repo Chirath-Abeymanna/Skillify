@@ -105,9 +105,9 @@ const SignIn = () => {
         </svg>
 
         {/* Main Container */}
-        <div className="main-container  flex">
+        <div className="relative  main-container flex ">
           {/* Picture Container */}
-          <div className="hidden lg:flex Picture-container relative lg:w-[30rem] bg-[#98d3f5] lg:bottom-10 rounded-xl justify-center items-center z-10">
+          <div className="hidden lg:flex Picture-container relative lg:w-[30rem] bg-[#98d3f5] lg:bottom-10 rounded-xl justify-center items-center ">
             <img
               src="/images/Signup_and_Signin/login.svg"
               alt="Signin Illustration"
@@ -117,10 +117,10 @@ const SignIn = () => {
 
           {/* Form Container */}
           <motion.div
-            initial={{ x: "-100%" }}
-            animate={{ x: 0 }}
+            initial={{ x: "-100%", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
             transition={{ type: "spring", stiffness: 80 }}
-            className="form-container relative lg:bottom-10 w-full lg:w-[30rem] max-w-md shadow-lg bg-white rounded-xl p-6 z-5"
+            className="form-container relative lg:bottom-10 w-full lg:w-[30rem] max-w-md shadow-lg bg-white rounded-xl p-6 "
           >
             <div>
               <h2 className="text-center text-2xl font-bold mb-4">Sign In</h2>

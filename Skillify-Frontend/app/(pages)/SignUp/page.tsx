@@ -63,8 +63,13 @@ const Registration = () => {
       newErrors.email = "";
     }
 
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/; // Updated regex
     if (!formData.password) {
       newErrors.password = "Password is required";
+      valid = false;
+    } else if (!passwordRegex.test(formData.password)) {
+      newErrors.password =
+        "Password must be at least 8 characters long, contain an uppercase letter, and a number";
       valid = false;
     } else {
       newErrors.password = "";
@@ -87,11 +92,16 @@ const Registration = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validate()) {
+      const cleanedFormData = {
+        ...formData,
+        password: formData.password.trim(),
+      };
+
       try {
         const response = await fetch("/api/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(cleanedFormData),
         });
 
         if (!response.ok) {
@@ -139,8 +149,8 @@ const Registration = () => {
           <circle cx="400" cy="300" r="600" />
         </g>
       </svg>
-      <div className="relative  main-container lg:h-[60vh] flex ">
-        <div className="hidden lg:flex  Picture-container relative lg:w-[40rem] bg-[#9BB2F8] lg:bottom-10 rounded-xl justify-center items-center z-10">
+      <div className="relative main-container lg:h-[60vh] flex">
+        <div className="hidden lg:flex Picture-container relative lg:w-[40rem] bg-[#9BB2F8] lg:bottom-10 rounded-xl justify-center items-center z-0">
           <img
             src="/images/Signup_and_Signin/Signup.svg"
             alt=""
