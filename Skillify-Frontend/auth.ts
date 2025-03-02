@@ -1,8 +1,9 @@
-import { connect } from "http2";
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { connectDB } from "@/utils/database";
 import User from "@/models/User";
+import bcrypt from "bcryptjs";
 
 export const authOptions = {
   providers: [
@@ -13,6 +14,32 @@ export const authOptions = {
         params: {
           scope: "profile email",
         },
+      },
+    }),
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        await connectDB();
+
+        const user = await User.findOne({ email: credentials?.email });
+        if (!user) {
+          throw new Error("No user found with this email");
+        }
+
+        const isValidPassword = await bcrypt.compare(
+          credentials!.password,
+          user.password
+        );
+
+        if (isValidPassword === false) {
+          throw new Error("Incorrect password");
+        }
+
+        return user;
       },
     }),
   ],
@@ -30,29 +57,7 @@ export const authOptions = {
       profile?: any;
     }) {
       console.log("User Info:", user);
-      try {
-        await connectDB();
-
-        // Ensure profile.name exists
-        const fullName = profile?.name || "Unknown User"; // Fallback to avoid validation error
-        const [firstName, ...lastNameParts] = fullName.split(" ");
-        const lastName = lastNameParts.join(" ") || "";
-
-        const userExist = await User.findOne({ email: profile.email });
-        if (!userExist) {
-          const user = await User.create({
-            email: profile.email,
-            firstName: firstName,
-            lastName: lastName,
-            avatar: "default",
-            password: null,
-          });
-        }
-        return true;
-      } catch (error) {
-        console.error("MongoDB Connection Failed:", error);
-        return false;
-      }
+      return true;
     },
     async session({ session, token }: { session: any; token: any }) {
       session.user.id = token.id;
@@ -60,6 +65,7 @@ export const authOptions = {
       session.user.email = token.email;
 
       const sessionUser = await User.findOne({ email: session.user.email });
+      session.user.name = sessionUser?.firstName + " " + sessionUser?.lastName;
 
       return session;
     },
@@ -73,6 +79,17 @@ export const authOptions = {
     },
     async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
       return baseUrl;
+    },
+  },
+  // Optional: Set custom cookie settings
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax" as const,
+      },
     },
   },
 };

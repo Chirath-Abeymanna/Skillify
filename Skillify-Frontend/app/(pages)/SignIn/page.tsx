@@ -7,15 +7,20 @@ import { motion } from "framer-motion";
 import { SessionProvider } from "next-auth/react";
 
 import GoogleSignInButton from "@/components/GoogleSignInButton";
+import MessageBox from "@/components/MessageBox";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
+  const [messages, setMessages] = useState<
+    { message: string; type: "success" | "info" | "warning" | "error" }[]
+  >([]);
+
   const [errors, setErrors] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -27,11 +32,11 @@ const SignIn = () => {
     let valid = true;
     let newErrors = { ...errors };
 
-    if (!formData.username) {
-      newErrors.username = "Username is required";
+    if (!formData.email) {
+      newErrors.email = "Email is required";
       valid = false;
     } else {
-      newErrors.username = "";
+      newErrors.email = "";
     }
 
     if (!formData.password) {
@@ -45,17 +50,47 @@ const SignIn = () => {
     return valid;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validate()) {
-      console.log("User Signed In:", formData);
-      // Implement sign-in logic here
+      const result = await signIn("credentials", {
+        redirect: false,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (result?.error) {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            message: result.error || "An unknown error occurred",
+            type: "error",
+          },
+        ]);
+      } else {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { message: "User Signed In Successfully!", type: "success" },
+        ]);
+        console.log("User Signed In:", formData);
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1000);
+      }
+    } else {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { message: "Please fix the errors in the form.", type: "warning" },
+      ]);
     }
   };
 
   return (
     <SessionProvider>
       <div className="relative flex items-center justify-center min-h-screen bg-gray-100 p-4 font-Poppins">
+        {messages.map((msg, index) => (
+          <MessageBox key={index} message={msg.message} type={msg.type} />
+        ))}
         {/* Background SVG */}
         <svg
           className="absolute inset-0 w-full h-full"
@@ -70,9 +105,9 @@ const SignIn = () => {
         </svg>
 
         {/* Main Container */}
-        <div className="main-container  flex">
+        <div className="relative  main-container flex ">
           {/* Picture Container */}
-          <div className="hidden lg:flex Picture-container relative lg:w-[30rem] bg-[#98d3f5] lg:bottom-10 rounded-xl justify-center items-center z-10">
+          <div className="hidden lg:flex Picture-container relative lg:w-[30rem] bg-[#98d3f5] lg:bottom-10 rounded-xl justify-center items-center ">
             <img
               src="/images/Signup_and_Signin/login.svg"
               alt="Signin Illustration"
@@ -82,10 +117,10 @@ const SignIn = () => {
 
           {/* Form Container */}
           <motion.div
-            initial={{ x: "-100%" }}
-            animate={{ x: 0 }}
+            initial={{ x: "-100%", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
             transition={{ type: "spring", stiffness: 80 }}
-            className="form-container relative lg:bottom-10 w-full lg:w-[30rem] max-w-md shadow-lg bg-white rounded-xl p-6 z-5"
+            className="form-container relative lg:bottom-10 w-full lg:w-[30rem] max-w-md shadow-lg bg-white rounded-xl p-6 "
           >
             <div>
               <h2 className="text-center text-2xl font-bold mb-4">Sign In</h2>
@@ -93,15 +128,15 @@ const SignIn = () => {
                 <div>
                   <input
                     type="text"
-                    name="username"
-                    placeholder="Username"
-                    value={formData.username}
+                    name="email"
+                    placeholder="Email"
+                    value={formData.email}
                     onChange={handleChange}
                     required
                     className="w-full p-3 border border-gray-300 rounded"
                   />
-                  {errors.username && (
-                    <p className="text-red-600 text-sm">{errors.username}</p>
+                  {errors.email && (
+                    <p className="text-red-600 text-sm">{errors.email}</p>
                   )}
                 </div>
                 <div>
