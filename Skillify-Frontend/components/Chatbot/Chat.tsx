@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "./Button";
-import { type ChatGPTMessage, ChatLine, LoadingChatLine } from "./ChatLine";
+import { ChatGPTMessage, ChatLine, LoadingChatLine } from "./ChatLine";
 import { useCookies } from "react-cookie";
 
 const COOKIE_NAME = "nextjs-example-ai-chat-gpt3";
@@ -11,11 +11,21 @@ const COOKIE_NAME = "nextjs-example-ai-chat-gpt3";
 export const initialMessages: ChatGPTMessage[] = [
   {
     role: "assistant",
-    content: "Hi! I am Sally. \n \n How can I help you?",
+    content: "Hi! I am Sally. \n\n How can I help you?",
   },
 ];
 
-const InputMessage = ({ input, setInput, sendMessage }: any) => (
+interface InputMessageProps {
+  input: string;
+  setInput: (value: string) => void;
+  sendMessage: (message: string) => void;
+}
+
+const InputMessage: React.FC<InputMessageProps> = ({
+  input,
+  setInput,
+  sendMessage,
+}) => (
   <div className="mt-3 flex clear-both">
     <input
       type="text"
@@ -29,9 +39,7 @@ const InputMessage = ({ input, setInput, sendMessage }: any) => (
           setInput("");
         }
       }}
-      onChange={(e) => {
-        setInput(e.target.value);
-      }}
+      onChange={(e) => setInput(e.target.value)}
     />
     <Button
       type="submit"
@@ -46,7 +54,7 @@ const InputMessage = ({ input, setInput, sendMessage }: any) => (
   </div>
 );
 
-export function Chat() {
+export const Chat: React.FC = () => {
   const [messages, setMessages] = useState<ChatGPTMessage[]>(initialMessages);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -61,29 +69,26 @@ export function Chat() {
 
   const sendMessage = async (message: string) => {
     setLoading(true);
-    const newMessages = [
+    const newMessages: ChatGPTMessage[] = [
       ...messages,
-      { role: "user", content: message } as ChatGPTMessage,
+      { role: "user", content: message },
     ];
     setMessages(newMessages);
     const last10messages = newMessages.slice(-10); // Remember last 10 messages
 
-    const response = await fetch("/api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        messages: last10messages,
-        user: cookie[COOKIE_NAME],
-      }),
-    });
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: last10messages,
+          user: cookie[COOKIE_NAME],
+        }),
+      });
 
-    console.log("Edge function returned.");
+      console.log("Edge function returned.");
 
-    if (!response.ok) {
-      throw new Error(response.statusText);
-    }
+      if (!response.ok) throw new Error(response.statusText);
 
     const data = response.body;
     if (!data) {
@@ -148,4 +153,4 @@ export function Chat() {
       />
     </div>
   );
-}
+};
