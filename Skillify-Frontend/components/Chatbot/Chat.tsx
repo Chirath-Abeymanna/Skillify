@@ -7,7 +7,7 @@ import { useCookies } from "react-cookie";
 
 const COOKIE_NAME = "nextjs-example-ai-chat-gpt3";
 
-// default first message to display in UI (not necessary to define the prompt)
+// Default first message
 export const initialMessages: ChatGPTMessage[] = [
   {
     role: "assistant",
@@ -41,7 +41,7 @@ const InputMessage = ({ input, setInput, sendMessage }: any) => (
         setInput("");
       }}
     >
-      Say
+      Send
     </Button>
   </div>
 );
@@ -54,7 +54,6 @@ export function Chat() {
 
   useEffect(() => {
     if (!cookie[COOKIE_NAME]) {
-      // generate a semi random short id
       const randomId = Math.random().toString(36).substring(7);
       setCookie(COOKIE_NAME, randomId);
     }
@@ -67,7 +66,7 @@ export function Chat() {
       { role: "user", content: message } as ChatGPTMessage,
     ];
     setMessages(newMessages);
-    const last10messages = newMessages.slice(-10); // remember last 10 messages
+    const last10messages = newMessages.slice(-10); // Remember last 10 messages
 
     const response = await fetch("/api/chat", {
       method: "POST",
@@ -86,7 +85,6 @@ export function Chat() {
       throw new Error(response.statusText);
     }
 
-    // This data is a ReadableStream
     const data = response.body;
     if (!data) {
       setLoading(false);
@@ -96,19 +94,15 @@ export function Chat() {
     const reader = data.getReader();
     const decoder = new TextDecoder();
     let done = false;
-
     let lastMessage = "";
 
-    // Read all the chunks and combine them
     while (!done) {
       const { value, done: doneReading } = await reader.read();
       done = doneReading;
       const chunkValue = decoder.decode(value);
-
       lastMessage = lastMessage + chunkValue;
     }
 
-    // After receiving all the chunks, update the state with the full message
     setMessages((prevMessages) => [
       ...prevMessages,
       { role: "assistant", content: lastMessage } as ChatGPTMessage,
@@ -117,18 +111,36 @@ export function Chat() {
   };
 
   return (
-    <div className="rounded-2xl border-zinc-700  lg:border lg:p-6">
-      {messages.map(({ content, role }, index) => (
-        <ChatLine key={index} role={role} content={content} />
-      ))}
+    <div className="rounded-3xl border border-white/50 bg-white bg-opacity-80 shadow-2xl p-6 max-w-2xl mx-auto">
+      {/* Chat messages with better spacing */}
+      <div className="flex flex-col space-y-4">
+        {" "}
+        {/* Adds spacing between messages */}
+        {messages.map(({ content, role }, index) => (
+          <div
+            key={index}
+            className={`p-4 rounded-xl shadow-md mb-4 ${
+              role === "assistant"
+                ? "bg-gray-100 text-gray-900 self-start"
+                : "bg-blue-100 text-gray-900 self-end"
+            }`}
+          >
+            <span className="font-semibold">
+              {role === "assistant" ? "Sally" : "You"}
+            </span>
+            <p className="mt-1">{content}</p>
+          </div>
+        ))}
+      </div>
 
       {loading && <LoadingChatLine />}
 
       {messages.length < 2 && (
-        <span className="mx-auto flex flex-grow text-gray-300 clear-both">
+        <span className="mx-auto flex flex-grow text-gray-400 clear-both">
           Type a message to start the conversation
         </span>
       )}
+
       <InputMessage
         input={input}
         setInput={setInput}
