@@ -7,7 +7,8 @@ import { useCookies } from "react-cookie";
 
 const COOKIE_NAME = "nextjs-example-ai-chat-gpt3";
 
-// Default first message to display in UI
+// Default first message
+
 export const initialMessages: ChatGPTMessage[] = [
   {
     role: "assistant",
@@ -49,7 +50,7 @@ const InputMessage: React.FC<InputMessageProps> = ({
         setInput("");
       }}
     >
-      Say
+      Send
     </Button>
   </div>
 );
@@ -74,63 +75,82 @@ export const Chat: React.FC = () => {
       { role: "user", content: message },
     ];
     setMessages(newMessages);
-    const last10messages = newMessages.slice(-10);
+    
+    const last10messages = newMessages.slice(-10); // Remember last 10 messages
 
-    try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: last10messages,
-          user: cookie[COOKIE_NAME],
-        }),
-      });
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        messages: last10messages,
+        user: cookie[COOKIE_NAME],
+      }),
+    });
 
-      console.log("Edge function returned.");
+    console.log("Edge function returned.");
 
-      if (!response.ok) throw new Error(response.statusText);
-
-      const data = response.body;
-      if (!data) {
-        setLoading(false);
-        return;
-      }
-
-      const reader = data.getReader();
-      const decoder = new TextDecoder();
-      let done = false;
-      let lastMessage = "";
-
-      while (!done) {
-        const { value, done: doneReading } = await reader.read();
-        done = doneReading;
-        lastMessage += decoder.decode(value);
-      }
-
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { role: "assistant", content: lastMessage },
-      ]);
-    } catch (error) {
-      console.error("Error sending message:", error);
+    if (!response.ok) {
+      throw new Error(response.statusText);
     }
 
+    const data = response.body;
+    if (!data) {
+      setLoading(false);
+      return;
+    }
+
+    const reader = data.getReader();
+    const decoder = new TextDecoder();
+    let done = false;
+    let lastMessage = "";
+
+    while (!done) {
+      const { value, done: doneReading } = await reader.read();
+      done = doneReading;
+      const chunkValue = decoder.decode(value);
+      lastMessage = lastMessage + chunkValue;
+    }
+
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { role: "assistant", content: lastMessage } as ChatGPTMessage,
+    ]);
     setLoading(false);
   };
 
   return (
-    <div className="rounded-2xl border-zinc-700 lg:border lg:p-6">
-      {messages.map(({ content, role }, index) => (
-        <ChatLine key={index} role={role} content={content} />
-      ))}
+    <div className="rounded-3xl border border-white/50 bg-white bg-opacity-80 shadow-2xl p-6 max-w-2xl mx-auto">
+      {/* Chat messages with better spacing */}
+      <div className="flex flex-col space-y-4">
+        {" "}
+        {/* Adds spacing between messages */}
+        {messages.map(({ content, role }, index) => (
+          <div
+            key={index}
+            className={`p-4 rounded-xl shadow-md mb-4 ${
+              role === "assistant"
+                ? "bg-gray-100 text-gray-900 self-start"
+                : "bg-blue-100 text-gray-900 self-end"
+            }`}
+          >
+            <span className="font-semibold">
+              {role === "assistant" ? "Sally" : "You"}
+            </span>
+            <p className="mt-1">{content}</p>
+          </div>
+        ))}
+      </div>
 
       {loading && <LoadingChatLine />}
 
       {messages.length < 2 && (
-        <span className="mx-auto flex flex-grow text-gray-300 clear-both">
+        <span className="mx-auto flex flex-grow text-gray-400 clear-both">
           Type a message to start the conversation
         </span>
       )}
+
       <InputMessage
         input={input}
         setInput={setInput}
