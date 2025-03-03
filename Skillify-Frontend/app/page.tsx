@@ -12,8 +12,10 @@ import Testimonials from "../components/Testimonials/index";
 import Articles from "../components/Articles/index";
 import Joinus from "../components/Joinus/index";
 import Insta from "../components/Insta/index";
+import { connectDB } from "@/utils/database";
 
 export default function Home() {
+  const db = connectDB();
   return (
     <main>
       <Banner />
