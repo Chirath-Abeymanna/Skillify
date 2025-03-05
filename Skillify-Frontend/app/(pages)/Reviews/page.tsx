@@ -14,7 +14,7 @@ const ReviewsPage = () => {
     };
 
     return (
-        <div>
+        <div className='w-[100vw] h-[100vh] flex flex-col items-center justify-center'>
             <h1>Reviews</h1>
             <form onSubmit={handleSubmit}>
                 <textarea
