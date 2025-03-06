@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useState, useRef } from "react";
+import LoadingScreen from "@/components/Splash";
+import MessageBox from "@/components/MessageBox";
 
 interface Job {
   title: string;
@@ -19,6 +21,10 @@ export default function ResumeParser() {
   const [isProcessing, setIsProcessing] = useState(false); // Track processing state
   const resultsRef = useRef<HTMLDivElement | null>(null); // Reference for scrolling
 
+  const [messages, setMessages] = useState<
+    { message: string; type: "success" | "info" | "warning" | "error" }[]
+  >([]);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -28,7 +34,10 @@ export default function ResumeParser() {
     const fileInput = document.querySelector<HTMLInputElement>("#pdf_doc");
 
     if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
-      alert("Please select a PDF file.");
+      setMessages([
+        ...messages,
+        { message: "Upload you're CV", type: "warning" },
+      ]);
       return;
     }
 
@@ -51,10 +60,17 @@ export default function ResumeParser() {
           resultsRef.current?.scrollIntoView({ behavior: "smooth" });
         }, 300); // Smooth scroll after rendering
       } else {
-        alert(result.error);
+        setMessages([...messages, { message: result.error, type: "error" }]);
       }
     } catch (error) {
       console.error("Error processing file:", error);
+      setMessages([
+        ...messages,
+        {
+          message: "Server is not connected. Contact the Administrators",
+          type: "error",
+        },
+      ]);
     } finally {
       setIsProcessing(false); // Enable button after response
     }
@@ -63,6 +79,9 @@ export default function ResumeParser() {
   return (
     <div className="relative isolate overflow-hidden bg-slate-100">
       {/* Background SVG */}
+      {messages.map((msg, index) => (
+        <MessageBox key={index} message={msg.message} type={msg.type} />
+      ))}
       <svg
         className="absolute inset-0 -z-10 h-full w-full stroke-black/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
         aria-hidden="true"
@@ -116,13 +135,13 @@ export default function ResumeParser() {
                 <button
                   type="submit"
                   disabled={isProcessing}
-                  className={`my-2 px-8 rounded-2xl py-2.5 text-sm font-semibold text-white shadow-sm ${
+                  className={`my-2 px-8 rounded-2xl py-3 w-max text-sm font-semibold text-white shadow-sm whitespace-nowrap ${
                     isProcessing
                       ? "bg-gray-500 cursor-not-allowed"
-                      : "bg-[#2191FF] hover:bg-blue-400/90"
+                      : "bg-[#2191FF] hover:bg-[#1d466e]"
                   }`}
                 >
-                  {isProcessing ? "Processing..." : "Process"}
+                  {isProcessing ? "Loading..." : "Get Jobs"}
                 </button>
               </div>
             </form>
