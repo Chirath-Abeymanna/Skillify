@@ -1,5 +1,5 @@
 import Banner from "../components/Banner/index";
-import Aboutus from "../components/Aboutus/index";
+import Aboutus from "../components/Services/index";
 import Dedicated from "../components/Dedicated/index";
 import Digital from "../components/Digital/index";
 import Beliefs from "../components/Beliefs/index";

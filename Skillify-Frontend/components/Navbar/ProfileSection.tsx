@@ -6,11 +6,14 @@ import Link from "next/link";
 const ProfileSection = () => {
   const { data: session, status } = useSession();
 
+  // Log session data when it's loaded
   if (status === "loading") {
     return <div>Loading...</div>;
   }
 
+  // If session exists, log it
   if (session) {
+    console.log(session); // This will log the session data
     return (
       <div className="relative flex flex-col sm:flex-row sm:space-x-10 sm:items-center sm:justify-center sm:left-20 lg:left-28">
         <div className="flex flex-col items-center sm:items-start">
@@ -34,22 +37,25 @@ const ProfileSection = () => {
     );
   } else {
     return (
-      <div className="top-5 lg:top-0 relative w-max left-6 lg:left-16 ">
-        <div className="flex justify-end space-x-3 lg:space-x-10  font-Inter">
-          <Link
-            href={"/SignIn"}
-            className="relative top-2 text-lg transition-all duration-500 ease-in-out after:absolute after:left-0 after:bottom-1 after:w-0 after:h-[8%] after:rounded-full after:bg-black after:transition-all after:duration-500 hover:after:w-full"
-          >
-            Sign In
-          </Link>
-          <Link
-            href={"/SignUp"}
-            className="px-5 py-2 bg-[#00224A] text-white rounded-full hover:bg-[#0f1c2a]"
-          >
-            Sign Up
-          </Link>
+      console.log("No session found"),
+      (
+        <div className="top-5 lg:top-0 relative w-max left-6 lg:left-16 ">
+          <div className="flex justify-end space-x-3 lg:space-x-10  font-Inter">
+            <Link
+              href={"/SignIn"}
+              className="relative top-2 text-lg transition-all duration-500 ease-in-out after:absolute after:left-0 after:bottom-1 after:w-0 after:h-[8%] after:rounded-full after:bg-black after:transition-all after:duration-500 hover:after:w-full"
+            >
+              Sign In
+            </Link>
+            <Link
+              href={"/SignUp"}
+              className="px-5 py-2 bg-[#00224A] text-white rounded-full hover:bg-[#0f1c2a]"
+            >
+              Sign Up
+            </Link>
+          </div>
         </div>
-      </div>
+      )
     );
   }
 };
