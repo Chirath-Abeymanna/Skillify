@@ -3,7 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { connectDB } from "@/utils/database";
 import User from "@/models/User";
-import bcrypt from "bcryptjs";
+import bycrpt from "bcryptjs";
 
 export const authOptions = {
   providers: [
@@ -30,12 +30,12 @@ export const authOptions = {
           throw new Error("No user found with this email");
         }
 
-        const isValidPassword = await bcrypt.compare(
+        const isValidPassword = await bycrpt.compare(
           credentials!.password,
           user.password
         );
 
-        if (isValidPassword === false) {
+        if (isValidPassword == false) {
           throw new Error("Incorrect password");
         }
 
