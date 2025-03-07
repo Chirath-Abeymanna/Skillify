@@ -15,13 +15,13 @@ export default function RootLayout({
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    document.body.classList.add("overflow-hidden"); // Hide scroll
-
     const startTime = Date.now();
+    const loadingDuration = 4000; // Duration of the loading animation in ms
 
+    // Function to show or hide loading screen
     const handleLoad = () => {
       const elapsedTime = Date.now() - startTime;
-      const remainingTime = 4000 - elapsedTime;
+      const remainingTime = loadingDuration - elapsedTime;
 
       setTimeout(
         () => {
@@ -32,12 +32,20 @@ export default function RootLayout({
       );
     };
 
-    if (document.readyState === "complete") {
+    // Set overflow hidden until the page finishes loading
+    document.body.classList.add("overflow-hidden");
+
+    // If it's the first load, trigger the loading screen
+    if (
+      document.readyState === "complete" ||
+      document.readyState === "interactive"
+    ) {
       handleLoad();
     } else {
       window.addEventListener("load", handleLoad);
     }
 
+    // Cleanup on unmount or re-render
     return () => {
       window.removeEventListener("load", handleLoad);
       document.body.classList.remove("overflow-hidden");
