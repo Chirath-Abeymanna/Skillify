@@ -38,4 +38,24 @@ export default function DegreeMatcher(): JSX.Element {
             alt="Degree Icon"
             className="relative bottom-8 w-32 h-32"
           />
+          <div>
+            <h1 className="text-5xl font-extrabold text-orange-500 drop-shadow-md">
+              Degree Matcher
+            </h1>
+            <p className="max-w-[600px] text-lg text-gray-600 mt-10">
+              Unlock your potential, discover your strengths, and connect with career opportunities.
+            </p>
+          </div>
+        </header>
+
+        {/* Degree Selection Form */}
+        <div className="flex">
+          <form
+            onSubmit={handleSubmit}
+            className="relative top-10 flex flex-col items-center gap-6 lg:w-[600px] lg:h-[250px] mx-auto p-8 bg-white shadow-2xl rounded-2xl border border-gray-200 transition-all transition-duration-1000 ease-in-out"
+          >
+            <div className="flex flex-col w-full">
+              <label className="text-lg font-semibold text-[#1e3a8a]">
+                Select Degree Category:
+              </label>
         
