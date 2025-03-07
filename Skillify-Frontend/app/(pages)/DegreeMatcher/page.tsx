@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import data from "@/Data/Degrees.json";
+import MessageBox from "@/components/MessageBox";
 
 const DEGREE_CATEGORIES: string[] = ["Bio", "Mathematics", "Commerce", "Art"];
 
@@ -8,22 +9,36 @@ export default function DegreeMatcher(): JSX.Element {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [recommendedPrograms, setRecommendedPrograms] = useState<string[]>([]);
 
+   const [messages, setMessages] = useState<
+      { message: string; type: "success" | "info" | "warning" | "error" }[]
+    >([]);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       if (!selectedCategory) {
-        throw new Error("Please select a degree category.");
+        setMessages([
+          ...messages,
+          { message:"Select a Degree Program first", type: "warning" },
+        ]);
       }
       const filteredPrograms =
         data[selectedCategory as keyof typeof data] || [];
       setRecommendedPrograms(filteredPrograms);
     } catch (error) {
+      setMessages([
+        ...messages,
+        { message:"Error fetching degree programs:", type: "error" },
+      ]);
       console.error("Error fetching degree programs:", error);
     }
   };
   
   return (
     <div className="relative min-h-screen w-full p-0 m-0 text-gray-900 font-sans">
+      {messages.map((msg, index) => (
+              <MessageBox key={index} message={msg.message} type={msg.type} />
+            ))}
       {/* Background Container */}
       <div
         className="absolute inset-0 -z-10 bg-cover bg-center"
