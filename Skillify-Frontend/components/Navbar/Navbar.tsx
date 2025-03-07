@@ -18,7 +18,7 @@ const Navbar = () => {
 
   return (
     <Provider>
-      <nav className=" navbar z-50">
+      <nav className=" navbar z-[9999]">
         <div className="mx-auto max-w-7xl p-3 md:p-4 lg">
           <div className="relative flex h-12 sm:h-20 items-center">
             <div className="flex flex-1 items-center sm:justify-between ">
