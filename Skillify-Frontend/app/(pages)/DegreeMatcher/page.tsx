@@ -11,6 +11,9 @@ export default function DegreeMatcher(): JSX.Element {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      if (!selectedCategory) {
+        throw new Error("Please select a degree category.");
+      }
       const filteredPrograms =
         data[selectedCategory as keyof typeof data] || [];
       setRecommendedPrograms(filteredPrograms);
