@@ -8,10 +8,9 @@ const DEGREE_CATEGORIES: string[] = ["Bio", "Mathematics", "Commerce", "Art"];
 export default function DegreeMatcher(): JSX.Element {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [recommendedPrograms, setRecommendedPrograms] = useState<string[]>([]);
-
-   const [messages, setMessages] = useState<
-      { message: string; type: "success" | "info" | "warning" | "error" }[]
-    >([]);
+  const [messages, setMessages] = useState<
+    { message: string; type: "success" | "info" | "warning" | "error" }[]
+  >([]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -19,8 +18,9 @@ export default function DegreeMatcher(): JSX.Element {
       if (!selectedCategory) {
         setMessages([
           ...messages,
-          { message:"Select a Degree Program first", type: "warning" },
+          { message: "Select a Degree Program first", type: "warning" },
         ]);
+        return;
       }
       const filteredPrograms =
         data[selectedCategory as keyof typeof data] || [];
@@ -28,17 +28,19 @@ export default function DegreeMatcher(): JSX.Element {
     } catch (error) {
       setMessages([
         ...messages,
-        { message:"Error fetching degree programs:", type: "error" },
+        { message: "Error fetching degree programs:", type: "error" },
       ]);
       console.error("Error fetching degree programs:", error);
     }
   };
-  
+
   return (
     <div className="relative min-h-screen w-full p-0 m-0 text-gray-900 font-sans">
+      {/* Message Box */}
       {messages.map((msg, index) => (
-              <MessageBox key={index} message={msg.message} type={msg.type} />
-            ))}
+        <MessageBox key={index} message={msg.message} type={msg.type} />
+      ))}
+
       {/* Background Container */}
       <div
         className="absolute inset-0 -z-10 bg-cover bg-center"
@@ -47,6 +49,24 @@ export default function DegreeMatcher(): JSX.Element {
             "url('/images/DeegreeMatcher/blue-gradient-strokes-white-background.jpg')",
         }}
       ></div>
+
+      {/* SVG Decoration at Top Left */}
+      <div className="absolute top-0 left-0 -z-5">
+        <img
+          src="/images/DeegreeMatcher/773390_06.svg"
+          alt="Decorative SVG Top Left"
+          className="w-96 h-96"
+        />
+      </div>
+
+      {/* SVG Decoration at Bottom Right */}
+      <div className="absolute bottom-0 right-0 -z-5">
+        <img
+          src="/images/DeegreeMatcher/773390_006.svg"
+          alt="Decorative SVG Bottom Right"
+          className="w-96 h-96"
+        />
+      </div>
 
       <div className="relative z-10">
         {/* Heading Section */}
@@ -61,7 +81,8 @@ export default function DegreeMatcher(): JSX.Element {
               Degree Matcher
             </h1>
             <p className="max-w-[600px] text-lg text-gray-600 mt-10">
-              Unlock your potential, discover your strengths, and connect with career opportunities.
+              Unlock your potential, discover your strengths, and connect with
+              career opportunities.
             </p>
           </div>
         </header>
@@ -122,5 +143,3 @@ export default function DegreeMatcher(): JSX.Element {
     </div>
   );
 }
-
-        
