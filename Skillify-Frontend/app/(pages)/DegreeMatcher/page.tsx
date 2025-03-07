@@ -18,3 +18,24 @@ export default function DegreeMatcher(): JSX.Element {
       console.error("Error fetching degree programs:", error);
     }
   };
+  
+  return (
+    <div className="relative min-h-screen w-full p-0 m-0 text-gray-900 font-sans">
+      {/* Background Container */}
+      <div
+        className="absolute inset-0 -z-10 bg-cover bg-center"
+        style={{
+          backgroundImage:
+            "url('/images/DeegreeMatcher/blue-gradient-strokes-white-background.jpg')",
+        }}
+      ></div>
+
+      <div className="relative z-10">
+        {/* Heading Section */}
+        <header className="mt-12 mb-8 flex pt-10 items-center pl-16 gap-4">
+          <img
+            src="/images/DeegreeMatcher/imgThree.svg" // update this path if needed
+            alt="Degree Icon"
+            className="relative bottom-8 w-32 h-32"
+          />
+        
