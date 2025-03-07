@@ -26,16 +26,16 @@ export default function BlogPage() {
         publishedDate: "03/01/2025",
         content:
           "Learn the best practices for modern web development with Next.js and TailwindCSS.",
-        image: "/images/blog1.jpg",
+        image: "/images/blogs/blog1.jpg",
         category: "Web Development",
       },
       {
         id: 2,
-        title: "Full-Stack Roadmap",
+        title: "Job Seeker",
         publishedDate: "03/01/2025",
         content: "A complete guide to becoming a full-stack developer in 2025.",
         image: "/images/blog2.jpg",
-        category: "Web Development",
+        category: "Job Seeker",
       },
       {
         id: 3,
@@ -51,16 +51,16 @@ export default function BlogPage() {
         title: "Cybersecurity Tips for 2025",
         publishedDate: "01/03/2025",
         content: "Stay safe online with these cybersecurity best practices.",
-        image: "/images/blog4.jpg",
+        image: "/images/blogs/blog4.png",
         category: "Cybersecurity",
       },
       {
         id: 5,
-        title: "Cloud Computing in 2025",
+        title: "Career Path Consultations",
         publishedDate: "05/02/2025",
         content:
           "Discover the latest trends in cloud computing and how businesses are leveraging the cloud for scalability and security.",
-        image: "/images/blog5.jpg",
+        image: "/images/blogs/blog5.jpg",
         category: "Cloud Computing",
       },
     ]);
@@ -92,13 +92,13 @@ export default function BlogPage() {
             <div
               key={article.id}
               ref={(el) => (articleRefs.current[article.id] = el)}
-              className="mb-6 p-6 bg-white rounded-lg shadow-lg border border-gray-200 transition duration-300 hover:shadow-xl"
+              className="mb-6 p-6 rounded-lg shadow-lg border transition duration-300 hover:shadow-xl"
             >
               <Image
                 src={article.image}
                 alt={article.title}
-                width={600}
-                height={300}
+                width={300}
+                height={200}
                 className="rounded-lg w-full h-52 object-cover"
               />
               <h2 className="text-2xl font-semibold text-gray-800 mt-4">
@@ -111,15 +111,8 @@ export default function BlogPage() {
 
               {/* Featured Author */}
               <div className="flex items-center mt-6">
-                <Image
-                  src="/images/author.jpg"
-                  alt="Author"
-                  width={50}
-                  height={50}
-                  className="rounded-full"
-                />
                 <div className="ml-4">
-                  <p className="font-semibold">John Doe</p>
+                  <p className="font-semibold">Nadini Salisha</p>
                   <p className="text-sm text-gray-500">Tech Blogger</p>
                 </div>
               </div>
@@ -128,11 +121,18 @@ export default function BlogPage() {
         </div>
 
         {/* Sidebar Section */}
-        <div className="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+        <div className="p-6 rounded-lg shadow-lg border fixed right-20 top-[25vh]">
           <h3 className="mt-6 text-lg font-semibold text-gray-800">
             Categories
           </h3>
-          <ul className="mt-2 text-gray-600 space-y-2">
+          <Image
+            src="/images/blogs/blog6.png"
+            alt="Categories"
+            width={250}
+            height={150}
+            className="rounded-lg my-4"
+          />
+          <ul className="mt-2 text-btnblue space-y-2">
             {Array.from(new Set(articles.map((a) => a.category))).map(
               (category) => (
                 <li
