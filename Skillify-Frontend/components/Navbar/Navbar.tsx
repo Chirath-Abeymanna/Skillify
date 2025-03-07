@@ -38,7 +38,7 @@ const Navbar = () => {
               </div>
 
               {/* LINKS */}
-              <div className="hidden  lg:flex items-center border-right">
+              <div className="hidden md:flex  lg:flex items-center border-right">
                 <div className="flex justify-center space-x-14">
                   <Link
                     href={"/#banner-section"}
@@ -133,7 +133,7 @@ const Navbar = () => {
               </div>
 
               {/* PROFILE SECTION (Hidden on Mobile, Shown on Larger Screens) */}
-              <div className="hidden sm:block">
+              <div className="hidden sm:block md:block">
                 <ProfileSection />
               </div>
             </div>
