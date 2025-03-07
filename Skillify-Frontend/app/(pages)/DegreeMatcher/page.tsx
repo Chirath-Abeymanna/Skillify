@@ -58,4 +58,24 @@ export default function DegreeMatcher(): JSX.Element {
               <label className="text-lg font-semibold text-[#1e3a8a]">
                 Select Degree Category:
               </label>
+              <select
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm bg-gray-50"
+              >
+                <option value="">Choose category</option>
+                {DEGREE_CATEGORIES.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-orange-500 text-white border-orange-700 hover:bg-orange-600 font-semibold rounded-xl px-6 py-3 text-lg shadow-md transform hover:scale-105 transition duration-300 ease-in-out"
+            >
+              Get Degree Programs
+            </button>
+          </form>
         
