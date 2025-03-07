@@ -78,4 +78,31 @@ export default function DegreeMatcher(): JSX.Element {
               Get Degree Programs
             </button>
           </form>
+
+          {/* Recommended Programs List */}
+          {recommendedPrograms.length > 0 && (
+            <div className="text-center max-w-[800px] mx-auto">
+              <h2 className="text-2xl font-bold text-gray-800 drop-shadow-sm">
+                Recommended Programs:
+              </h2>
+              <div className="mt-4 max-h-[300px] overflow-y-auto space-y-10 p-6 bg-white shadow-xl rounded-2xl border border-gray-200">
+                <ul>
+                  {recommendedPrograms.map((prog, idx) => (
+                    <li
+                      key={idx}
+                      className="text-lg font-medium text-[#1e3a8a] p-3 rounded-lg bg-[#ddf0f6] border-[#eaeff5] border-2 shadow-md space-y-10 m-5"
+                    >
+                      {prog}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
         
