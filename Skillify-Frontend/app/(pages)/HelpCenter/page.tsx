@@ -11,7 +11,7 @@ function Home() {
       </div>
 
       {/* Header Section - Fixed Overlapping Issue */}
-      <section className="flex flex-col gap-6 lg:w-1/2 z-20  text-center mt-10">
+      <section className="flex flex-col gap-6 lg:w-1/2 z-20 text-center mt-10">
         <div className="w-full flex justify-center">
           <Text
             variant="h1"
@@ -22,13 +22,10 @@ function Home() {
         </div>
       </section>
 
-      {/* Chat Section - Increased Width for Desktop */}
-      <section className="flex flex-col w-full lg:w-3/4 xl:w-2/3 gap-6 z-20">
-        <div className="p-8 rounded-3xl bg-white bg-opacity-70 backdrop-blur-2xl border border-white shadow-3xl transition-all duration-500 ease-in-out transform hover:shadow-4xl hover:scale-105">
-          {/* Chat Messages with Proper Spacing */}
-          <div className="space-y-4">
-            <Chat />
-          </div>
+      {/* Chat Section - Transparent Background */}
+      <section className="flex flex-col w-full lg:w-3/4 xl:w-2/3 gap-6 z-20 bg-transparent">
+        <div className="space-y-4 bg-transparent">
+          <Chat />
         </div>
       </section>
     </Page>
