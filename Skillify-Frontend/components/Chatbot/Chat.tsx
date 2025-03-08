@@ -30,7 +30,7 @@ const InputMessage: React.FC<InputMessageProps> = ({
       type="text"
       aria-label="chat input"
       required
-      className="min-w-0 flex-auto appearance-none rounded-md border border-zinc-900/10 bg-white px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-teal-500 focus:outline-none focus:ring-4 focus:ring-teal-500/10 sm:text-sm text-zinc-900"
+      className="min-w-0 flex-auto appearance-none rounded-md border border-zinc-900/10 bg-transparent px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-teal-500 focus:outline-none focus:ring-4 focus:ring-teal-500/10 sm:text-sm text-zinc-900 backdrop-blur-md"
       value={input}
       onKeyDown={(e) => {
         if (e.key === "Enter") {
@@ -104,17 +104,17 @@ export const Chat: React.FC = () => {
   };
 
   return (
-    <div className="relative mx-auto max-w-md rounded-lg bg-gradient-to-tr from-pink-300 to-blue-300 p-0.5 shadow-lg">
-      <div className="bg-white p-7 rounded-md">
+    <div className="relative mx-auto max-w-md rounded-lg bg-transparent p-0.5 shadow-lg backdrop-blur-md">
+      <div className="bg-transparent p-7 rounded-md backdrop-blur-lg">
         <div className="flex flex-col space-y-4">
           {messages.map(({ content, role }, index) => (
             <div
               key={index}
               className={`p-4 rounded-xl shadow-md mb-4 transition transform hover:scale-105 hover:bg-opacity-90 hover:shadow-lg ${
                 role === "assistant"
-                  ? "bg-gray-100 text-gray-900 self-start"
-                  : "bg-blue-100 text-gray-900 self-end"
-              }`}
+                  ? "bg-white/30 text-gray-900 self-start"
+                  : "bg-blue-300/30 text-gray-900 self-end"
+              } backdrop-blur-md`}
             >
               <span className="font-semibold">
                 {role === "assistant" ? "Sally" : "You"}
