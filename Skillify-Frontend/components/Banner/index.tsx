@@ -33,7 +33,7 @@ const Banner = () => {
         {/* COLUMN-2 - Spline Element */}
 
         <div className="lg:-m-45 lg:pt-35 hidden lg:block bg-white p-7">
-          <Spline scene="https://prod.spline.design/Mk067fLR7ZLDCsRV/scene.splinecode" />
+          <Spline scene="https://prod.spline.design/518hlprNqFPv3Q6h/scene.splinecode" />
         </div>
       </div>
     </div>

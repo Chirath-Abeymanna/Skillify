@@ -25,31 +25,33 @@ const InputMessage: React.FC<InputMessageProps> = ({
   setInput,
   sendMessage,
 }) => (
-  <div className="mt-3 flex clear-both">
-    <input
-      type="text"
-      aria-label="chat input"
-      required
-      className="min-w-0 flex-auto appearance-none rounded-md border border-zinc-900/10 bg-transparent px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-teal-500 focus:outline-none focus:ring-4 focus:ring-teal-500/10 sm:text-sm text-zinc-900 backdrop-blur-md"
-      value={input}
-      onKeyDown={(e) => {
-        if (e.key === "Enter") {
+  <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 w-full max-w-lg px-4">
+    <div className="flex items-center space-x-2 bg-white p-2 rounded-lg shadow-lg border border-gray-300">
+      <input
+        type="text"
+        aria-label="chat input"
+        required
+        className="flex-grow appearance-none border-none focus:outline-none px-3 py-2 text-gray-900"
+        value={input}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            sendMessage(input);
+            setInput("");
+          }
+        }}
+        onChange={(e) => setInput(e.target.value)}
+      />
+      <Button
+        type="submit"
+        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+        onClick={() => {
           sendMessage(input);
           setInput("");
-        }
-      }}
-      onChange={(e) => setInput(e.target.value)}
-    />
-    <Button
-      type="submit"
-      className="ml-2 w-32 h-12 flex-none"
-      onClick={() => {
-        sendMessage(input);
-        setInput("");
-      }}
-    >
-      Send
-    </Button>
+        }}
+      >
+        Send
+      </Button>
+    </div>
   </div>
 );
 
@@ -104,37 +106,31 @@ export const Chat: React.FC = () => {
   };
 
   return (
-    <div className="relative mx-auto max-w-md rounded-lg bg-transparent p-0.5 shadow-lg backdrop-blur-md">
-      <div className="bg-transparent p-7 rounded-md backdrop-blur-lg">
-        <div className="flex flex-col space-y-4">
-          {messages.map(({ content, role }, index) => (
-            <div
-              key={index}
-              className={`p-4 rounded-xl shadow-md mb-4 transition transform hover:scale-105 hover:bg-opacity-90 hover:shadow-lg ${
+    <div className="relative mx-auto max-w-lg h-screen flex flex-col-reverse overflow-y-auto p-4">
+      <div className="flex flex-col-reverse space-y-4 pb-20">
+        {messages.map(({ content, role }, index) => (
+          <div
+            key={index}
+            className={`p-4 rounded-xl shadow-md mb-2 max-w-xs transition transform hover:scale-105 hover:shadow-lg
+              ${
                 role === "assistant"
-                  ? "bg-white/30 text-gray-900 self-start"
-                  : "bg-blue-300/30 text-gray-900 self-end"
-              } backdrop-blur-md`}
-            >
-              <span className="font-semibold">
-                {role === "assistant" ? "Sally" : "You"}
-              </span>
-              <p className="mt-1">{content}</p>
-            </div>
-          ))}
-        </div>
-        {loading && <LoadingChatLine />}
-        {messages.length < 2 && (
-          <span className="mx-auto flex flex-grow text-gray-400 clear-both">
-            Type a message to start the conversation
-          </span>
-        )}
-        <InputMessage
-          input={input}
-          setInput={setInput}
-          sendMessage={sendMessage}
-        />
+                  ? "self-start bg-gray-100 text-gray-900"
+                  : "self-end bg-blue-500 text-white"
+              }`}
+          >
+            <span className="font-semibold">
+              {role === "assistant" ? "Sally" : "You"}
+            </span>
+            <p className="mt-1">{content}</p>
+          </div>
+        ))}
       </div>
+      {loading && <LoadingChatLine />}
+      <InputMessage
+        input={input}
+        setInput={setInput}
+        sendMessage={sendMessage}
+      />
     </div>
   );
 };
