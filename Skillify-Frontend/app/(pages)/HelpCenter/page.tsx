@@ -1,18 +1,17 @@
 import { Layout, Text, Page } from "@vercel/examples-ui";
 import { Chat } from "@/components/Chatbot/Chat";
+import Spline from "@splinetool/react-spline";
 
 function Home() {
   return (
     <Page className="z-0 flex flex-col gap-12 bg-white text-gray-900 min-h-screen min-w-full px-6 items-center relative overflow-hidden pt-20">
-      {/* Enhanced Glassmorphism Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white to-white opacity-90 backdrop-blur-3xl" />
-
-      {/* Floating 3D Elements */}
-      <div className="absolute -top-32 left-10 w-96 h-96 bg-white opacity-40 rounded-full blur-[80px] shadow-2xl" />
-      <div className="absolute bottom-10 right-10 w-80 h-80 bg-white opacity-50 rounded-full blur-[80px] shadow-2xl" />
+      {/* 3D Background Spline Scene */}
+      <div className="absolute inset-0 z-0">
+        <Spline scene="https://prod.spline.design/HU6dOwZbh2xM7Rr2/scene.splinecode" />
+      </div>
 
       {/* Header Section - Fixed Overlapping Issue */}
-      <section className="flex flex-col gap-6 lg:w-1/2 z-20 text-center mt-10">
+      <section className="flex flex-col gap-6 lg:w-1/2 z-20  text-center mt-10">
         <div className="w-full flex justify-center">
           <Text
             variant="h1"

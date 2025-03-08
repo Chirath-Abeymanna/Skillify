@@ -1,10 +1,10 @@
 "use client";
 import Spline from "@splinetool/react-spline";
+import Link from "next/link";
 
 const Banner = () => {
   return (
     <div className="mx-auto -my-[4rem] max-w-7xl sm:py-10 px-6 lg:px-8">
-
       <div className="grid grid-cols-1 lg:grid-cols-2 my-16">
         {/* COLUMN-1 */}
 
