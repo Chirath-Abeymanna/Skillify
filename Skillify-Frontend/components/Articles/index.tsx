@@ -111,7 +111,7 @@ export default class MultipleItems extends Component {
 
                     <div className="text-center">
                         <h3 className="text-blue text-lg font-normal tracking-widest">ARTICLES</h3>
-                        <h3 className="text-4xl sm:text-6xl font-bold">Our latest udpates.</h3>
+                        <h3 className="text-4xl sm:text-6xl font-bold">Our latest updates.</h3>
                     </div>
 
 

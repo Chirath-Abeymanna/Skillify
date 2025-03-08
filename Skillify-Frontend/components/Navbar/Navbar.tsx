@@ -18,7 +18,7 @@ const Navbar = () => {
 
   return (
     <Provider>
-      <nav className=" navbar z-50">
+      <nav className=" navbar z-[9999]">
         <div className="mx-auto max-w-7xl p-3 md:p-4 lg">
           <div className="relative flex h-12 sm:h-20 items-center">
             <div className="flex flex-1 items-center sm:justify-between ">
@@ -38,7 +38,7 @@ const Navbar = () => {
               </div>
 
               {/* LINKS */}
-              <div className="hidden  lg:flex items-center border-right">
+              <div className="hidden md:flex  lg:flex items-center border-right">
                 <div className="flex justify-center space-x-14">
                   <Link
                     href={"/#banner-section"}
@@ -133,7 +133,7 @@ const Navbar = () => {
               </div>
 
               {/* PROFILE SECTION (Hidden on Mobile, Shown on Larger Screens) */}
-              <div className="hidden sm:block">
+              <div className="hidden sm:block md:block">
                 <ProfileSection />
               </div>
             </div>

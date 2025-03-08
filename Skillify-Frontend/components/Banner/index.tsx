@@ -4,6 +4,7 @@ import Spline from "@splinetool/react-spline";
 const Banner = () => {
   return (
     <div className="mx-auto -my-[4rem] max-w-7xl sm:py-10 px-6 lg:px-8">
+
       <div className="grid grid-cols-1 lg:grid-cols-2 my-16">
         {/* COLUMN-1 */}
 
@@ -20,9 +21,12 @@ const Banner = () => {
             </h1>
           </div>
           <div className="my-7 text-center lg:text-start">
-            <button className="text-sm md:text-xl font-semibold hover:shadow-xl bg-blue text-white py-3 px-6 md:py-5 md:px-14 rounded-full hover:bg-hoblue">
+            <Link
+              href={"#aboutus-section"}
+              className="text-sm md:text-xl font-semibold hover:shadow-xl bg-blue text-white py-3 px-6 md:py-5 md:px-14 rounded-full hover:bg-hoblue"
+            >
               Get Started
-            </button>
+            </Link>
           </div>
         </div>
 
