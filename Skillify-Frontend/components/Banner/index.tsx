@@ -28,7 +28,7 @@ const Banner = () => {
 
         {/* COLUMN-2 - Spline Element */}
 
-        <div className="lg:-m-40 lg:pt-22 hidden lg:block bg-white p-6">
+        <div className="lg:-m-45 lg:pt-35 hidden lg:block bg-white p-7">
           <Spline scene="https://prod.spline.design/Mk067fLR7ZLDCsRV/scene.splinecode" />
         </div>
       </div>
