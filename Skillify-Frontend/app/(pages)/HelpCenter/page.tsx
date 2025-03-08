@@ -10,15 +10,8 @@ function Home() {
         <Spline scene="https://prod.spline.design/HU6dOwZbh2xM7Rr2/scene.splinecode" />
       </div>
 
-      {/* Enhanced Glassmorphism Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white to-white opacity-90 backdrop-blur-3xl" />
-
-      {/* Floating 3D Elements */}
-      <div className="absolute -top-32 left-10 w-96 h-96 bg-white opacity-40 rounded-full blur-[80px] shadow-2xl" />
-      <div className="absolute bottom-10 right-10 w-80 h-80 bg-white opacity-50 rounded-full blur-[80px] shadow-2xl" />
-
       {/* Header Section - Fixed Overlapping Issue */}
-      <section className="flex flex-col gap-6 lg:w-1/2 z-20 text-center mt-10">
+      <section className="flex flex-col gap-6 lg:w-1/2 z-20  text-center mt-10">
         <div className="w-full flex justify-center">
           <Text
             variant="h1"
