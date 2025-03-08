@@ -80,7 +80,7 @@ export default function DegreeMatcher(): JSX.Element {
             </p>
           </div>
         </header>
-
+        
         {/* Degree Selection Form */}
         <div className="flex">
           <form
