@@ -6,11 +6,12 @@ import { Session } from "next-auth";
 
 const Provider = ({
   children,
-  session = null, // ✅ Make session optional by setting a default value
+  session = null,
 }: {
   children: ReactNode;
   session?: Session | null;
 }) => {
+  console.log("Session in Provider:", session);
   return <SessionProvider session={session}>{children}</SessionProvider>;
 };
 
