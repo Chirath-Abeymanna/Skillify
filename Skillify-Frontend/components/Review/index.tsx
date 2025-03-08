@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Star } from "lucide-react";
 
 const ReviewForm: React.FC = () => {
   const [rating, setRating] = useState<number>(0);
@@ -23,20 +22,21 @@ const ReviewForm: React.FC = () => {
         We Value Your Feedback
       </h2>
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="flex justify-center gap-1">
-          {[...Array(5)].map((_, index) => {
-            const ratingValue = index + 1;
-            return (
-              <Star
-                key={index}
-                size={32}
-                className={`cursor-pointer transition-all ${
-                  ratingValue <= rating ? "text-yellow-400" : "text-gray-300"
-                }`}
-                onClick={() => setRating(ratingValue)}
+        <div className="flex justify-center gap-4">
+          {[1, 2, 3, 4, 5].map((value) => (
+            <label key={value} className="flex flex-col items-center">
+              <input
+                type="radio"
+                name="rating"
+                value={value}
+                className="hidden"
+                onChange={() => setRating(value)}
               />
-            );
-          })}
+              <span className={cursor-pointer text-lg font-semibold ${rating === value ? "text-blue" : "text-gray-400"}}>
+                {value}
+              </span>
+            </label>
+          ))}
         </div>
         <input
           type="text"
