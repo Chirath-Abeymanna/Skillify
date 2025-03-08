@@ -7,7 +7,7 @@ function Home() {
     <Page className="z-0 flex flex-col gap-12 bg-white text-gray-900 min-h-screen min-w-full px-6 items-center relative overflow-hidden pt-20">
       {/* 3D Background Spline Scene */}
       <div className="absolute inset-0 z-0">
-        <Spline scene="https://prod.spline.design/HU6dOwZbh2xM7Rr2/scene.splinecode" />
+        <Spline scene="https://prod.spline.design/HToH8MH93m9NGCBl/scene.splinecode" />
       </div>
 
       {/* Header Section - Fixed Overlapping Issue */}
