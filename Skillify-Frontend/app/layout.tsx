@@ -53,13 +53,13 @@ export default function RootLayout({
   }, []);
 
   return (
-    <SessionProvider>
-      <html lang="en">
-        <head>
-          <title>Skillify</title>
-        </head>
+    <html lang="en">
+      <head>
+        <title>Skillify</title>
+      </head>
 
-        <body>
+      <body>
+        <Provider>
           {isLoading && <LoadingScreen />}
           <div
             className={`transition-opacity duration-500 ${
@@ -67,11 +67,11 @@ export default function RootLayout({
             }`}
           >
             <Navbar />
-            <Provider>{children}</Provider>
+            {children}
             <Footer />
           </div>
-        </body>
-      </html>
-    </SessionProvider>
+        </Provider>
+      </body>
+    </html>
   );
 }
