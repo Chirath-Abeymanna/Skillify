@@ -3,14 +3,13 @@
 import { useState } from "react";
 
 const ReviewForm: React.FC = () => {
-  const [rating, setRating] = useState<number>(0);
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [comment, setComment] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({ rating, name, email, comment });
+    console.log({ name, email, comment });
   };
 
   return (
@@ -22,22 +21,6 @@ const ReviewForm: React.FC = () => {
         We Value Your Feedback
       </h2>
       <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="flex justify-center gap-4">
-          {[1, 2, 3, 4, 5].map((value) => (
-            <label key={value} className="flex flex-col items-center">
-              <input
-                type="radio"
-                name="rating"
-                value={value}
-                className="hidden"
-                onChange={() => setRating(value)}
-              />
-              <span className={cursor-pointer text-lg font-semibold ${rating === value ? "text-blue" : "text-gray-400"}}>
-                {value}
-              </span>
-            </label>
-          ))}
-        </div>
         <input
           type="text"
           className="w-full p-4 text-black rounded-xl bg-lightgrey focus:outline-none focus:ring-2 focus:ring-blue"
