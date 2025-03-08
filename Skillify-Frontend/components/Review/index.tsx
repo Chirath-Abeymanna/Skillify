@@ -3,13 +3,11 @@
 import { useState } from "react";
 
 const ReviewForm: React.FC = () => {
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
   const [comment, setComment] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({ name, email, comment });
+    console.log({ comment });
   };
 
   return (
@@ -21,22 +19,6 @@ const ReviewForm: React.FC = () => {
         We Value Your Feedback
       </h2>
       <form onSubmit={handleSubmit} className="space-y-6">
-        <input
-          type="text"
-          className="w-full p-4 text-black rounded-xl bg-lightgrey focus:outline-none focus:ring-2 focus:ring-blue"
-          placeholder="Your name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          className="w-full p-4 text-black rounded-xl bg-lightgrey focus:outline-none focus:ring-2 focus:ring-blue"
-          placeholder="Your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
         <textarea
           className="w-full p-4 text-black rounded-xl bg-lightgrey focus:outline-none focus:ring-2 focus:ring-blue"
           placeholder="Write your review here..."
