@@ -23,7 +23,7 @@ export default function BlogPage() {
         title: "Career Map",
         publishedDate: "03/01/2025",
         content:
-          "🚀 Not sure which career path to choose? Our Career Map is here to guide you!\n\nDiscover different job roles, the skills you need, and how to progress in your chosen field. Whether you're a student or a professional looking to switch careers, this roadmap will help you navigate the journey with confidence!",
+          "🚀 Not sure which career path to choose? Our Career Map is here to guide you!\n \nA Career Map is a structured guide that helps you navigate different job roles, required skills, and growth opportunities. It provides a visual representation of career progression in various industries, helping you set long-term goals and take strategic steps in your professional journey.\n \nWhether you're a student deciding on a future career or a professional considering a switch, our Career Map outlines clear steps to success. It includes details on education requirements, essential skills, and industry trends to keep you on the right track. Stay ahead by planning your future with confidence!",
         image: "/images/blogs/blog1.jpg",
         category: "Career Map",
       },
@@ -32,18 +32,18 @@ export default function BlogPage() {
         title: "Job Seeker",
         publishedDate: "03/01/2025",
         content:
-          "💼 Tired of endlessly searching for jobs? Let Skillify do the work for you!\n\nSimply upload your CV, and our smart system will analyze your resume and match you with the best career opportunities. No more wasting time—just upload, process, and start your dream job search instantly! 🚀",
+          "💼 Looking for a job? Our Job Seeker platform makes job searching easier than ever!\n\nFinding the right job can be stressful and time-consuming. With our smart system, you can simply upload your CV, and we’ll do the rest! Our AI-powered tool analyzes your skills, experience, and preferences to match you with the best career opportunities.\n\nInstead of spending hours scrolling through job listings, let our system suggest tailored job openings that fit your qualifications. Whether you’re a fresh graduate or an experienced professional, our platform helps you land your dream job efficiently and hassle-free.",
         image: "/images/blogs/blog2.jpg",
         category: "Job Seeker",
       },
       {
         id: 3,
-        title: "AI & Machine Learning Trends",
+        title: "Salary Predictor",
         publishedDate: "25/12/2024",
         content:
-          "🤖 Artificial Intelligence is reshaping the world!\n\nExplore the latest trends in AI and Machine Learning, from cutting-edge algorithms to real-world applications. Learn how AI is transforming industries, automating tasks, and paving the way for an innovative future!",
-        image: "/images/blog3.jpg",
-        category: "AI & Machine Learning",
+          "🤖 Curious about your potential salary? Our Salary Predictor provides accurate estimates based on real market data!\n \nSalaries vary depending on your job title, industry, location, and experience level. Our AI-driven Salary Predictor helps you understand what you should be earning. Simply enter your job role, experience, and location, and our system will generate a salary range based on industry standards and trends.\n \nWhether you're negotiating a raise, considering a career change, or just curious about your earning potential, our tool provides valuable insights. Get the compensation you deserve by making informed salary decisions!",
+        image: "/images/blogs/blog3.png",
+        category: "Salary Predictor",
       },
       {
         id: 4,
@@ -57,7 +57,7 @@ export default function BlogPage() {
       {
         id: 5,
         title: "Career Path Consultations",
-        publishedDate: "05/02/2025",
+        publishedDate: "01/03/2025",
         content:
           "📢 Need expert advice on your career?\n\nOur career consultants are here to help! Get personalized guidance on job market trends, skill development, and career opportunities.\n \nTake charge of your future with the right advice at the right time!",
         image: "/images/blogs/blog5.jpg",
@@ -96,9 +96,9 @@ export default function BlogPage() {
               <Image
                 src={article.image}
                 alt={article.title}
-                width={200}
-                height={200}
-                className="rounded-lg w-screen h-auto object-cover"
+                width={150}
+                height={150}
+                className="rounded-lg w-full object-cover"
               />
               <h2 className="text-2xl font-semibold text-gray-800 mt-4">
                 {article.title}
@@ -123,8 +123,8 @@ export default function BlogPage() {
 
         {/* Sidebar Section (Sticky Sidebar) */}
         <div className="relative">
-          <div className="bg-white p-6 rounded-lg shadow-lg border min-w-[300px] fixed right-24 top-56">
-            <h3 className="text-lg font-semibold text-gray-800">Categories</h3>
+          <div className="bg-white p-6 rounded-lg shadow-lg border min-w-[300px] sticky top-40">
+            <h3 className="mt-6 text-lg font-semibold text-gray-800">Categories</h3>
             <Image
               src="/images/blogs/blog6.png"
               alt="Categories"

@@ -35,11 +35,11 @@ const footer = () => {
             </h3>
             <div className="flex gap-4">
               <div className="footer-icons">
-                <Link href="https://facebook.com">
+                <Link href="http://www.youtube.com/@skillify-inc">
                   <Image
-                    src={"/images/footer/vec.svg"}
-                    alt="facebook"
-                    width={15}
+                    src={"/images/footer/youtube.svg"}
+                    alt="youtube"
+                    width={20}
                     height={20}
                     className="grayscale"
                   />
@@ -48,7 +48,7 @@ const footer = () => {
               <div className="footer-icons">
                 <Link href="https://www.linkedin.com/company/skillify-inc/posts/?feedView=all&viewAsMember=true">
                   <Image
-                    src={"/images/Signup_and_Signin/linkedin.svg"}
+                    src={"/images/footer/linkedin.svg"}
                     alt="Linkedin"
                     width={20}
                     height={20}
@@ -57,7 +57,7 @@ const footer = () => {
                 </Link>
               </div>
               <div className="footer-icons">
-                <Link href="https://instagram.com">
+                <Link href="https://www.instagram.com/skillify.inc/?next=%2F#">
                   <Image
                     src={"/images/footer/instagram.svg"}
                     alt="instagram"
