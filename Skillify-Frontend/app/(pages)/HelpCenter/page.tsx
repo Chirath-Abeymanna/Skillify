@@ -3,7 +3,7 @@ import { Chat } from "@/components/Chatbot/Chat";
 
 function Home() {
   return (
-    <Page className="flex flex-col gap-12 bg-white text-gray-900 min-h-screen min-w-full px-6 items-center relative overflow-hidden">
+    <Page className="z-0 flex flex-col gap-12 bg-white text-gray-900 min-h-screen min-w-full px-6 items-center relative overflow-hidden pt-20">
       {/* Enhanced Glassmorphism Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-white to-white opacity-90 backdrop-blur-3xl" />
 
@@ -23,8 +23,8 @@ function Home() {
         </div>
       </section>
 
-      {/* Chat Section - Fixed Chat Spacing */}
-      <section className="flex flex-col lg:w-1/2 gap-6 z-20">
+      {/* Chat Section - Increased Width for Desktop */}
+      <section className="flex flex-col w-full lg:w-3/4 xl:w-2/3 gap-6 z-20">
         <div className="p-8 rounded-3xl bg-white bg-opacity-70 backdrop-blur-2xl border border-white shadow-3xl transition-all duration-500 ease-in-out transform hover:shadow-4xl hover:scale-105">
           {/* Chat Messages with Proper Spacing */}
           <div className="space-y-4">
