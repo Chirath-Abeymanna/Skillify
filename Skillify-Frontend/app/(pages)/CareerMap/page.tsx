@@ -7,7 +7,13 @@ const CareerMapPage: React.FC = () => {
         Create your Custom Roadmap
       </h1>
 
-      
+      <p className="mb-2 text-center">
+        A roadmap is your personalized visual blueprint that maps out the key steps to unlock your career success.
+      </p>
+      <p className="mb-6 text-center">
+        Tell us about your career goals and your current skill set.
+      </p>
+
     </div>
   );
 };
