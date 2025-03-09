@@ -1,8 +1,12 @@
 "use client";
 import Spline from "@splinetool/react-spline";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 const Banner = () => {
+  const { data: session, status } = useSession();
+  console.log("Session Status in banner :", status);
+  console.log("Session Data in banner:", session);
   return (
     <div className="mx-auto -my-[4rem] max-w-7xl sm:py-10 px-6 lg:px-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 my-8">

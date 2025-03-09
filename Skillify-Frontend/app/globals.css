@@ -30,7 +30,7 @@ html:not([data-scroll="0"]) .navbar {
 }
 
 html:not([data-scroll="0"]) .navbar > div > div {
-  height: 3rem;
+  height: 4rem;
 }
 
 html:not([data-scroll="0"]) .border-right {
