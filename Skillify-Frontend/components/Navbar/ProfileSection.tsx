@@ -5,12 +5,15 @@ import Link from "next/link";
 
 const ProfileSection = () => {
   const { data: session, status } = useSession();
+  console.log("Session Status:", status);
+  console.log("Session Data:", session);
 
   if (status === "loading") {
     return <div>Loading...</div>;
   }
 
-  if (session) {
+  if (status === "authenticated" && session) {
+    console.log(session.user);
     return (
       <div className="relative flex flex-col sm:flex-row sm:space-x-10 sm:items-center sm:justify-center sm:left-20 lg:left-28">
         <div className="flex flex-col items-center sm:items-start">
@@ -33,6 +36,7 @@ const ProfileSection = () => {
       </div>
     );
   } else {
+    console.log("No session found");
     return (
       <div className="top-5 lg:top-0 relative w-max left-6 lg:left-16 ">
         <div className="flex justify-end space-x-3 lg:space-x-10  font-Inter">

@@ -1,9 +1,9 @@
 import Banner from "../components/Banner/index";
-import Aboutus from "../components/Aboutus/index";
+import Aboutus from "../components/Services/index";
 import Dedicated from "../components/Dedicated/index";
 import Digital from "../components/Digital/index";
 import Beliefs from "../components/Beliefs/index";
-import Wework from "../components/Wework/index";
+import Wework from "../components/Team/index";
 import Ourteam from "../components/Ourteam/index";
 import Featured from "../components/Featured/index";
 import Manage from "../components/Manage/index";
@@ -26,7 +26,7 @@ export default function Home() {
       <Wework />
       <Ourteam />
       {/* <Featured /> */}
-      <Manage />
+      {/* <Manage /> */}
       <FAQ />
       <Testimonials />
       <Articles />

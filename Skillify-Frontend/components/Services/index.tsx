@@ -19,19 +19,27 @@ const Aboutdata: datatype[] = [
     link: "/JobSeeker",
     tag: "Check out now",
   },
-  {
-    heading: "Consultations",
-    imgSrc: "/images/aboutus/imgTwo.svg",
-    paragraph: "Expert Consultations to Guide Your Career and Personal Growth.",
-    link: "/consultation",
-    tag: "Learn more",
-  },
+
   {
     heading: "Degree Matcher",
     imgSrc: "/images/aboutus/imgThree.svg",
     paragraph:
       "Find the Perfect Degree Program to Match Your Career Goals and Ambitions.",
     link: "/DegreeMatcher",
+    tag: "Learn more",
+  },
+  {
+    heading: "Salary Scope",
+    imgSrc: "/images/aboutus/imgFour.svg",
+    paragraph: "Expert Consultations to Guide Your Career and Personal Growth.",
+    link: "/SalaryPredictor",
+    tag: "Learn more",
+  },
+  {
+    heading: "Consultations",
+    imgSrc: "/images/aboutus/imgTwo.svg",
+    paragraph: "Expert Consultations to Guide Your Career and Personal Growth.",
+    link: "/consultation",
     tag: "Learn more",
   },
 ];
@@ -76,7 +84,7 @@ const Aboutus = () => {
                 href={item.link}
                 className="text-lg font-semibold group-hover:text-white text-blue hover-underline"
               >
-                {item.tag}
+                Check out now
                 <ChevronRightIcon width={20} height={20} />
               </Link>
             </div>
