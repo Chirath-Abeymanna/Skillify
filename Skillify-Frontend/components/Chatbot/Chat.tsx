@@ -1,6 +1,8 @@
+//
+
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Button } from "./Button";
 import { ChatGPTMessage, ChatLine, LoadingChatLine } from "./ChatLine";
 import { useCookies } from "react-cookie";
@@ -14,24 +16,17 @@ export const initialMessages: ChatGPTMessage[] = [
   },
 ];
 
-interface InputMessageProps {
+const InputMessage: React.FC<{
   input: string;
   setInput: (value: string) => void;
   sendMessage: (message: string) => void;
-}
-
-const InputMessage: React.FC<InputMessageProps> = ({
-  input,
-  setInput,
-  sendMessage,
-}) => (
-  <div className="mt-3 flex clear-both">
+}> = ({ input, setInput, sendMessage }) => (
+  <div className="absolute bottom-4 left-1/2 w-full max-w-3xl -translate-x-1/2 flex items-center bg-white p-3 rounded-lg shadow-lg">
     <input
       type="text"
-      aria-label="chat input"
-      required
-      className="min-w-0 flex-auto appearance-none rounded-md border border-zinc-900/10 bg-white px-3 py-[calc(theme(spacing.2)-1px)] shadow-md shadow-zinc-800/5 placeholder:text-zinc-400 focus:border-teal-500 focus:outline-none focus:ring-4 focus:ring-teal-500/10 sm:text-sm text-zinc-900"
+      className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
       value={input}
+      placeholder="Type a message..."
       onKeyDown={(e) => {
         if (e.key === "Enter") {
           sendMessage(input);
@@ -40,14 +35,7 @@ const InputMessage: React.FC<InputMessageProps> = ({
       }}
       onChange={(e) => setInput(e.target.value)}
     />
-    <Button
-      type="submit"
-      className="ml-2 w-32 h-12 flex-none"
-      onClick={() => {
-        sendMessage(input);
-        setInput("");
-      }}
-    >
+    <Button className="ml-3 px-5 py-2" onClick={() => sendMessage(input)}>
       Send
     </Button>
   </div>
@@ -59,18 +47,26 @@ export const Chat: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [cookie, setCookie] = useCookies([COOKIE_NAME]);
 
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     if (!cookie[COOKIE_NAME]) {
-      const randomId = Math.random().toString(36).substring(7);
-      setCookie(COOKIE_NAME, randomId);
+      setCookie(COOKIE_NAME, Math.random().toString(36).substring(7));
     }
   }, [cookie, setCookie]);
 
+  useEffect(() => {
+    // Auto-scroll to bottom when new messages arrive
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
+
   const sendMessage = async (message: string) => {
+    if (!message.trim()) return;
+
     setLoading(true);
     const newMessages: ChatGPTMessage[] = [
       ...messages,
-      { role: "user", content: message },
+      { role: "user" as const, content: message },
     ];
     setMessages(newMessages);
 
@@ -83,19 +79,15 @@ export const Chat: React.FC = () => {
       }),
     });
 
-    if (!response.ok) throw new Error(response.statusText);
+    if (!response.ok) return setLoading(false);
 
-    const data = response.body;
-    if (!data) return setLoading(false);
-
-    const reader = data.getReader();
+    const reader = response.body?.getReader();
     const decoder = new TextDecoder();
     let lastMessage = "";
-    let done = false;
 
-    while (!done) {
-      const { value, done: doneReading } = await reader.read();
-      done = doneReading;
+    while (true) {
+      const { value, done } = await reader!.read();
+      if (done) break;
       lastMessage += decoder.decode(value);
     }
 
@@ -104,29 +96,38 @@ export const Chat: React.FC = () => {
   };
 
   return (
-    // <div className="relative mx-auto max-w-md rounded-lg bg-gradient-to-tr from-pink-300 to-blue-300 p-0.5 shadow-lg">
     <div className="relative w-full h-screen flex flex-col bg-gray-50">
-      <div className="flex-1 overflow-y-auto p-5 flex flex-col-reverse">
-        {/* <div className="bg-white p-7 rounded-md"> */}
-        <div className="flex flex-col space-y-4">
-          {messages.map(({ content, role }, index) => (
-            <div
-              key={index}
-              className={`max-w-md px-4 py-3 rounded-lg shadow-md mb-2 ${
-                role === "assistant"
-                  ? "bg-gray-200 text-gray-900 self-start"
-                  : "bg-blue-500 text-white self-end"
-              }`}
-            >
-              <span className="font-semibold">
-                {role === "assistant" ? "Sally" : "You"}
-              </span>
-              <p className="mt-1">{content}</p>
-            </div>
-          ))}
-        </div>
-        {loading && <LoadingChatLine />}
+      {/* Message List */}
+      <div className="flex-1 overflow-y-auto p-5 flex flex-col-reverse space-y-2 pb-24">
+        {/* AI Loading Indicator at the Top */}
+        {loading && (
+          <div className="self-start">
+            <LoadingChatLine />
+          </div>
+        )}
+
+        {/* Render Messages from Bottom to Top */}
+        {[...messages].reverse().map(({ content, role }, index) => (
+          <div
+            key={index}
+            className={`max-w-md px-4 py-3 rounded-lg shadow-md ${
+              role === "assistant"
+                ? "bg-gray-200 text-gray-900 self-start"
+                : "bg-blue-500 text-white self-end"
+            }`}
+          >
+            <span className="font-semibold">
+              {role === "assistant" ? "Sally" : "You"}
+            </span>
+            <p className="mt-1">{content}</p>
+          </div>
+        ))}
+
+        {/* Dummy div to maintain scroll behavior */}
+        <div ref={messagesEndRef} />
       </div>
+
+      {/* Input Box */}
       <InputMessage
         input={input}
         setInput={setInput}
