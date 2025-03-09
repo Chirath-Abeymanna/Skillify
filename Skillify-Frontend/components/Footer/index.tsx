@@ -12,7 +12,7 @@ const products: ProductType[] = [
   {
     id: 1,
     section: "Pages",
-    link: ["Blogs", "Reviews", "About", "Contact Us"],
+    link: ["Blogs", "Reviews", "About", "Contact Us" , "Help Center"],
   },
   {
     id: 2,
@@ -84,7 +84,8 @@ const footer = () => {
                     if (link === "Blogs") href = "/blogs"; // Link to Blogs page
                     if (link === "Reviews") href = "/Reviews"; // Link to Reviews page
                     if (link === "About") href = "/about"; // Link to About page
-                    if (link === "ContactUs") href = "/ContactUs"; // Link to Contact page
+                    if (link === "Contact Us") href = "/ContactUs"; // Link to Contact page
+                    if (link === "Help Center") href = "/HelpCenter"; // Link to Help Center page
 
                     return (
                       <li key={index} className="mb-5">
