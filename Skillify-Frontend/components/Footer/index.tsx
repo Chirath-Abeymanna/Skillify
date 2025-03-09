@@ -12,7 +12,7 @@ const products: ProductType[] = [
   {
     id: 1,
     section: "Pages",
-    link: ["Blogs", "Reviews", "About", "Contact Us" , "Help Center"],
+    link: ["Blogs", "Reviews", "Contact Us" , "Help Center"],
   },
   {
     id: 2,
@@ -83,9 +83,13 @@ const footer = () => {
                     let href = "/"; // Default link
                     if (link === "Blogs") href = "/blogs"; // Link to Blogs page
                     if (link === "Reviews") href = "/Reviews"; // Link to Reviews page
-                    if (link === "About") href = "/about"; // Link to About page
                     if (link === "Contact Us") href = "/ContactUs"; // Link to Contact page
                     if (link === "Help Center") href = "/HelpCenter"; // Link to Help Center page
+                    if (link === "Career Map") href = "/CareerMap"; // Link to Career Map page
+                    if (link === "Job Seeker") href = "/JobSeeker"; // Link to Job Seeker page
+                    if (link === "Salary Predictor") href = "/SalaryPredictor"; // Link to Salary Predictor page
+                    if (link === "Degree Matcher") href = "/DegreeMatcher"; // Link to Degree Matcher page
+                    if (link === "Consultations") href = "/consultation"; // Link to Consultations page
 
                     return (
                       <li key={index} className="mb-5">
