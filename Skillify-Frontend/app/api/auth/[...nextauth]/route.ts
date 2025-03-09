@@ -4,11 +4,12 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { connectDB } from "@/utils/database";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
-import { debug } from "console";
+
+// NOTE: Meka wada krnw meka allanna epa
 
 export const authOptions = {
   session: {
-    strategy: "jwt" as const, // Ensure JWT session strategy is used
+    strategy: "jwt" as const,
     maxAge: 30 * 24 * 60 * 60,
   },
   providers: [
@@ -30,6 +31,8 @@ export const authOptions = {
       async authorize(credentials) {
         await connectDB();
 
+        console.log(credentials);
+
         const user = await User.findOne({ email: credentials?.email });
         if (!user) {
           throw new Error("No user found with this email");
@@ -44,14 +47,12 @@ export const authOptions = {
           throw new Error("Incorrect password");
         }
 
-        // Ensure the user object is returned correctly
         return {
           id: user._id,
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
-          image: user.image,
-          role: user.role,
+          avatar: user.avatar,
         };
       },
     }),
@@ -75,22 +76,20 @@ export const authOptions = {
         let existingUser = await User.findOne({ email: user.email });
 
         if (!existingUser) {
-          // If user does not exist, create a new one
+          // If the user does not exist, create a new one and assign the default avatar
           existingUser = await User.create({
             firstName: profile?.given_name,
             lastName: profile?.family_name,
             email: profile?.email,
-            image: profile?.picture,
-            role: "user", // Default role
+            avatar: "default",
           });
         }
 
-        // Fetch the user details after creating/finding
         const fetchedUser = await User.findOne({ email: user.email });
         user.id = fetchedUser._id;
         user.firstName = fetchedUser.firstName;
         user.lastName = fetchedUser.lastName;
-        user.role = fetchedUser.role;
+        user.avatar = fetchedUser.avatar || "default";
       }
 
       return true;
@@ -101,14 +100,14 @@ export const authOptions = {
         token.email = user.email;
         token.firstName = user.firstName;
         token.lastName = user.lastName;
-        token.avatar = user.avatar || user.image;
+        token.avatar = user.avatar;
         token.role = user.role;
       }
       return token;
     },
     async session({ session, token }: { session: any; token: any }) {
       session.user.id = token.id;
-      session.user.avatar = token.avatar;
+      session.user.avatar = token.avatar || "default";
       session.user.email = token.email;
 
       const sessionUser = await User.findOne({ email: session.user.email });
@@ -120,10 +119,6 @@ export const authOptions = {
       console.log("Updated Session Data:", session);
 
       return session;
-    },
-
-    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
-      return baseUrl;
     },
   },
   secret: process.env.JWT_SECRET,
