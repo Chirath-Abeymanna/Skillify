@@ -22,12 +22,12 @@ function Home() {
         </div>
       </section>
 
-      {/* Chat Section - Transparent Background */}
-      <section className="flex flex-col w-full lg:w-3/4 xl:w-2/3 gap-6 z-20 bg-transparent">
-        <div className="space-y-4 bg-transparent">
+      {/* Chat Section - Full Width */}
+      <div className="w-full flex justify-center">
+        <div className="w-full max-w-7xl bg-transparent border-2 border-gray-200 rounded-lg p-6">
           <Chat />
         </div>
-      </section>
+      </div>
     </Page>
   );
 }
