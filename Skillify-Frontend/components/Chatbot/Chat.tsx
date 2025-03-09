@@ -104,16 +104,18 @@ export const Chat: React.FC = () => {
   };
 
   return (
-    <div className="relative mx-auto max-w-md rounded-lg bg-gradient-to-tr from-pink-300 to-blue-300 p-0.5 shadow-lg">
-      <div className="bg-white p-7 rounded-md">
+    // <div className="relative mx-auto max-w-md rounded-lg bg-gradient-to-tr from-pink-300 to-blue-300 p-0.5 shadow-lg">
+    <div className="relative w-full h-screen flex flex-col bg-gray-50">
+      <div className="flex-1 overflow-y-auto p-5 flex flex-col-reverse">
+        {/* <div className="bg-white p-7 rounded-md"> */}
         <div className="flex flex-col space-y-4">
           {messages.map(({ content, role }, index) => (
             <div
               key={index}
-              className={`p-4 rounded-xl shadow-md mb-4 transition transform hover:scale-105 hover:bg-opacity-90 hover:shadow-lg ${
+              className={`max-w-md px-4 py-3 rounded-lg shadow-md mb-2 ${
                 role === "assistant"
-                  ? "bg-gray-100 text-gray-900 self-start"
-                  : "bg-blue-100 text-gray-900 self-end"
+                  ? "bg-gray-200 text-gray-900 self-start"
+                  : "bg-blue-500 text-white self-end"
               }`}
             >
               <span className="font-semibold">
@@ -124,17 +126,12 @@ export const Chat: React.FC = () => {
           ))}
         </div>
         {loading && <LoadingChatLine />}
-        {messages.length < 2 && (
-          <span className="mx-auto flex flex-grow text-gray-400 clear-both">
-            Type a message to start the conversation
-          </span>
-        )}
-        <InputMessage
-          input={input}
-          setInput={setInput}
-          sendMessage={sendMessage}
-        />
       </div>
+      <InputMessage
+        input={input}
+        setInput={setInput}
+        sendMessage={sendMessage}
+      />
     </div>
   );
 };
