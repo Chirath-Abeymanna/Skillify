@@ -9,7 +9,7 @@ const CareerMapPage: React.FC = () => {
           'url("/images/CareerMap/vecteezy_grey-color-gradient-background-vector_26424612.svg")',
       }}
     >
-      {/* Left 3/4 Section */}
+      
       <div className="w-3/4 flex flex-col items-center justify-center px-16 py-12">
         <h1 className="text-3xl md:text-4xl font-bold mb-4 text-center">
           Create your Custom Roadmap
@@ -28,18 +28,18 @@ const CareerMapPage: React.FC = () => {
           placeholder="Write here..."
         />
 
-        {/* Minimized Button (no w-full) */}
+        
         <button
           type="submit"
           className="bg-blue text-white border-indigo-900 hover:bg-indigo-700
-                     font-semibold rounded-xl px-6 py-3 text-lg shadow-md 
+                     font-semibold rounded-3xl px-6 py-3 text-lg shadow-md 
                      transform hover:scale-105 transition duration-300 ease-in-out"
         >
           Generate you&apos;re Roadmap
         </button>
       </div>
 
-      {/* Right 1/4 Blank Section */}
+      
       <div className="w-1/4" />
     </div>
   );
