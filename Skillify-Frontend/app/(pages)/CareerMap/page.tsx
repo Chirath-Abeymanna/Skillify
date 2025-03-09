@@ -14,6 +14,11 @@ const CareerMapPage: React.FC = () => {
         Tell us about your career goals and your current skill set.
       </p>
 
+      <textarea
+        className="w-full md:w-1/2 h-32 border border-gray-300 rounded p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Write here..."
+      />
+
     </div>
   );
 };
