@@ -2,16 +2,17 @@ import React from "react";
 
 const CareerMapPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center">
-      {/* Container that has the SVG background only under the content */}
+    <div className="min-h-screen bg-white flex items-start">
+      {/* Container that shrinks to the content size and shows the background */}
       <div
-        className="w-full md:w-3/4 bg-cover bg-center bg-no-repeat rounded-lg shadow-md px-8 py-12"
+        className="bg-cover bg-center bg-no-repeat rounded-lg shadow-md px-8 py-12 m-8 
+                   flex flex-col items-center justify-center"
         style={{
           backgroundImage:
             'url("/images/CareerMap/vecteezy_grey-color-gradient-background-vector_26424612.svg")',
         }}
       >
-        <h1 className="text-3xl md:text-4xl font-bold mb-4 text-center">
+        <h1 className="text-3xl md:text-4xl font-extrabold mb-4 text-center">
           Create your Custom Roadmap
         </h1>
         <p className="mb-2 text-center">
