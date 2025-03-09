@@ -1,10 +1,10 @@
 "use client";
-import Image from "next/image";
+import Spline from "@splinetool/react-spline";
+import Link from "next/link";
 
 const Banner = () => {
-
   return (
-    <div className="mx-auto -my-[4rem]  max-w-7xl sm:py-10 px-6 lg:px-8">
+    <div className="mx-auto -my-[4rem] max-w-7xl sm:py-10 px-6 lg:px-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 my-16">
         {/* COLUMN-1 */}
 
@@ -21,21 +21,19 @@ const Banner = () => {
             </h1>
           </div>
           <div className="my-7 text-center lg:text-start">
-            <button className="text-sm md:text-xl font-semibold hover:shadow-xl bg-blue text-white py-3 px-6 md:py-5 md:px-14 rounded-full hover:bg-hoblue">
+            <Link
+              href={"#aboutus-section"}
+              className="text-sm md:text-xl font-semibold hover:shadow-xl bg-blue text-white py-3 px-6 md:py-5 md:px-14 rounded-full hover:bg-hoblue"
+            >
               Get Started
-            </button>
+            </Link>
           </div>
         </div>
 
-        {/* COLUMN-2 */}
+        {/* COLUMN-2 - Spline Element */}
 
-        <div className="lg:-m-24 lg:pt-20 hidden lg:block">
-          <Image
-            src="/images/banner/banner.svg"
-            alt="hero-image"
-            width={800}
-            height={642}
-          />
+        <div className="lg:-m-45 lg:pt-35 hidden lg:block bg-white p-7">
+          <Spline scene="https://prod.spline.design/Mk067fLR7ZLDCsRV/scene.splinecode" />
         </div>
       </div>
     </div>

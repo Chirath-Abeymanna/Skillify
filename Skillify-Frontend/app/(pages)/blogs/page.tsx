@@ -14,6 +14,7 @@ interface Article {
 
 export default function BlogPage() {
   const [articles, setArticles] = useState<Article[]>([]);
+
   const articleRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
 
   useEffect(() => {
@@ -83,6 +84,7 @@ export default function BlogPage() {
       <div className="max-w-6xl w-full grid grid-cols-3 gap-6">
         {/* Blog Articles Section */}
         <div className="col-span-2 min-w-[700px]">
+
           <h1 className="text-4xl font-bold text-gray-800 mb-8">
             🚀 Latest Blogs
           </h1>
@@ -92,6 +94,7 @@ export default function BlogPage() {
               key={article.id}
               ref={(el) => (articleRefs.current[article.id] = el)}
               className="mb-6 p-6 rounded-lg shadow-lg border transition duration-300 hover:shadow-xl min-w-[300px]"
+
             >
               <Image
                 src={article.image}
@@ -99,12 +102,14 @@ export default function BlogPage() {
                 width={150}
                 height={150}
                 className="rounded-lg w-full object-cover"
+
               />
               <h2 className="text-2xl font-semibold text-gray-800 mt-4">
                 {article.title}
               </h2>
               <p className="text-sm text-gray-600 mb-2">
                 📅 Published Date: {article.publishedDate}
+
               </p>
               <p className="text-gray-700 whitespace-pre-line">
                 {article.content}
@@ -114,6 +119,7 @@ export default function BlogPage() {
               <div className="flex items-center mt-6">
                 <div className="ml-4">
                   <p className="font-semibold">Nadini Salisha</p>
+
                   <p className="text-sm text-gray-500">Tech Blogger</p>
                 </div>
               </div>
@@ -146,6 +152,7 @@ export default function BlogPage() {
               )}
             </ul>
           </div>
+
         </div>
       </div>
     </div>
