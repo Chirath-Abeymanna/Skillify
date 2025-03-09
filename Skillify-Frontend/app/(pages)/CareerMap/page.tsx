@@ -19,6 +19,13 @@ const CareerMapPage: React.FC = () => {
         placeholder="Write here..."
       />
 
+      {/* Submit Button (width minimized by removing w-full) */}
+      <button
+        type="submit"
+        className="bg-blue text-white border-indigo-900 hover:bg-indigo-700 font-semibold rounded-xl px-6 py-3 text-lg shadow-md transform hover:scale-105 transition duration-300 ease-in-out"
+      >
+        Generate you&apos;re Roadmap
+      </button>
     </div>
   );
 };
