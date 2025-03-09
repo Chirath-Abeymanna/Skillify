@@ -50,18 +50,18 @@ export default function BlogPage() {
         title: "Degree Matcher",
         publishedDate: "01/03/2025",
         content:
-          "🎓 Confused about which degree to choose?\n\nOur Degree Matcher helps you find the best IT-related degrees in Sri Lanka based on your A/L subject selections and university preferences. No more guesswork—just a perfect match for your future!",
+          "🎓 Confused about which degree to pursue? Our Degree Matcher simplifies the decision-making process!\n \nSelecting the right degree is crucial for your future career. Our tool helps you identify the best IT-related degrees in Sri Lanka based on your A/L subject selections and university preferences. Instead of making random choices, get tailored recommendations that align with your academic strengths and career aspirations.\n \nWith Degree Matcher, you can explore university options, compare different programs, and make an informed decision about your higher education. Ensure your studies lead to a successful career by choosing the degree that best fits your goals!",
         image: "/images/blogs/blog4.png",
         category: "Degree Matcher",
       },
       {
         id: 5,
-        title: "Career Path Consultations",
+        title: "Consultations",
         publishedDate: "01/03/2025",
         content:
-          "📢 Need expert advice on your career?\n\nOur career consultants are here to help! Get personalized guidance on job market trends, skill development, and career opportunities.\n \nTake charge of your future with the right advice at the right time!",
+          "📢 Need career guidance? Our Career Path Consultation service connects you with experts who can help!\n \nUnderstanding the job market and planning your career path can be overwhelming. Our career consultants provide personalized guidance on career choices, skill development, and industry trends to help you navigate your professional journey with confidence.\n \nWhether you need advice on job applications, resume building, or upskilling, our experts will help you make informed decisions. Take charge of your future by getting the right advice at the right time and stay ahead in the competitive job market!",
         image: "/images/blogs/blog5.jpg",
-        category: "Career Path Consultations",
+        category: "Consultations",
       },
     ]);
   }, []);
