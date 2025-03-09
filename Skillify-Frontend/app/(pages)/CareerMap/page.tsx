@@ -2,7 +2,13 @@ import React from "react";
 
 const CareerMapPage: React.FC = () => {
   return (
-    <div className="min-h-screen flex bg-white">
+    <div
+      className="min-h-screen flex bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage:
+          'url("/images/CareerMap/vecteezy_grey-color-gradient-background-vector_26424612.svg")',
+      }}
+    >
       {/* Left 3/4 Section */}
       <div className="w-3/4 flex flex-col items-center justify-center px-16 py-12">
         <h1 className="text-3xl md:text-4xl font-bold mb-4 text-center">
