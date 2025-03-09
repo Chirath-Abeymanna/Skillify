@@ -26,11 +26,11 @@ html:not([data-scroll="0"]) .navbar {
   transition: 0.4s linear;
   padding: 0px !important;
   /* height: 20px; */
-  z-index: 3;
+  z-index: 9999;
 }
 
 html:not([data-scroll="0"]) .navbar > div > div {
-  height: 3rem;
+  height: 4rem;
 }
 
 html:not([data-scroll="0"]) .border-right {
@@ -44,6 +44,9 @@ html {
 
 .navbar {
   border-bottom: 0.5px solid rgba(196, 196, 196, 0.75);
+  z-index: 9999;
+
+  transition: 0.4s linear;
 }
 
 .hover-underline {
@@ -125,13 +128,6 @@ html {
   background-size: cover;
 }
 
-.bg-build {
-  background-image: url("/images/beliefs/bg.svg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: unset;
-}
-
 .girldoodle {
   top: 12px;
   right: -115px;
@@ -152,7 +148,6 @@ html {
 }
 
 .bg-beliefs {
-  background-image: url("/images/beliefs/swirls.svg");
   background-repeat: no-repeat;
   background-position: left bottom;
   background-size: contain;

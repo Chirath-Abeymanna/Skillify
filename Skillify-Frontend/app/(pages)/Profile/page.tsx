@@ -1,5 +1,6 @@
 "use client";
 
+import { SessionProvider } from "next-auth/react";
 import { useState } from "react";
 
 export default function UserProfile() {
@@ -11,7 +12,7 @@ export default function UserProfile() {
     "/images/Avatars/Avatar1.svg",
     "/images/Avatars/Avatar2.svg",
     "/images/Avatars/Avatar3.svg",
-    "/images/Avatars/Avatar4.png",
+    "/images/Avatars/Avatar4.svg",
     "/images/Avatars/Avatar5.svg",
     "/images/Avatars/Avatar6.svg",
     "/images/Avatars/Avatar7.svg",
@@ -19,6 +20,7 @@ export default function UserProfile() {
   ];
 
   return (
+
     <div className="flex flex-col min-h-screen">
       <main className="flex-grow flex justify-center items-center py-10 px-4">
         <div className="max-w-3xl w-full p-6 bg-white rounded-lg shadow-md">
@@ -118,5 +120,6 @@ export default function UserProfile() {
         </div>
       </main>
     </div>
+
   );
 }
