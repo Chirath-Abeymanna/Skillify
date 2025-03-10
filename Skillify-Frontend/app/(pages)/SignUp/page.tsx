@@ -66,6 +66,7 @@ const Registration = () => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/; // Updated regex
     if (!formData.password) {
       newErrors.password = "Password is required";
+      console.log(formData.password);
       valid = false;
     } else if (!passwordRegex.test(formData.password)) {
       newErrors.password =

@@ -1,9 +1,10 @@
+"use client";
 import Banner from "../components/Banner/index";
-import Aboutus from "../components/Aboutus/index";
+import Aboutus from "../components/Services/index";
 import Dedicated from "../components/Dedicated/index";
 import Digital from "../components/Digital/index";
 import Beliefs from "../components/Beliefs/index";
-import Wework from "../components/Wework/index";
+import Wework from "../components/Team/index";
 import Ourteam from "../components/Ourteam/index";
 import Featured from "../components/Featured/index";
 import Manage from "../components/Manage/index";
@@ -12,26 +13,27 @@ import Testimonials from "../components/Testimonials/index";
 import Articles from "../components/Articles/index";
 import Joinus from "../components/Joinus/index";
 import Insta from "../components/Insta/index";
-import { connectDB } from "@/utils/database";
+import { SessionProvider } from "next-auth/react";
 
 export default function Home() {
-  const db = connectDB();
   return (
     <main>
-      <Banner />
-      <Aboutus />
-      <Dedicated />
-      <Digital />
-      <Beliefs />
-      <Wework />
-      <Ourteam />
-      {/* <Featured /> */}
-      <Manage />
-      <FAQ />
-      <Testimonials />
-      <Articles />
-      <Joinus />
-      <Insta />
+      <SessionProvider>
+        <Banner />
+        <Aboutus />
+        <Dedicated />
+        <Digital />
+        <Beliefs />
+        <Wework />
+        <Ourteam />
+        {/* <Featured /> */}
+        {/* <Manage /> */}
+        <FAQ />
+        <Testimonials />
+        <Articles />
+        <Joinus />
+        <Insta />
+      </SessionProvider>
     </main>
   );
 }
