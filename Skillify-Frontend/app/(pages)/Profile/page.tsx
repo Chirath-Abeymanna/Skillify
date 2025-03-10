@@ -1,8 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function UserProfile() {
+  // Ensure the component runs only on the client
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const [selectedAvatar, setSelectedAvatar] = useState(
     "/images/Avatars/default.svg"
   );
@@ -18,6 +25,9 @@ export default function UserProfile() {
     "/images/Avatars/Avatar8.svg",
   ];
 
+  // Prevent SSR mismatches
+  if (!isClient) return null;
+
   return (
     <div className="relative flex flex-col min-h-screen">
       {/* Video Background */}
@@ -25,10 +35,8 @@ export default function UserProfile() {
         className="absolute inset-0 w-full h-full object-cover"
         autoPlay
         loop
-        muted
       >
-        <source src="/videos/profile/background.mp4" type="video/mp4" />
-        
+        <source src="/public/videos/profile/background.mp4" type="video/mp4" />
       </video>
 
       {/* Glass Effect Overlay */}
