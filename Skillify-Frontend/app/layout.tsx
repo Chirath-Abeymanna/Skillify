@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import "./globals.css";
 import Navbar from "../components/Navbar/index";
 import Footer from "../components/Footer/index";
-import Provider from "@/components/Provider";
 import { SessionProvider } from "next-auth/react";
 import LoadingScreen from "@/components/Splash";
 
@@ -53,13 +52,13 @@ export default function RootLayout({
   }, []);
 
   return (
-    <SessionProvider>
-      <html lang="en">
-        <head>
-          <title>Skillify</title>
-        </head>
+    <html lang="en">
+      <head>
+        <title>Skillify</title>
+      </head>
 
-        <body>
+      <body>
+        <SessionProvider>
           {isLoading && <LoadingScreen />}
           <div
             className={`transition-opacity duration-500 ${
@@ -67,11 +66,11 @@ export default function RootLayout({
             }`}
           >
             <Navbar />
-            <Provider>{children}</Provider>
+            {children}
             <Footer />
           </div>
-        </body>
-      </html>
-    </SessionProvider>
+        </SessionProvider>
+      </body>
+    </html>
   );
 }
