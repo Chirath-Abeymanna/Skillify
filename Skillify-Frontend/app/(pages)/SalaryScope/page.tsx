@@ -63,8 +63,12 @@ export default function Home() {
   const [education, setEducation] = useState("Bachelor’s degree");
   const [experience, setExperience] = useState(3);
   const [salary, setSalary] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const predictSalary = async () => {
+    setLoading(true);
+    setError(null); // Reset error before making the request
     try {
       const response = await axios.post("http://127.0.0.1:5000/predict", {
         country,
@@ -73,7 +77,9 @@ export default function Home() {
       });
       setSalary(response.data.salary);
     } catch (error) {
-      console.error("Prediction error:", error);
+      setError("Prediction failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -96,11 +102,14 @@ export default function Home() {
           cursor: "pointer",
           marginTop: "15px",
         }}
+        disabled={loading}
       >
-        Predict Salary
+        {loading ? "Predicting..." : "Predict Salary"}
       </button>
 
-      {salary !== null && (
+      {error && <div style={{ marginTop: "15px", color: "red" }}>{error}</div>}
+
+      {salary !== null && !loading && (
         <div style={{ marginTop: "15px", fontSize: "18px" }}>
           Estimated Salary: <span style={{ color: "#007BFF" }}>${salary}</span>
         </div>
