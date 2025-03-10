@@ -86,26 +86,6 @@ export default function UserProfile() {
                 className="w-full p-2 border border-gray-300 rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none"
               />
             </div>
-
-            {/* Billing Details */}
-            <div className="border p-4 rounded-md">
-              <h3 className="font-semibold mb-2">Change Billing Details</h3>
-              <input
-                type="text"
-                placeholder="Card Number"
-                className="w-full p-2 border border-gray-300 rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-              <input
-                type="text"
-                placeholder="Expire Date"
-                className="w-full p-2 border border-gray-300 rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none mt-2"
-              />
-              <input
-                type="text"
-                placeholder="Secret Code"
-                className="w-full p-2 border border-gray-300 rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none mt-2"
-              />
-            </div>
           </div>
 
           {/* Buttons */}
