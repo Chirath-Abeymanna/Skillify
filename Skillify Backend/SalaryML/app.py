@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
 import pickle
 import numpy as np
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 # Load model and encoders
 with open('saved_steps.pkl', 'rb') as file:
@@ -22,19 +24,22 @@ def test():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    req = request.get_json()
-    country = req.get('country', '')
-    education = req.get('education', '')
-    experience = float(req['experience'])
-    
-    X = np.array([[country, education, experience]])
-    if le_country and le_education:
-        X[:, 0] = le_country.transform(X[:, 0])
-        X[:, 1] = le_education.transform(X[:, 1])
-    X = X.astype(float)
-    
-    salary = regressor.predict(X)[0]
-    return jsonify({'predicted_salary': round(salary, 2)})
+    try:
+        req = request.get_json()
+        country = req.get('country', '')
+        education = req.get('education', '')
+        experience = float(req['experience'])
+        
+        X = np.array([[country, education, experience]])
+        if le_country and le_education:
+            X[:, 0] = le_country.transform(X[:, 0])
+            X[:, 1] = le_education.transform(X[:, 1])
+        X = X.astype(float)
+        
+        salary = regressor.predict(X)[0]
+        return jsonify({'predicted_salary': round(salary, 2)})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)
