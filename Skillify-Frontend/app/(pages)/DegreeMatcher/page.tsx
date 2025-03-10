@@ -58,10 +58,10 @@ export default function DegreeMatcher(): JSX.Element {
             className="w-32 h-32"
           />
           <div>
-            <h1 className="text-5xl font-extrabold text-orange-500 drop-shadow-md">
+            <h1 className="text-6xl font-extrabold text-orange-500 drop-shadow-md">
               Degree Navigator
             </h1>
-            <p className="max-w-[600px] text-lg font-semibold text-[#1e3a8a] mt-6">
+            <p className="max-w-[600px] text-lg font-semibold text-[#56575b] mt-6">
               Unlock your potential, discover your strengths, and connect with
               career opportunities.
             </p>
@@ -93,9 +93,9 @@ export default function DegreeMatcher(): JSX.Element {
 
             <button
               type="submit"
-              className="w-full bg-orange-500 text-[#1e3a8a] border-orange-700 hover:bg-orange-600 font-semibold rounded-xl px-6 py-3 text-lg shadow-md transform hover:scale-105 transition duration-300 ease-in-out"
+              className="w-full bg-orange-500 text-[#ffffff] border-orange-700 hover:bg-orange-600 font-semibold rounded-xl px-6 py-3 text-lg shadow-md transform hover:scale-105 transition duration-300 ease-in-out"
             >
-              Get Degree Programs
+              Show Available Degree Programs
             </button>
           </form>
 
@@ -110,7 +110,7 @@ export default function DegreeMatcher(): JSX.Element {
                   {recommendedPrograms.map((prog, idx) => (
                     <li
                       key={idx}
-                      className="text-lg font-medium text-[#1e3a8a] p-3 rounded-lg bg-[#ddf0f6] border-[#eaeff5] border-2 shadow-md space-y-10 m-5"
+                      className="text-lg font-medium text-[#1e3a8a] p-3 rounded-lg bg-[#e5e6e7] border-[#ffffff] border-2 shadow-md space-y-10 m-5"
                     >
                       {prog}
                     </li>
