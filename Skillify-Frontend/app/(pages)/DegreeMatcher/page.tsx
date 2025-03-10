@@ -51,31 +51,31 @@ export default function DegreeMatcher(): JSX.Element {
 
       <div className="relative z-10">
         {/* Heading Section */}
-        <header className="flex items-center pl-16 gap-4 pt-6 pb-6">
+        <header className="flex flex-col items-center lg:flex-row lg:items-center pl-4 lg:pl-16 gap-4 pt-6 pb-6">
           <img
             src="/images/DeegreeMatcher/imgThree.svg"
             alt="Degree Icon"
-            className="w-32 h-32"
+            className="w-24 h-24 lg:w-32 lg:h-32"
           />
-          <div>
-            <h1 className="text-6xl font-extrabold text-orange-500 drop-shadow-md">
+          <div className="text-center lg:text-left">
+            <h1 className="text-4xl lg:text-6xl font-extrabold text-orange-500 drop-shadow-md">
               Degree Navigator
             </h1>
-            <p className="max-w-[600px] text-lg font-semibold text-[#56575b] mt-6">
+            <p className="max-w-[600px] text-lg font-semibold text-[#424347] mt-6">
               Unlock your potential, discover your strengths, and connect with
               career opportunities.
             </p>
           </div>
         </header>
 
-         {/* Degree Selection Form */}
-         <div className="flex">
+        {/* Degree Selection Form */}
+        <div className="flex flex-col items-center lg:flex-row lg:justify-center">
           <form
             onSubmit={handleSubmit}
-            className="relative top-10 flex flex-col items-center gap-6 lg:w-[600px] lg:h-[250px] mx-auto p-8 bg-white shadow-2xl rounded-2xl border border-gray-200 transition-all transition-duration-1000 ease-in-out"
+            className="relative top-10 flex flex-col items-center gap-6 w-full max-w-lg mx-auto p-8 bg-white shadow-2xl rounded-2xl border border-gray-200 transition-all transition-duration-1000 ease-in-out"
           >
             <div className="flex flex-col w-full">
-              <label className="text-lg font-semibold text-[#1e3a8a]">
+              <label className="text-lg font-semibold text-[#131313]">
                 Select Degree Category:
               </label>
               <select
@@ -101,16 +101,16 @@ export default function DegreeMatcher(): JSX.Element {
 
           {/* Recommended Programs List */}
           {recommendedPrograms.length > 0 && (
-            <div className="text-center max-w-[800px] mx-auto">
+            <div className="text-center max-w-[800px] mx-auto mt-8 lg:mt-0 lg:ml-8">
               <h2 className="text-2xl font-bold text-gray-800 drop-shadow-sm">
                 Recommended Programs:
               </h2>
-              <div className="mt-4 max-h-[300px] overflow-y-auto space-y-10 p-6 bg-white shadow-xl rounded-2xl border border-gray-200">
+              <div className="mt-4 max-h-[300px] overflow-y-auto space-y-4 p-6 bg-white shadow-xl rounded-2xl border border-gray-200">
                 <ul>
                   {recommendedPrograms.map((prog, idx) => (
                     <li
                       key={idx}
-                      className="text-lg font-medium text-[#1e3a8a] p-3 rounded-lg bg-[#e5e6e7] border-[#ffffff] border-2 shadow-md space-y-10 m-5"
+                      className="text-lg font-medium text-[#3c3c3d] p-3 rounded-lg bg-[#e5e6e7] border-[#ffffff] border-2 shadow-md"
                     >
                       {prog}
                     </li>
