@@ -9,6 +9,8 @@ const Roadmap: React.FC = () => {
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
 
+    // Get window dimensions
+
     const width = window.innerWidth;
     const height = 1000;
 
