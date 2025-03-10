@@ -7,7 +7,7 @@ const paymentSchema = z.object({
   cardNumber: z.string()
     .min(16, 'Card number must be 16 digits')
     .max(19, 'Card number is too long')
-    .regex(/^\d+$/, 'Card number must contain only digits'),
+    .regex(/^\d{16,19}$/, 'Card number must contain only digits'),  // Adjusted regex to validate digits properly
   expiryDate: z.string()
     .regex(/^(0[1-9]|1[0-2])\/(\d{2})$/, 'Invalid expiry date (MM/YY)')
     .refine((val) => {
@@ -39,15 +39,16 @@ export default function PaymentForm() {
   const [amount, setAmount] = useState(5.00);
   const [orderNumber] = useState("ORD123456789");
   const [cardNumber, setCardNumber] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
+  const [cvv, setCvv] = useState("");
 
   function validateForm(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
     const data = {
-      cardNumber: formData.get('cardNumber'),
-      expiryDate: formData.get('expiryDate'),
-      cvv: formData.get('cvv'),
-      orderNumber: orderNumber,
+      cardNumber: cardNumber.replace(/\s/g, ''), // Remove spaces before validation
+      expiryDate,
+      cvv,
+      orderNumber,
     };
     const result = paymentSchema.safeParse(data);
     if (!result.success) {
@@ -63,8 +64,7 @@ export default function PaymentForm() {
     value = value.slice(0, 16); // Limit to 16 digits
     
     // Automatically format with spaces every 4 digits
-    value = value.replace(/(\d{4})/g, '$1 ').trim(); 
-  
+    value = value.replace(/(\d{4})(?=\d)/g, '$1 '); // Add spaces after every 4 digits
     setCardNumber(value); // Update the card number state
   }
   
@@ -76,7 +76,7 @@ export default function PaymentForm() {
     if (value.length > 5) {
       value = value.slice(0, 5); // Limit the length to "MM/YY"
     }
-    event.target.value = value;
+    setExpiryDate(value); // Update the expiry date state
   }
 
   function handleCvvChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -84,7 +84,7 @@ export default function PaymentForm() {
     if (value.length > 3) {
       value = value.slice(0, 3); // Limit to 3 digits
     }
-    event.target.value = value;
+    setCvv(value); // Update the CVV state
   }
 
   return (
@@ -131,18 +131,38 @@ export default function PaymentForm() {
         {/* Right Section */}
         <div className="w-2/3 p-8">
           <h2 className="text-xl font-semibold mb-4">Your card information</h2>
-          <div className="bg-gray-100 p-4 rounded-lg mb-4 flex justify-between">
-            <div className="w-2/3">
-              <p className="text-sm text-gray-500">Card number</p>
-              {/* Dynamically update the card number display */}
-              <p className="text-lg font-medium">{cardNumber || 'XXXX XXXX XXXX XXXX'}</p>
-              <p className="text-sm text-gray-500">EXP Date: MM/YY</p>
+
+          {/* Visa Card Representation */}
+          <div className="flex space-x-6">
+            {/* Front of the Card */}
+            <div className="relative w-full max-w-sm h-40 bg-gradient-to-r from-[#1A1F71] to-[#0097F4] rounded-lg p-6 text-white shadow-lg">
+              <p className="absolute top-4 left-6 text-xs text-gray-200">Card number</p>
+              <p className="text-lg font-semibold tracking-wider">
+                {cardNumber || 'XXXX XXXX XXXX XXXX'}
+              </p>
+              <div className="absolute bottom-4 left-6 flex justify-between w-full pr-6">
+                <div>
+                  <p className="text-xs text-gray-200">EXP Date</p>
+                  <p className="text-sm">{expiryDate || 'MM/YY'}</p>
+                </div>
+                <p className="text-xl font-bold absolute bottom-1 left-52">VISA</p>
+              </div>
             </div>
-            <img src="/visa-card.png" alt="Visa" className="w-20" />
+            {/* Back of the Card */}
+            <div className="relative w-full max-w-sm h-40 bg-gradient-to-r from-[#1A1F71] to-[#0097F4] rounded-lg p-6 text-white shadow-lg">
+              <div className="absolute top-6 left-0 w-full h-8 bg-black"></div>
+              <div className="absolute bottom-6 right-6 text-right">
+                <p className="text-xs text-gray-200">CVV</p>
+                <div className="bg-gray-300 text-black px-4 py-1 rounded text-sm tracking-widest inline-block">
+                  {cvv || '***'}
+                </div>
+              </div>
+              <p className="absolute bottom-4 left-6 text-xl font-bold">VISA</p>
+            </div>
           </div>
 
           <form onSubmit={validateForm} className="space-y-4">
-          <div>
+            <div>
               <label className="block text-sm font-medium">Card Number</label>
               <input
                 type="text"
@@ -151,11 +171,7 @@ export default function PaymentForm() {
                 className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#0036E8]"
                 maxLength={19} // Includes spaces
                 value={cardNumber} // Controlled component
-                onChange={(e) => {
-                  let value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
-                  value = value.replace(/(.{4})/g, "$1 ").trim(); // Insert space every 4 digits
-                  setCardNumber(value);
-                }}
+                onChange={handleCardNumberChange}
               />
               {errors.cardNumber && <p className="text-red-500 text-sm">{errors.cardNumber._errors[0]}</p>}
             </div>
@@ -168,7 +184,8 @@ export default function PaymentForm() {
                   name="expiryDate"
                   placeholder="MM/YY"
                   className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#0036E8]"
-                  onChange={handleExpiryDateChange} // Format the expiry date input
+                  value={expiryDate} // Controlled component
+                  onChange={handleExpiryDateChange}
                 />
                 {errors.expiryDate && <p className="text-red-500 text-sm">{errors.expiryDate._errors[0]}</p>}
               </div>
@@ -179,19 +196,17 @@ export default function PaymentForm() {
                   name="cvv"
                   placeholder="123"
                   className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#0036E8]"
-                  maxLength={3} // Limit to 3 digits
-                  onChange={handleCvvChange} // Format the CVV input
+                  maxLength={3}
+                  value={cvv} // Controlled component
+                  onChange={handleCvvChange}
                 />
                 {errors.cvv && <p className="text-red-500 text-sm">{errors.cvv._errors[0]}</p>}
               </div>
             </div>
-            <div className="flex items-center mt-4">
-              <input type="checkbox" id="terms" className="mr-2" />
-              <label htmlFor="terms" className="text-sm">I have read and accept the <a href="#" className="text-[#1949E9]">terms and conditions</a></label>
-            </div>
+
             <div className="flex justify-between mt-6">
-              <button type="button" className="px-6 py-2 border border-red-500 text-red-500 rounded-full">Cancel</button>
-              <button type="submit" className="px-6 py-2 border border-[#1949E9] bg-blue-500 text-[#1949E9] rounded-full">Pay</button>
+              <button type="button" className="px-8 py-2 border border-red-500 text-red-500 rounded-full">Cancel</button>
+              <button type="submit" className="px-14 py-2 border border-[#1949E9] bg-blue-500 text-[#1949E9] rounded-full">Pay</button>
               <button type="submit" className="px-6 py-2 border border-[#1949E9] bg-[#002DF4] text-white rounded-full">Pay and Save</button>
             </div>
           </form>
