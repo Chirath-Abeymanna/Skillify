@@ -137,7 +137,7 @@ export default function PaymentForm() {
             {/* Front of the Card */}
             <div className="relative w-full max-w-sm h-40 bg-gradient-to-r from-[#1A1F71] to-[#0097F4] rounded-lg p-6 text-white shadow-lg">
               <p className="absolute top-4 left-6 text-xs text-gray-200">Card number</p>
-              <p className="text-lg font-semibold tracking-wider">
+              <p className="text-lg font-semibold tracking-wider mt-3">
                 {cardNumber || 'XXXX XXXX XXXX XXXX'}
               </p>
               <div className="absolute bottom-4 left-6 flex justify-between w-full pr-6">
