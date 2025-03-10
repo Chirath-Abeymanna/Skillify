@@ -13,6 +13,7 @@ interface DataType {
     date: string;
     imgSrc: string;
     name: string;
+    url: string;
 }
 
 const postData: DataType[] = [
@@ -23,6 +24,7 @@ const postData: DataType[] = [
         name: "Published on Skillify Blog",
         date: 'December 18, 2024',
         imgSrc: '/images/blogs/blog1.jpg',
+        url:'/blogs',
     },
     {
         time: "5 min",
@@ -31,6 +33,7 @@ const postData: DataType[] = [
         name: "Published on Skillify Blog",
         date: 'December 18, 2024',
         imgSrc: '/images/blogs/blog2.jpg',
+        url:'/blogs',
     },
     {
         time: "5 min",
@@ -39,6 +42,7 @@ const postData: DataType[] = [
         name: "Published on Skillify Blog",
         date: 'December 18, 2024',
         imgSrc: '/images/blogs/blog3.png',
+        url:'/blogs',
     },
     {
         time: "5 min",
@@ -47,6 +51,7 @@ const postData: DataType[] = [
         name: "Published on Skillify Blog",
         date: 'December 18, 2024',
         imgSrc: '/images/blogs/blog4.png',
+        url:'/blogs',
     },
     {
         time: "5 min",
@@ -55,6 +60,7 @@ const postData: DataType[] = [
         name: "Published on Skillify Blog",
         date: 'December 18, 2024',
         imgSrc: '/images/blogs/blog5.png',
+        url:'/blogs',
     }
 ]
 
