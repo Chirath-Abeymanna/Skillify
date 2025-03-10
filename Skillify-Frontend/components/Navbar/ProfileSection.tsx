@@ -57,7 +57,7 @@ const ProfileSection = () => {
               Hey <span>{session.user?.firstName || "User"}</span>
             </h3>
           </div>
-          <div className="relative" ref={dropdownRef}>
+          <div className="relative lg:block hidden" ref={dropdownRef}>
             <img
               src={userAvatar}
               alt="avatar pic"
@@ -82,6 +82,14 @@ const ProfileSection = () => {
                 </button>
               </div>
             )}
+          </div>
+          <div className="lg:hidden flex flex-col items-center">
+            <img
+              src={userAvatar}
+              alt="avatar pic"
+              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full mb-4 lg:mb-4 cursor-pointer"
+              onClick={() => router.push("/Profile")}
+            />
           </div>
         </div>
         <div className="lg:hidden flex flex-col items-center">
