@@ -2,51 +2,57 @@
 
 import { useState } from "react";
 import { Star } from "lucide-react";
+import './ReviewForm.css'; // Import the CSS file
 
 const ReviewForm: React.FC = () => {
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState("");
+  const [rating, setRating] = useState<number>(0);
+  const [hover, setHover] = useState<number>(0);
+  const [comment, setComment] = useState<string>("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Review submitted:", { rating, comment });
+    console.log({ rating, comment });
   };
 
   return (
-    <div className="max-w-md mx-auto text-center p-6 border rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold">We Value Your Feedback</h2>
-      <p className="text-gray-600 my-2">Leave a review about your experience.</p>
-
-      {/* Interactive Star Rating */}
-      <div className="flex justify-center gap-1 my-2">
-        {[...Array(5)].map((_, index) => {
-          const ratingValue = index + 1;
-          return (
-            <Star
-              key={index}
-              size={32}
-              className={`cursor-pointer transition ${
-                ratingValue <= rating ? "text-yellow-400" : "text-gray-300"
-              }`}
-              onClick={() => setRating(ratingValue)}
-            />
-          );
-        })}
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="max-w-2xl mx-auto">
+      <h3 className="text-blue text-lg font-normal tracking-widest text-center">
+        LEAVE A REVIEW
+      </h3>
+      <h2 className="text-4xl sm:text-5xl font-bold my-6 text-center">
+        We Value Your Feedback
+      </h2>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="flex justify-center gap-1">
+          {[...Array(5)].map((_, index) => {
+            const ratingValue = index + 1;
+            return (
+              <Star
+                key={index}
+                size={32}
+                className={`cursor-pointer transition-all ${
+                  ratingValue <= rating
+                    ? "text-yellow-400 fill-current animate-star"
+                    : "text-gray-300 fill-current"
+                } ${ratingValue <= hover && ratingValue > rating ? "text-yellow-400 stroke-current" : ""}`}
+                onMouseEnter={() => setHover(ratingValue)}
+                onMouseLeave={() => setHover(0)}
+                onClick={() => setRating(ratingValue)}
+              />
+            );
+          })}
+        </div>
         <textarea
-          className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          className="w-full p-4 text-black rounded-xl bg-lightgrey focus:outline-none focus:ring-2 focus:ring-blue"
           placeholder="Write your review here..."
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          rows={3}
+          rows={4}
           required
         />
-
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
+          className="w-full text-xl text-white font-semibold text-center rounded-xl bg-faqblue hover:bg-sky-800 py-3 transition-all"
         >
           Submit Review
         </button>
