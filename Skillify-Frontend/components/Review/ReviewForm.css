@@ -1,0 +1,18 @@
+@keyframes star-fade {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+  
+  .animate-star {
+    animation: star-fade 0.3s ease-in-out;
+  }
+  
+  .stroke-current {
+    fill: none;
+    stroke-width: 1;
+  }
+  
