@@ -75,7 +75,7 @@ const Navbar = () => {
                         Job Seeker
                       </Link>
                       <Link
-                        href="/SalaryPredictor"
+                        href="/SalaryScope"
                         className="block text-black py-1 px-2 hover:bg-gray-100"
                       >
                         Salary Scope
