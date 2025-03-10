@@ -174,6 +174,8 @@ const SignIn = () => {
               <hr className="flex-grow border-t border-gray-300" />
             </div>
 
+            {/* Social logins */}
+
             <div className="flex justify-center space-x-10 mt-4">
               <GoogleSignInButton />
               <button
