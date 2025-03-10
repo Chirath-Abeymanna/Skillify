@@ -29,9 +29,9 @@ export async function POST(req: Request) {
       lastName,
       email,
       password,
-      avatar: avatar || "default", // Ensure avatar is set to default if not provided
-      reviews: reviews || [], // Ensure reviews is an empty array if not provided
-      starNo: starNo || 0, // Ensure starNo is set to 0 if not provided
+      avatar: avatar || "default",
+      reviews: reviews || [],
+      starNo: starNo || 0,
     });
 
     await newUser.save();
