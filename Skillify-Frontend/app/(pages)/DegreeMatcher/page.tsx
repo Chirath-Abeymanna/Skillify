@@ -22,8 +22,7 @@ export default function DegreeMatcher(): JSX.Element {
         ]);
         return;
       }
-      const filteredPrograms =
-        data[selectedCategory as keyof typeof data] || [];
+      const filteredPrograms = data[selectedCategory as keyof typeof data] || [];
       setRecommendedPrograms(filteredPrograms);
     } catch (error) {
       setMessages([
@@ -35,54 +34,42 @@ export default function DegreeMatcher(): JSX.Element {
   };
 
   return (
-    <div className="relative min-h-screen w-full p-0 m-0 text-gray-900 font-sans">
+    <div className="relative min-h-screen w-full m-0 p-0 text-gray-900 font-sans overflow-hidden">
       {/* Message Box */}
       {messages.map((msg, index) => (
         <MessageBox key={index} message={msg.message} type={msg.type} />
       ))}
 
-      
-      {/* SVG Decoration at Top Left */}
-      <div className="absolute top-0 left-0 -z-5">
+      {/* Background Image */}
+      <div className="absolute inset-0 -z-5">
         <img
-          src="/images/DeegreeMatcher/773390_06.svg"
-          alt="Decorative SVG Top Left"
-          className="relative bottom-11 right-44 w-[70vm] h-[70vh]"
-        />
-      </div>
-
-      {/* SVG Decoration at Bottom Right */}
-      <div className="absolute bottom-0 right-0 -z-5">
-        <img
-          src="/images/DeegreeMatcher/773390_006.svg"
-          alt="Decorative SVG Bottom Right"
-          className="relative bottom-40 left-80 w-[85vw] h-[85vh]"
+          src="/images/DeegreeMatcher/download.svg"
+          alt="New Decorative SVG"
+          className="w-full h-full object-cover"
         />
       </div>
 
       <div className="relative z-10">
         {/* Heading Section */}
-        <header className="mt-12 mb-8 flex pt-10 items-center pl-16 gap-4">
+        <header className="flex items-center pl-16 gap-4 pt-6 pb-6">
           <img
-            src="/images/DeegreeMatcher/imgThree.svg" // update this path if needed
+            src="/images/DeegreeMatcher/imgThree.svg"
             alt="Degree Icon"
-            className="relative bottom-8 w-32 h-32"
+            className="w-32 h-32"
           />
           <div>
-            <h1
-              className="text-5xl font-extrabold text-orange-500 drop-shadow-md"
-            >
+            <h1 className="text-6xl font-extrabold text-orange-500 drop-shadow-md">
               Degree Navigator
             </h1>
-            <p className="max-w-[600px] text-lg font-semibold text-[#1e3a8a] mt-10">
+            <p className="max-w-[600px] text-lg font-semibold text-[#56575b] mt-6">
               Unlock your potential, discover your strengths, and connect with
               career opportunities.
             </p>
           </div>
         </header>
-        
-        {/* Degree Selection Form */}
-        <div className="flex">
+
+         {/* Degree Selection Form */}
+         <div className="flex">
           <form
             onSubmit={handleSubmit}
             className="relative top-10 flex flex-col items-center gap-6 lg:w-[600px] lg:h-[250px] mx-auto p-8 bg-white shadow-2xl rounded-2xl border border-gray-200 transition-all transition-duration-1000 ease-in-out"
@@ -106,9 +93,9 @@ export default function DegreeMatcher(): JSX.Element {
 
             <button
               type="submit"
-              className="w-full bg-orange-500 text-[#1e3a8a] border-orange-700 hover:bg-orange-600 font-semibold rounded-xl px-6 py-3 text-lg shadow-md transform hover:scale-105 transition duration-300 ease-in-out"
+              className="w-full bg-orange-500 text-[#ffffff] border-orange-700 hover:bg-orange-600 font-semibold rounded-xl px-6 py-3 text-lg shadow-md transform hover:scale-105 transition duration-300 ease-in-out"
             >
-              Get Degree Programs
+              Show Available Degree Programs
             </button>
           </form>
 
@@ -123,7 +110,7 @@ export default function DegreeMatcher(): JSX.Element {
                   {recommendedPrograms.map((prog, idx) => (
                     <li
                       key={idx}
-                      className="text-lg font-medium text-[#1e3a8a] p-3 rounded-lg bg-[#ddf0f6] border-[#eaeff5] border-2 shadow-md space-y-10 m-5"
+                      className="text-lg font-medium text-[#1e3a8a] p-3 rounded-lg bg-[#e5e6e7] border-[#ffffff] border-2 shadow-md space-y-10 m-5"
                     >
                       {prog}
                     </li>
@@ -137,3 +124,4 @@ export default function DegreeMatcher(): JSX.Element {
     </div>
   );
 }
+
