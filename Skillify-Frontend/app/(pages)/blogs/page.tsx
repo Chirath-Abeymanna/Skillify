@@ -33,7 +33,7 @@ export default function BlogPage() {
         title: "Job Seeker",
         publishedDate: "03/01/2025",
         content:
-          "💼 Looking for a job? Our Job Seeker platform makes job searching easier than ever!\n\nFinding the right job can be stressful and time-consuming. With our smart system, you can simply upload your CV, and we’ll do the rest! Our AI-powered tool analyzes your skills, experience, and preferences to match you with the best career opportunities.\n\nInstead of spending hours scrolling through job listings, let our system suggest tailored job openings that fit your qualifications. Whether you’re a fresh graduate or an experienced professional, our platform helps you land your dream job efficiently and hassle-free.",
+          "💼 Looking for a job? Our Job Seeker platform makes job searching easier than ever!\n \nFinding the right job can be stressful and time-consuming. With our smart system, you can simply upload your CV, and we’ll do the rest! Our AI-powered tool analyzes your skills, experience, and preferences to match you with the best career opportunities.\n\nInstead of spending hours scrolling through job listings, let our system suggest tailored job openings that fit your qualifications. Whether you’re a fresh graduate or an experienced professional, our platform helps you land your dream job efficiently and hassle-free.",
         image: "/images/blogs/blog2.jpg",
         category: "Job Seeker",
       },
