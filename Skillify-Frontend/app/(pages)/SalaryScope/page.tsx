@@ -3,53 +3,95 @@
 import { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
+import { keyframes } from "styled-components";
 
-// Styled components for better design
+// Keyframe animation for button hover effect
+const buttonHover = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
+
+// Styled components for a more refined UI
 const Container = styled.div`
   padding: 20px;
   text-align: center;
   font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f0f8ff, #e0f7fa);
+`;
+
+const Card = styled.div`
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  transition: transform 0.3s ease;
+  &:hover {
+    transform: translateY(-10px);
+  }
 `;
 
 const Label = styled.label`
   margin-right: 10px;
   font-weight: bold;
+  font-size: 16px;
 `;
 
 const Select = styled.select`
-  padding: 5px;
+  padding: 8px;
   margin-left: 10px;
   font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
 `;
 
 const Input = styled.input`
-  padding: 5px;
+  padding: 8px;
   margin-left: 10px;
   font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
 `;
 
 const Button = styled.button`
   background-color: #4caf50;
   color: white;
-  padding: 10px 20px;
+  padding: 12px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 15px;
-  font-size: 16px;
+  margin-top: 20px;
+  font-size: 18px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
   &:disabled {
-    background-color: #ccc;
+    background-color: #cccccc;
+  }
+  &:hover {
+    background-color: #45a049;
+    animation: ${buttonHover} 0.6s ease-in-out;
   }
 `;
 
 const Result = styled.div`
-  margin-top: 15px;
-  font-size: 18px;
+  margin-top: 20px;
+  font-size: 20px;
   color: #007bff;
 `;
 
 const ErrorMessage = styled.div`
-  margin-top: 15px;
+  margin-top: 20px;
   color: red;
   font-size: 16px;
 `;
@@ -95,58 +137,62 @@ export default function Home() {
 
   return (
     <Container>
-      <h1>💼 Salary Prediction</h1>
+      <Card>
+        <h1>💼 Salary Prediction</h1>
 
-      <FormSection>
-        <Label>Country</Label>
-        <Select value={country} onChange={(e) => setCountry(e.target.value)}>
-          {["United States", "India", "United Kingdom", "Germany"].map((c) => (
-            <option key={c} value={c}>
-              {c}
-            </option>
-          ))}
-        </Select>
-      </FormSection>
+        <FormSection>
+          <Label>Country</Label>
+          <Select value={country} onChange={(e) => setCountry(e.target.value)}>
+            {["United States", "India", "United Kingdom", "Germany"].map(
+              (c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              )
+            )}
+          </Select>
+        </FormSection>
 
-      <FormSection>
-        <Label>Education Level</Label>
-        <Select
-          value={education}
-          onChange={(e) => setEducation(e.target.value)}
-        >
-          {[
-            "Less than a Bachelors",
-            "Bachelor’s degree",
-            "Master’s degree",
-            "Post grad",
-          ].map((e) => (
-            <option key={e} value={e}>
-              {e}
-            </option>
-          ))}
-        </Select>
-      </FormSection>
+        <FormSection>
+          <Label>Education Level</Label>
+          <Select
+            value={education}
+            onChange={(e) => setEducation(e.target.value)}
+          >
+            {[
+              "Less than a Bachelors",
+              "Bachelor’s degree",
+              "Master’s degree",
+              "Post grad",
+            ].map((e) => (
+              <option key={e} value={e}>
+                {e}
+              </option>
+            ))}
+          </Select>
+        </FormSection>
 
-      <FormSection>
-        <Label>Years of Experience</Label>
-        <Input
-          type="number"
-          value={experience}
-          onChange={(e) => setExperience(Number(e.target.value))}
-        />
-      </FormSection>
+        <FormSection>
+          <Label>Years of Experience</Label>
+          <Input
+            type="number"
+            value={experience}
+            onChange={(e) => setExperience(Number(e.target.value))}
+          />
+        </FormSection>
 
-      <Button onClick={predictSalary} disabled={loading}>
-        {loading ? "Predicting..." : "Predict Salary"}
-      </Button>
+        <Button onClick={predictSalary} disabled={loading}>
+          {loading ? "Predicting..." : "Predict Salary"}
+        </Button>
 
-      {error && <ErrorMessage>{error}</ErrorMessage>}
-      {salary !== null && !loading && (
-        <Result>Estimated Salary: ${salary}</Result>
-      )}
-      {!isValid && (
-        <ErrorMessage>Please fill out all fields correctly.</ErrorMessage>
-      )}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+        {salary !== null && !loading && (
+          <Result>Estimated Salary: ${salary}</Result>
+        )}
+        {!isValid && (
+          <ErrorMessage>Please fill out all fields correctly.</ErrorMessage>
+        )}
+      </Card>
     </Container>
   );
 }
