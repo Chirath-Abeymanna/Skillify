@@ -79,12 +79,12 @@ const footer = () => {
             {products.map((product) => (
               <div
                 key={product.id}
-                className="flex flex-col space-x-0 relative"
+                className="flex flex-col space-x-10 relative justify-between"
               >
                 <p className="text-white text-xl font-extrabold mb-9">
                   {product.section}
                 </p>
-                <ul className="flex flex-wrap space-x-4 md:space-x-15 flex-auto">
+                <ul className="flex flex-auto space-x-4 md:space-x-16 justify-between">
                   {product.link.map((link: string, index: number) => {
                     let href = "/"; // Default link
                     if (link === "Blogs") href = "/blogs"; // Link to Blogs page

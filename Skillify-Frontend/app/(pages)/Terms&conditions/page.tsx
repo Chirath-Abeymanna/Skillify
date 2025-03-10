@@ -4,7 +4,7 @@ import React from "react";
 
 const TermsAndConditions = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-200 to-indigo-400 py-16 px-6 lg:px-20 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-100 to-indigo-500 py-16 px-6 lg:px-20 flex items-center justify-center">
       <div className="max-w-4xl mx-auto bg-white shadow-2xl rounded-3xl p-10 border border-gray-100">
         <h1 className="text-5xl font-extrabold text-indigo-700 text-center mb-6">
           Terms & Conditions
