@@ -1,9 +1,15 @@
 "use client";
 
-import { SessionProvider } from "next-auth/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function UserProfile() {
+  // Ensure the component runs only on the client
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   const [selectedAvatar, setSelectedAvatar] = useState(
     "/images/Avatars/default.svg"
   );
@@ -19,12 +25,29 @@ export default function UserProfile() {
     "/images/Avatars/Avatar8.svg",
   ];
 
-  return (
+  // Prevent SSR mismatches
+  if (!isClient) return null;
 
-    <div className="flex flex-col min-h-screen">
-      <main className="flex-grow flex justify-center items-center py-10 px-4">
-        <div className="max-w-3xl w-full p-6 bg-white rounded-lg shadow-md">
-          <h2 className="text-2xl font-semibold text-center">User Profile</h2>
+  return (
+    <div className="relative flex flex-col min-h-screen">
+      {/* Video Background */}
+      <video
+        className="absolute inset-0 w-full h-full object-cover"
+        autoPlay
+        loop
+      >
+        <source src="/public/videos/profile/background.mp4" type="video/mp4" />
+      </video>
+
+      {/* Glass Effect Overlay */}
+      <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-xl"></div>
+
+      {/* Main Content */}
+      <main className="relative flex-grow flex justify-center items-center py-10 px-4">
+        <div className="max-w-3xl w-full p-6 bg-white bg-opacity-10 backdrop-blur-md rounded-lg shadow-lg border border-white/20">
+          <h2 className="text-2xl font-semibold text-center text-white">
+            User Profile
+          </h2>
 
           {/* Avatar Selection */}
           <div className="flex flex-col sm:flex-row items-center justify-center my-4 sm:gap-16 gap-6">
@@ -39,7 +62,7 @@ export default function UserProfile() {
                     : "bg-[#002DF4] border-blue-500"
                 }`}
               />
-              <p className="mt-2 text-sm text-gray-600">Selected Avatar</p>
+              <p className="mt-2 text-sm text-white">Selected Avatar</p>
             </div>
 
             {/* Available Avatars */}
@@ -63,54 +86,34 @@ export default function UserProfile() {
           {/* Forms */}
           <div className="space-y-4">
             {/* Personal Details */}
-            <div className="border p-4 rounded-md">
+            <div className="border p-4 rounded-md bg-white/20 backdrop-blur-md text-white">
               <h3 className="font-semibold mb-2">Change Personal Details</h3>
               <input
                 type="text"
                 placeholder="First Name"
-                className="w-full p-2 border border-gray-300 rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full p-2 border border-gray-300 rounded bg-transparent text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none"
               />
               <input
                 type="text"
                 placeholder="Last Name"
-                className="w-full p-2 border border-gray-300 rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none mt-2"
+                className="w-full p-2 border border-gray-300 rounded bg-transparent text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none mt-2"
               />
             </div>
 
             {/* Contact Details */}
-            <div className="border p-4 rounded-md">
+            <div className="border p-4 rounded-md bg-white/20 backdrop-blur-md text-white">
               <h3 className="font-semibold mb-2">Change Contact Details</h3>
               <input
                 type="email"
                 placeholder="Email Address"
-                className="w-full p-2 border border-gray-300 rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
-
-            {/* Billing Details */}
-            <div className="border p-4 rounded-md">
-              <h3 className="font-semibold mb-2">Change Billing Details</h3>
-              <input
-                type="text"
-                placeholder="Card Number"
-                className="w-full p-2 border border-gray-300 rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-              <input
-                type="text"
-                placeholder="Expire Date"
-                className="w-full p-2 border border-gray-300 rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none mt-2"
-              />
-              <input
-                type="text"
-                placeholder="Secret Code"
-                className="w-full p-2 border border-gray-300 rounded focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none mt-2"
+                className="w-full p-2 border border-gray-300 rounded bg-transparent text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none"
               />
             </div>
           </div>
 
           {/* Buttons */}
           <div className="flex justify-end gap-2 mt-4">
-            <button className="px-4 py-2 bg-gray-300 rounded">
+            <button className="px-4 py-2 bg-gray-300 text-black rounded">
               Cancel Changes
             </button>
             <button className="px-4 py-2 bg-[#002DF4] text-white rounded">
@@ -120,6 +123,5 @@ export default function UserProfile() {
         </div>
       </main>
     </div>
-
   );
 }
