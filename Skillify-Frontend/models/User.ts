@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from "mongoose";
 import bcrypt from "bcryptjs";
 
 interface IUser extends Document {
+  //Added the review and star No:
   firstName: string;
   lastName: string;
   email: string;
