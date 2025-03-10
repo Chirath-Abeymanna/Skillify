@@ -105,10 +105,6 @@ export default function PaymentForm() {
               <p className="font-medium mr-4"><strong>E-commerce Website:</strong></p>
               <p className="text-gray-600">www.skillify.solutions</p>
             </div>
-            <div className="flex justify-start items-center">
-              <p className="font-medium mr-4"><strong>Order Number:</strong></p>
-              <p className="text-gray-600">{orderNumber}</p>
-            </div>
           </div>
 
           {/* Total Amount Section */}
@@ -146,18 +142,24 @@ export default function PaymentForm() {
           </div>
 
           <form onSubmit={validateForm} className="space-y-4">
-            <div>
+          <div>
               <label className="block text-sm font-medium">Card Number</label>
               <input
                 type="text"
                 name="cardNumber"
                 placeholder="1234 5678 9012 3456"
                 className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#0036E8]"
-                maxLength={20} // Allow space for the 3 spaces
-                onChange={handleCardNumberChange} // Format the card number input
+                maxLength={19} // Includes spaces
+                value={cardNumber} // Controlled component
+                onChange={(e) => {
+                  let value = e.target.value.replace(/\D/g, ""); // Remove non-numeric characters
+                  value = value.replace(/(.{4})/g, "$1 ").trim(); // Insert space every 4 digits
+                  setCardNumber(value);
+                }}
               />
               {errors.cardNumber && <p className="text-red-500 text-sm">{errors.cardNumber._errors[0]}</p>}
             </div>
+
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium">Expiry Date (MM/YY)</label>
