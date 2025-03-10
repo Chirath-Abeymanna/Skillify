@@ -2,155 +2,14 @@
 
 import { useState } from "react";
 import axios from "axios";
-import styled from "styled-components";
-import { keyframes } from "styled-components";
-
-// Keyframe animation for button hover effect
-const buttonHover = keyframes`
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
-`;
-
-// Styled components for an accessible UI
-const Container = styled.div`
-  padding: 20px;
-  text-align: center;
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #f0f8ff, #e0f7fa);
-`;
-
-const Card = styled.div`
-  background: white;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
-  transition: transform 0.3s ease;
-  &:hover {
-    transform: translateY(-10px);
-  }
-`;
-
-const Label = styled.label`
-  margin-right: 10px;
-  font-weight: bold;
-  font-size: 16px;
-  display: block;
-  margin-bottom: 5px;
-`;
-
-const Select = styled.select`
-  padding: 8px;
-  margin-left: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  width: 100%;
-`;
-
-const Input = styled.input`
-  padding: 8px;
-  margin-left: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  width: 100%;
-`;
-
-const Button = styled.button`
-  background-color: #4caf50;
-  color: white;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-  font-size: 18px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  &:disabled {
-    background-color: #cccccc;
-  }
-  &:hover {
-    background-color: #45a049;
-    animation: ${buttonHover} 0.6s ease-in-out;
-  }
-`;
-
-const Result = styled.div`
-  margin-top: 20px;
-  font-size: 20px;
-  color: #007bff;
-`;
-
-const ErrorMessage = styled.div`
-  margin-top: 20px;
-  color: red;
-  font-size: 16px;
-`;
-
-const FormSection = styled.div`
-  margin-bottom: 15px;
-  text-align: left;
-`;
-
-const Tooltip = styled.span`
-  visibility: hidden;
-  width: 120px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 5px;
-  padding: 5px;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%; /* Position the tooltip above the input */
-  left: 50%;
-  margin-left: -60px;
-  opacity: 0;
-  transition: opacity 0.3s;
-`;
-
-const InputWrapper = styled.div`
-  position: relative;
-  &:hover ${Tooltip} {
-    visibility: visible;
-    opacity: 1;
-  }
-`;
 
 export default function Home() {
   const [country, setCountry] = useState("United States");
   const [education, setEducation] = useState("Bachelor’s degree");
   const [experience, setExperience] = useState(3);
   const [salary, setSalary] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [isValid, setIsValid] = useState(true);
-
-  const validateForm = () => {
-    return country && education && experience > 0;
-  };
 
   const predictSalary = async () => {
-    if (!validateForm()) {
-      setIsValid(false);
-      return;
-    }
-
-    setLoading(true);
-    setError(null); // Reset error before making the request
     try {
       const response = await axios.post("http://127.0.0.1:5000/predict", {
         country,
@@ -159,22 +18,22 @@ export default function Home() {
       });
       setSalary(response.data.salary);
     } catch (error) {
-      setError("Prediction failed. Please try again.");
-    } finally {
-      setLoading(false);
+      console.error("Prediction error:", error);
     }
   };
 
   return (
-    <Container>
-      <Card>
-        <h1>💼 Salary Prediction</h1>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white bg-opacity-10 backdrop-blur-lg shadow-2xl rounded-2xl p-8 max-w-md w-full text-center border border-white/20">
+        <h1 className="text-3xl font-bold text-black mb-6">
+          💼 Salary Prediction
+        </h1>
 
-        <FormSection>
-          <Label htmlFor="country">Country</Label>
-          <InputWrapper>
-            <Select
-              id="country"
+        <div className="space-y-4">
+          <div className="text-left">
+            <label className="block text-black font-medium">Country</label>
+            <select
+              className="w-full mt-1 p-2 rounded-lg bg-white bg-opacity-50 backdrop-blur-md border border-gray-300 text-black focus:ring-2 focus:ring-blue-500"
               value={country}
               onChange={(e) => setCountry(e.target.value)}
             >
@@ -185,16 +44,15 @@ export default function Home() {
                   </option>
                 )
               )}
-            </Select>
-            <Tooltip>Choose your country</Tooltip>
-          </InputWrapper>
-        </FormSection>
+            </select>
+          </div>
 
-        <FormSection>
-          <Label htmlFor="education">Education Level</Label>
-          <InputWrapper>
-            <Select
-              id="education"
+          <div className="text-left">
+            <label className="block text-black font-medium">
+              Education Level
+            </label>
+            <select
+              className="w-full mt-1 p-2 rounded-lg bg-white bg-opacity-50 backdrop-blur-md border border-gray-300 text-black focus:ring-2 focus:ring-blue-500"
               value={education}
               onChange={(e) => setEducation(e.target.value)}
             >
@@ -208,36 +66,35 @@ export default function Home() {
                   {e}
                 </option>
               ))}
-            </Select>
-            <Tooltip>Choose your education level</Tooltip>
-          </InputWrapper>
-        </FormSection>
+            </select>
+          </div>
 
-        <FormSection>
-          <Label htmlFor="experience">Years of Experience</Label>
-          <InputWrapper>
-            <Input
-              id="experience"
+          <div className="text-left">
+            <label className="block text-black font-medium">
+              Years of Experience
+            </label>
+            <input
               type="number"
+              className="w-full mt-1 p-2 rounded-lg bg-white bg-opacity-50 backdrop-blur-md border border-gray-300 text-black focus:ring-2 focus:ring-blue-500"
               value={experience}
               onChange={(e) => setExperience(Number(e.target.value))}
             />
-            <Tooltip>Enter your experience in years</Tooltip>
-          </InputWrapper>
-        </FormSection>
+          </div>
 
-        <Button onClick={predictSalary} disabled={loading}>
-          {loading ? "Predicting..." : "Predict Salary"}
-        </Button>
+          <button
+            onClick={predictSalary}
+            className="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600 transition"
+          >
+            🔮 Predict Salary
+          </button>
 
-        {error && <ErrorMessage>{error}</ErrorMessage>}
-        {salary !== null && !loading && (
-          <Result>Estimated Salary: ${salary}</Result>
-        )}
-        {!isValid && (
-          <ErrorMessage>Please fill out all fields correctly.</ErrorMessage>
-        )}
-      </Card>
-    </Container>
+          {salary !== null && (
+            <div className="mt-4 text-lg font-semibold text-black">
+              Estimated Salary: <span className="text-blue-600">${salary}</span>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
