@@ -14,6 +14,8 @@ declare module "next-auth" {
       email?: string | null;
       image?: string | null;
       avatar?: string | null;
+      reviews?: string[] | null;
+      starNo?: number | null;
     };
   }
 }
@@ -24,7 +26,6 @@ const ProfileSection = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   let userAvatar: string;
   const { data: session, status } = useSession();
-  console.log("Session data:", session?.user);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -45,6 +46,7 @@ const ProfileSection = () => {
   if (status === "loading") {
     return <div>Loading...</div>;
   }
+  session?.user.firstName;
 
   if (status === "authenticated" && session) {
     console.log(session.user);
