@@ -18,7 +18,7 @@ const buttonHover = keyframes`
   }
 `;
 
-// Styled components for a more refined UI
+// Styled components for an accessible UI
 const Container = styled.div`
   padding: 20px;
   text-align: center;
@@ -47,6 +47,8 @@ const Label = styled.label`
   margin-right: 10px;
   font-weight: bold;
   font-size: 16px;
+  display: block;
+  margin-bottom: 5px;
 `;
 
 const Select = styled.select`
@@ -55,6 +57,7 @@ const Select = styled.select`
   font-size: 16px;
   border-radius: 5px;
   border: 1px solid #ddd;
+  width: 100%;
 `;
 
 const Input = styled.input`
@@ -63,6 +66,7 @@ const Input = styled.input`
   font-size: 16px;
   border-radius: 5px;
   border: 1px solid #ddd;
+  width: 100%;
 `;
 
 const Button = styled.button`
@@ -98,6 +102,32 @@ const ErrorMessage = styled.div`
 
 const FormSection = styled.div`
   margin-bottom: 15px;
+  text-align: left;
+`;
+
+const Tooltip = styled.span`
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* Position the tooltip above the input */
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+`;
+
+const InputWrapper = styled.div`
+  position: relative;
+  &:hover ${Tooltip} {
+    visibility: visible;
+    opacity: 1;
+  }
 `;
 
 export default function Home() {
@@ -141,44 +171,59 @@ export default function Home() {
         <h1>💼 Salary Prediction</h1>
 
         <FormSection>
-          <Label>Country</Label>
-          <Select value={country} onChange={(e) => setCountry(e.target.value)}>
-            {["United States", "India", "United Kingdom", "Germany"].map(
-              (c) => (
-                <option key={c} value={c}>
-                  {c}
+          <Label htmlFor="country">Country</Label>
+          <InputWrapper>
+            <Select
+              id="country"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+            >
+              {["United States", "India", "United Kingdom", "Germany"].map(
+                (c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                )
+              )}
+            </Select>
+            <Tooltip>Choose your country</Tooltip>
+          </InputWrapper>
+        </FormSection>
+
+        <FormSection>
+          <Label htmlFor="education">Education Level</Label>
+          <InputWrapper>
+            <Select
+              id="education"
+              value={education}
+              onChange={(e) => setEducation(e.target.value)}
+            >
+              {[
+                "Less than a Bachelors",
+                "Bachelor’s degree",
+                "Master’s degree",
+                "Post grad",
+              ].map((e) => (
+                <option key={e} value={e}>
+                  {e}
                 </option>
-              )
-            )}
-          </Select>
+              ))}
+            </Select>
+            <Tooltip>Choose your education level</Tooltip>
+          </InputWrapper>
         </FormSection>
 
         <FormSection>
-          <Label>Education Level</Label>
-          <Select
-            value={education}
-            onChange={(e) => setEducation(e.target.value)}
-          >
-            {[
-              "Less than a Bachelors",
-              "Bachelor’s degree",
-              "Master’s degree",
-              "Post grad",
-            ].map((e) => (
-              <option key={e} value={e}>
-                {e}
-              </option>
-            ))}
-          </Select>
-        </FormSection>
-
-        <FormSection>
-          <Label>Years of Experience</Label>
-          <Input
-            type="number"
-            value={experience}
-            onChange={(e) => setExperience(Number(e.target.value))}
-          />
+          <Label htmlFor="experience">Years of Experience</Label>
+          <InputWrapper>
+            <Input
+              id="experience"
+              type="number"
+              value={experience}
+              onChange={(e) => setExperience(Number(e.target.value))}
+            />
+            <Tooltip>Enter your experience in years</Tooltip>
+          </InputWrapper>
         </FormSection>
 
         <Button onClick={predictSalary} disabled={loading}>
