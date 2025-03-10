@@ -112,6 +112,8 @@ export const authOptions = {
             lastName: profile?.family_name || profile?.localizedLastName,
             email: user.email, // ✅ Ensure we save the correct email
             avatar: "default",
+            reviews: [],
+            starNo: 0,
           });
         }
 
