@@ -125,7 +125,7 @@ const footer = () => {
               <Link href="/PrivacyPolicy">
                 <h3 className="text-offwhite pr-6">Privacy policy</h3>
               </Link>
-              <Link href="/terms-conditions">
+              <Link href="/Terms&conditions">
                 <h3 className="text-offwhite pl-6 border-solid border-l border-footer">
                   Terms & conditions
                 </h3>

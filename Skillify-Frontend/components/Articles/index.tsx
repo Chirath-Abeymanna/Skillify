@@ -1,8 +1,8 @@
 "use client"
-import Slider from "react-slick";
-import React, { Component } from "react";
+import React, { useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { motion, useAnimation } from "framer-motion";
 
 // CAROUSEL DATA
 
@@ -22,7 +22,7 @@ const postData: DataType[] = [
         heading2: 'With Our Dynamic Roadmaps according to user preferences!',
         name: "Published on Skillify Blog",
         date: 'December 18, 2024',
-        imgSrc: '/images/articles/article.png',
+        imgSrc: '/images/blogs/blog1.jpg',
     },
     {
         time: "5 min",
@@ -30,7 +30,7 @@ const postData: DataType[] = [
         heading2: 'Scan CVs and Scrape LinkedIn Profiles!',
         name: "Published on Skillify Blog",
         date: 'December 18, 2024',
-        imgSrc: '/images/articles/article2.png',
+        imgSrc: '/images/blogs/blog2.jpg',
     },
     {
         time: "5 min",
@@ -38,7 +38,7 @@ const postData: DataType[] = [
         heading2: 'Get Expert Guidance for Career Growth!',
         name: "Published on Skillify Blog",
         date: 'December 18, 2024',
-        imgSrc: '/images/articles/article3.png',
+        imgSrc: '/images/blogs/blog3.png',
     },
     {
         time: "5 min",
@@ -46,7 +46,7 @@ const postData: DataType[] = [
         heading2: 'Find the Perfect Degree for Your Career!',
         name: "Published on Skillify Blog",
         date: 'December 18, 2024',
-        imgSrc: '/images/articles/article2.png',
+        imgSrc: '/images/blogs/blog4.png',
     },
     {
         time: "5 min",
@@ -54,93 +54,74 @@ const postData: DataType[] = [
         heading2: 'Tailor Your Learning Path with Skillify!',
         name: "Published on Skillify Blog",
         date: 'December 18, 2024',
-        imgSrc: '/images/articles/article2.png',
-    },
-    {
-        time: "5 min",
-        heading: 'Skillify: Personalized Career Pathways',
-        heading2: 'Take Control of Your Future!',
-        name: "Published on Skillify Blog",
-        date: 'December 18, 2024',
-        imgSrc: '/images/articles/article3.png',
-    },    
+        imgSrc: '/images/blogs/blog5.png',
+    }
 ]
 
-// CAROUSEL SETTINGS
+const Card = ({ item }: { item: DataType }) => {
+    return (
+        <motion.div
+            className="relative flex min-w-[300px] sm:min-w-[350px] md:min-w-[400px] flex-col rounded-xl bg-white shadow-md"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+        >
+            <div className="relative h-56 overflow-hidden rounded-t-xl bg-gradient-to-r from-indigo-500 to-indigo-600">
+                <Image 
+                    src={item.imgSrc} 
+                    alt={item.heading} 
+                    layout="fill" 
+                    objectFit="cover" 
+                    className="rounded-t-xl"
+                />
+            </div>
+            <div className="p-6">
+                <h5 className="mb-2 text-xl font-semibold text-blue-gray-900">{item.heading}</h5>
+                <p className="text-base font-light">{item.heading2}</p>
+            </div>
+            <div className="p-6 pt-0">
+                <button type="button" className="rounded-lg bg-indigo-500 py-3 px-6 text-xs font-bold uppercase text-white shadow-md transition-all hover:shadow-lg focus:opacity-85 active:opacity-85 disabled:pointer-events-none disabled:opacity-50">
+                    Read More
+                </button>
+            </div>
+        </motion.div>
+    );
+};
 
+const BlogSection = () => {
+    const controls = useAnimation();
+    const ref = useRef(null);
 
-export default class MultipleItems extends Component {
-
-    render() {
-        const settings = {
-            dots: false,
-            infinite: true,
-            slidesToShow: 3,
-            // centerMode: true,
-            slidesToScroll: 2,
-            arrows: false,
-            autoplay: false,
-            speed: 500,
-            cssEase: "linear",
-            responsive: [
-                {
-                    breakpoint: 1200,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 1,
-                        infinite: true,
-                        dots: false
-                    }
-                },
-                {
-                    breakpoint: 600,
-                    settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1,
-                        infinite: true,
-                        dots: false
-                    }
-                }
-            ]
+    useEffect(() => {
+        const loopAnimation = async () => {
+            while (true) {
+                await controls.start({ x: "-50%", transition: { duration: 10, ease: "linear" } });
+                await controls.start({ x: "0%", transition: { duration: 0, ease: "linear" } });
+            }
         };
+        loopAnimation();
+    }, [controls]);
 
-
-        return (
-            <div className="bg-lightgrey py-20" id="blog-section">
-                <div className='mx-auto max-w-7xl sm:py-4 lg:px-8 '>
-
-                    <div className="text-center">
-                        <h3 className="text-blue text-lg font-normal tracking-widest">ARTICLES</h3>
-                        <h3 className="text-4xl sm:text-6xl font-bold">Our latest updates.</h3>
-                    </div>
-
-
-                    <Slider {...settings}>
-                        {postData.map((items, i) => (
-                            <div key={i} >
-
-                                <div className='bg-white m-3 px-3 pt-3 pb-12 my-10 shadow-lg rounded-3xl relative'>
-                                    <Image src={items.imgSrc} alt="gaby" width={389} height={262} className="inline-block m-auto" />
-
-                                    <Link href="/">
-                                        <h3 className="absolute bg-blue text-white hover:bg-black hover:shadow-xl py-3 px-6 rounded-full article-img">{items.time} read</h3>
-                                    </Link>
-                                    <h4 className='text-2xl font-bold pt-6 text-black'>{items.heading}</h4>
-                                    <h4 className='text-2xl font-bold pt-1 text-black'>{items.heading2}</h4>
-
-                                    <div>
-                                        <h3 className='text-base font-normal pt-6 pb-2 opacity-75'>{items.name}</h3>
-                                        <h3 className='text-base font-normal pb-1 opacity-75'>{items.date}</h3>
-                                    </div>
-
-                                </div>
-
-                            </div>
+    return (
+        <div className="bg-lightgrey py-20 overflow-hidden" id="blog-section">
+            <div className='mx-auto max-w-7xl sm:py-4 lg:px-8'>
+                <div className="text-center">
+                    <h3 className="text-blue text-lg font-normal tracking-widest">ARTICLES</h3>
+                    <h3 className="text-4xl sm:text-6xl font-bold">Our latest updates.</h3>
+                </div>
+                <div className="relative w-full py-8">
+                    <motion.div 
+                        ref={ref}
+                        animate={controls}
+                        className="flex space-x-6"
+                    >
+                        {postData.concat(postData).map((item, i) => (
+                            <Card key={i} item={item} />
                         ))}
-                    </Slider>
+                    </motion.div>
                 </div>
             </div>
+        </div>
+    );
+};
 
-        );
-    }
-}
+export default BlogSection;
