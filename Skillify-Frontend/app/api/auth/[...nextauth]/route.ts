@@ -1,11 +1,10 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+import LinkedInProvider from "next-auth/providers/linkedin";
 import { connectDB } from "@/utils/database";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
-
-// NOTE: Meka wada krnw meka allanna epa
 
 export const authOptions = {
   session: {
@@ -17,10 +16,44 @@ export const authOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       authorization: {
+        params: { scope: "profile email" },
+      },
+    }),
+    LinkedInProvider({
+      clientId: process.env.LINKEDIN_CLIENT_ID!,
+      clientSecret: process.env.LINKEDIN_CLIENT_SECRET!,
+      authorization: {
+        url: "https://www.linkedin.com/oauth/v2/authorization",
         params: {
-          scope: "profile email",
+          response_type: "code",
+          scope: "r_liteprofile r_emailaddress", // ✅ Corrected scope
         },
       },
+      token: "https://www.linkedin.com/oauth/v2/accessToken",
+      userinfo: {
+        async request({ tokens }) {
+          const profileRes = await fetch("https://api.linkedin.com/v2/me", {
+            headers: { Authorization: `Bearer ${tokens.access_token}` },
+          });
+          const emailRes = await fetch(
+            "https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))",
+            {
+              headers: { Authorization: `Bearer ${tokens.access_token}` },
+            }
+          );
+
+          const profile = await profileRes.json();
+          const emailData = await emailRes.json();
+
+          return {
+            id: profile.id,
+            firstName: profile.localizedFirstName,
+            lastName: profile.localizedLastName,
+            email: emailData.elements?.[0]?.["handle~"]?.emailAddress || null,
+          };
+        },
+      },
+      checks: ["state"], // ✅ Avoids issuer validation error
     }),
     CredentialsProvider({
       name: "Credentials",
@@ -30,8 +63,6 @@ export const authOptions = {
       },
       async authorize(credentials) {
         await connectDB();
-
-        console.log(credentials);
 
         const user = await User.findOne({ email: credentials?.email });
         if (!user) {
@@ -72,15 +103,14 @@ export const authOptions = {
     }) {
       await connectDB();
 
-      if (account?.provider === "google") {
+      if (account?.provider === "google" || account?.provider === "linkedin") {
         let existingUser = await User.findOne({ email: user.email });
 
         if (!existingUser) {
-          // If the user does not exist, create a new one and assign the default avatar
           existingUser = await User.create({
-            firstName: profile?.given_name,
-            lastName: profile?.family_name,
-            email: profile?.email,
+            firstName: profile?.given_name || profile?.localizedFirstName,
+            lastName: profile?.family_name || profile?.localizedLastName,
+            email: user.email, // ✅ Ensure we save the correct email
             avatar: "default",
           });
         }
@@ -94,14 +124,13 @@ export const authOptions = {
 
       return true;
     },
-    async jwt({ token, user }: { token: any; user?: any }) {
+    async jwt({ token, user }: { token: any; user: any }) {
       if (user) {
         token.id = user.id;
         token.email = user.email;
         token.firstName = user.firstName;
         token.lastName = user.lastName;
         token.avatar = user.avatar;
-        token.role = user.role;
       }
       return token;
     },
@@ -116,13 +145,11 @@ export const authOptions = {
         session.user.firstName = sessionUser.firstName;
         session.user.lastName = sessionUser.lastName;
       }
-      console.log("Updated Session Data:", session);
 
       return session;
     },
   },
   secret: process.env.JWT_SECRET,
-  debug: true,
 };
 
 const handler = NextAuth(authOptions);

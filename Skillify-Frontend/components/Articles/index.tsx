@@ -85,48 +85,60 @@ const Card = ({ item }: { item: DataType }) => {
                 <p className="text-base font-light">{item.heading2}</p>
             </div>
             <div className="p-6 pt-0">
-                <button type="button" className="rounded-lg bg-indigo-500 py-3 px-6 text-xs font-bold uppercase text-white shadow-md transition-all hover:shadow-lg focus:opacity-85 active:opacity-85 disabled:pointer-events-none disabled:opacity-50">
+                <Link href={item.url} passHref>
+                    <button type="button" className="rounded-lg bg-indigo-500 py-3 px-6 text-xs font-bold uppercase text-white shadow-md transition-all hover:shadow-lg focus:opacity-85 active:opacity-85 disabled:pointer-events-none disabled:opacity-50">
                     Read More
-                </button>
+                    </button>
+                </Link>
             </div>
         </motion.div>
     );
 };
 
 const BlogSection = () => {
-    const controls = useAnimation();
-    const ref = useRef(null);
+    const controls = useAnimation(); // ✅ Initialize animation controls
+    const ref = useRef<HTMLDivElement>(null); // ✅ Define ref using useRef hook
 
     useEffect(() => {
+        let isMounted = true; // ✅ Ensure component is mounted
+
         const loopAnimation = async () => {
-            while (true) {
-                await controls.start({ x: "-50%", transition: { duration: 10, ease: "linear" } });
-                await controls.start({ x: "0%", transition: { duration: 0, ease: "linear" } });
+            while (isMounted) {
+                await controls.start({
+                    x: "-50%",
+                    transition: { duration: 10, ease: "linear" }
+                });
             }
         };
-        loopAnimation();
+
+        loopAnimation(); // ✅ Start animation after mounting
+
+        return () => {
+            isMounted = false; // ✅ Cleanup function to stop animation
+        };
     }, [controls]);
 
     return (
         <div className="bg-lightgrey py-20 overflow-hidden" id="blog-section">
-            <div className='mx-auto max-w-7xl sm:py-4 lg:px-8'>
-                <div className="text-center">
-                    <h3 className="text-blue text-lg font-normal tracking-widest">ARTICLES</h3>
-                    <h3 className="text-4xl sm:text-6xl font-bold">Our latest updates.</h3>
-                </div>
-                <div className="relative w-full py-8">
-                    <motion.div 
-                        ref={ref}
-                        animate={controls}
-                        className="flex space-x-6"
-                    >
-                        {postData.concat(postData).map((item, i) => (
-                            <Card key={i} item={item} />
-                        ))}
-                    </motion.div>
-                </div>
+        <div className='mx-auto max-w-7xl sm:py-4 lg:px-8'>
+            <div className="text-center">
+                <h3 className="text-blue text-lg font-normal tracking-widest">ARTICLES</h3>
+                <h3 className="text-4xl sm:text-6xl font-bold">Our latest updates.</h3>
+            </div>
+            <div className="relative w-full py-8">
+                <motion.div 
+                    ref={ref}
+                    animate={controls}
+                    className="flex space-x-6"
+                >
+                    {postData.concat(postData).map((item, i) => (
+                        <Card key={i} item={item} />
+                    ))}
+                </motion.div>
             </div>
         </div>
+    </div>
+
     );
 };
 
