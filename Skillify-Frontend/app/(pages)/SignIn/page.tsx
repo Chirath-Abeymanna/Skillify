@@ -89,7 +89,7 @@ const SignIn = () => {
       {messages.map((msg, index) => (
         <MessageBox key={index} message={msg.message} type={msg.type} />
       ))}
-      {/* Background SVG */}
+      {/* Updated Background SVG */}
       <svg
         className="absolute inset-0 w-full h-full"
         xmlns="http://www.w3.org/2000/svg"
