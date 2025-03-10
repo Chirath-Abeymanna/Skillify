@@ -74,7 +74,7 @@ function Section({ id, title, children }: SectionProps) {
 
 function Card({ setCookiesAccepted }: { setCookiesAccepted: React.Dispatch<React.SetStateAction<boolean>> }) {
   return (
-    <div className="bottom-4 left-4 right-4 bg-gradient-to-r from-indigo-400 to-indigo-600 rounded-lg overflow-hidden shadow-xl max-w-sm p-4 fixed z-50">
+    <div className="bottom-4 left-4 right-4 bg-gradient-to-r from-indigo-400 to-indigo-600 rounded-lg overflow-hidden shadow-xl max-w-sm p-4 sticky">
       <p className="text-sm mb-4 text-white">
         This website uses cookies to enhance user experience and to analyze performance and traffic on our website.
       </p>

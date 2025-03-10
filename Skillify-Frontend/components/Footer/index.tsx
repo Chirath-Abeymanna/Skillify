@@ -112,7 +112,7 @@ const footer = () => {
       {/* All Rights Reserved */}
       <div className="mx-auto max-w-2xl lg:max-w-7xl">
         <div className="pt-5 pb-5 px-4 sm:px-6 lg:px-4 border-solid border-t border-footer">
-          <div className="mt-4 grid grid-cols-1 gap-y-10 gap-x-16 sm:grid-cols-2 xl:gap-x-8">
+          <div className="mt-4 grid grid-cols-1 gap-y-15 gap-x-16 sm:grid-cols-2 xl:gap-x-8">
             <div>
               <h3 className="text-center md:text-start text-offwhite text-lg">
                 @2023 - All Rights Reserved by{" "}
@@ -122,7 +122,7 @@ const footer = () => {
               </h3>
             </div>
             <div className="flex justify-center md:justify-end">
-              <Link href="/privacy-policy">
+              <Link href="/PrivacyPolicy">
                 <h3 className="text-offwhite pr-6">Privacy policy</h3>
               </Link>
               <Link href="/terms-conditions">
