@@ -12,6 +12,14 @@ interface datatype {
 
 const Aboutdata: datatype[] = [
   {
+    heading: "Career Map",
+    imgSrc: "/images/aboutus/imgFive.svg",
+    paragraph:
+      "Career Map crafts a personalized roadmap, analyzing your skills and goals to guide you step-by-step toward success.",
+    link: "/CareerMap",
+    tag: "Check out now",
+  },
+  {
     heading: "Job Seeker",
     imgSrc: "/images/aboutus/imgOne.svg",
     paragraph:

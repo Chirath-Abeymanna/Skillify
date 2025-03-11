@@ -5,6 +5,8 @@ import json
 from resumeparser import extract_career_paths
 from job_scrapper import search_google_jobs
 from flask_cors import CORS
+import pickle
+import numpy as np
 
 sys.path.insert(0, os.path.abspath(os.getcwd()))
 
@@ -12,9 +14,38 @@ UPLOAD_PATH = r"__DATA__"
 app = Flask(__name__, template_folder="templates")
 CORS(app)
 
+# Load model and encoders
+with open('saved_steps.pkl', 'rb') as file:
+    data = pickle.load(file)
+
+regressor = data["model"]
+le_country = data["le_country"]
+le_education = data["le_education"]
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    try:
+        req = request.get_json()
+        country = req['country']
+        education = req['education']
+        experience = float(req['experience'])
+
+        # Transform inputs
+        X = np.array([[country, education, experience]])
+        X[:, 0] = le_country.transform(X[:, 0])
+        X[:, 1] = le_education.transform(X[:, 1])
+        X = X.astype(float)
+
+        # Predict
+        salary = regressor.predict(X)[0]
+
+        return jsonify({'salary': round(salary, 2)})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
 
 @app.route('/process', methods=['POST'])
 def parse_resume():

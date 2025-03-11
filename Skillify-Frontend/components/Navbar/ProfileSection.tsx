@@ -14,6 +14,8 @@ declare module "next-auth" {
       email?: string | null;
       image?: string | null;
       avatar?: string | null;
+      reviews?: string[] | null;
+      starNo?: number | null;
     };
   }
 }
@@ -24,7 +26,6 @@ const ProfileSection = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   let userAvatar: string;
   const { data: session, status } = useSession();
-  console.log("Session data:", session?.user);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -45,6 +46,7 @@ const ProfileSection = () => {
   if (status === "loading") {
     return <div>Loading...</div>;
   }
+  session?.user.firstName;
 
   if (status === "authenticated" && session) {
     console.log(session.user);
@@ -57,7 +59,7 @@ const ProfileSection = () => {
               Hey <span>{session.user?.firstName || "User"}</span>
             </h3>
           </div>
-          <div className="relative" ref={dropdownRef}>
+          <div className="relative lg:block hidden" ref={dropdownRef}>
             <img
               src={userAvatar}
               alt="avatar pic"
@@ -82,6 +84,14 @@ const ProfileSection = () => {
                 </button>
               </div>
             )}
+          </div>
+          <div className="lg:hidden flex flex-col items-center">
+            <img
+              src={userAvatar}
+              alt="avatar pic"
+              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full mb-4 lg:mb-4 cursor-pointer"
+              onClick={() => router.push("/Profile")}
+            />
           </div>
         </div>
         <div className="lg:hidden flex flex-col items-center">

@@ -89,7 +89,7 @@ const SignIn = () => {
       {messages.map((msg, index) => (
         <MessageBox key={index} message={msg.message} type={msg.type} />
       ))}
-      {/* Background SVG */}
+      {/* Updated Background SVG */}
       <svg
         className="absolute inset-0 w-full h-full"
         xmlns="http://www.w3.org/2000/svg"
@@ -174,14 +174,10 @@ const SignIn = () => {
               <hr className="flex-grow border-t border-gray-300" />
             </div>
 
+            {/* Social logins */}
+
             <div className="flex justify-center space-x-10 mt-4">
               <GoogleSignInButton />
-              <button
-                onClick={() => signIn("facebook")}
-                className="p-2 w-12 h-12 border text-white rounded hover:bg-gray-100 transition duration-300"
-              >
-                <img src="/images/Signup_and_Signin/facebook.svg" alt="" />
-              </button>
               <button
                 onClick={() => signIn("linkedin")}
                 className="p-2 w-12 h-12 border text-white rounded hover:bg-gray-100 transition duration-300"

@@ -33,7 +33,7 @@ export default function BlogPage() {
         title: "Job Seeker",
         publishedDate: "03/01/2025",
         content:
-          "💼 Looking for a job? Our Job Seeker platform makes job searching easier than ever!\n\nFinding the right job can be stressful and time-consuming. With our smart system, you can simply upload your CV, and we’ll do the rest! Our AI-powered tool analyzes your skills, experience, and preferences to match you with the best career opportunities.\n\nInstead of spending hours scrolling through job listings, let our system suggest tailored job openings that fit your qualifications. Whether you’re a fresh graduate or an experienced professional, our platform helps you land your dream job efficiently and hassle-free.",
+          "💼 Looking for a job? Our Job Seeker platform makes job searching easier than ever!\n \nFinding the right job can be stressful and time-consuming. With our smart system, you can simply upload your CV, and we’ll do the rest! Our AI-powered tool analyzes your skills, experience, and preferences to match you with the best career opportunities.\n\nInstead of spending hours scrolling through job listings, let our system suggest tailored job openings that fit your qualifications. Whether you’re a fresh graduate or an experienced professional, our platform helps you land your dream job efficiently and hassle-free.",
         image: "/images/blogs/blog2.jpg",
         category: "Job Seeker",
       },
@@ -51,18 +51,18 @@ export default function BlogPage() {
         title: "Degree Matcher",
         publishedDate: "01/03/2025",
         content:
-          "🎓 Confused about which degree to choose?\n\nOur Degree Matcher helps you find the best IT-related degrees in Sri Lanka based on your A/L subject selections and university preferences. No more guesswork—just a perfect match for your future!",
+          "🎓 Confused about which degree to pursue? Our Degree Matcher simplifies the decision-making process!\n \nSelecting the right degree is crucial for your future career. Our tool helps you identify the best IT-related degrees in Sri Lanka based on your A/L subject selections and university preferences. Instead of making random choices, get tailored recommendations that align with your academic strengths and career aspirations.\n \nWith Degree Matcher, you can explore university options, compare different programs, and make an informed decision about your higher education. Ensure your studies lead to a successful career by choosing the degree that best fits your goals!",
         image: "/images/blogs/blog4.png",
         category: "Degree Matcher",
       },
       {
         id: 5,
-        title: "Career Path Consultations",
+        title: "Consultations",
         publishedDate: "01/03/2025",
         content:
-          "📢 Need expert advice on your career?\n\nOur career consultants are here to help! Get personalized guidance on job market trends, skill development, and career opportunities.\n \nTake charge of your future with the right advice at the right time!",
+          "📢 Need career guidance? Our Career Path Consultation service connects you with experts who can help!\n \nUnderstanding the job market and planning your career path can be overwhelming. Our career consultants provide personalized guidance on career choices, skill development, and industry trends to help you navigate your professional journey with confidence.\n \nWhether you need advice on job applications, resume building, or upskilling, our experts will help you make informed decisions. Take charge of your future by getting the right advice at the right time and stay ahead in the competitive job market!",
         image: "/images/blogs/blog5.jpg",
-        category: "Career Path Consultations",
+        category: "Consultations",
       },
     ]);
   }, []);
@@ -81,20 +81,17 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen bg-white p-6 flex justify-center overflow-x-hidden">
-      <div className="max-w-6xl w-full grid grid-cols-3 gap-6">
+      <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Blog Articles Section */}
-        <div className="col-span-2 min-w-[700px]">
-
+        <div className="col-span-2 min-w-[300px] md:min-w-[700px]">
           <h1 className="text-4xl font-bold text-gray-800 mb-8">
             🚀 Latest Blogs
           </h1>
-
           {articles.map((article) => (
             <div
               key={article.id}
               ref={(el) => (articleRefs.current[article.id] = el)}
               className="mb-6 p-6 rounded-lg shadow-lg border transition duration-300 hover:shadow-xl min-w-[300px]"
-
             >
               <Image
                 src={article.image}
@@ -102,35 +99,32 @@ export default function BlogPage() {
                 width={150}
                 height={150}
                 className="rounded-lg w-full object-cover"
-
               />
               <h2 className="text-2xl font-semibold text-gray-800 mt-4">
                 {article.title}
               </h2>
               <p className="text-sm text-gray-600 mb-2">
                 📅 Published Date: {article.publishedDate}
-
               </p>
               <p className="text-gray-700 whitespace-pre-line">
                 {article.content}
               </p>
-
               {/* Featured Author */}
               <div className="flex items-center mt-6">
                 <div className="ml-4">
                   <p className="font-semibold">Nadini Salisha</p>
-
                   <p className="text-sm text-gray-500">Tech Blogger</p>
                 </div>
               </div>
             </div>
           ))}
         </div>
-
         {/* Sidebar Section (Sticky Sidebar) */}
         <div className="relative">
           <div className="bg-white p-6 rounded-lg shadow-lg border min-w-[300px] sticky top-40">
-            <h3 className="mt-6 text-lg font-semibold text-gray-800">Categories</h3>
+            <h3 className="mt-6 text-lg font-semibold text-gray-800">
+              Categories
+            </h3>
             <Image
               src="/images/blogs/blog6.png"
               alt="Categories"
@@ -152,7 +146,6 @@ export default function BlogPage() {
               )}
             </ul>
           </div>
-
         </div>
       </div>
     </div>
