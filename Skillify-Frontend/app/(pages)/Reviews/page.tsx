@@ -9,3 +9,4 @@ const ReviewsPage: React.FC = () => {
 };
 
 export default ReviewsPage;
+
