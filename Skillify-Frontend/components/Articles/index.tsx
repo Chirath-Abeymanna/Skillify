@@ -96,11 +96,11 @@ const Card = ({ item }: { item: DataType }) => {
 };
 
 const BlogSection = () => {
-    const controls = useAnimation(); // ✅ Initialize animation controls
-    const ref = useRef<HTMLDivElement>(null); // ✅ Define ref using useRef hook
+    const controls = useAnimation(); // Initialize animation controls
+    const ref = useRef<HTMLDivElement>(null); // Define ref using useRef hook
 
     useEffect(() => {
-        let isMounted = true; // ✅ Ensure component is mounted
+        let isMounted = true; // Ensure component is mounted
 
         const loopAnimation = async () => {
             while (isMounted) {

@@ -8,21 +8,8 @@ export default function PrivacyPolicy() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
-      <h1 className="text-3xl font-bold text-violet-800">Privacy Policy</h1>
+      <h1 className="text-3xl font-bold text-indigo-800">Privacy Policy</h1>
       <p className="text-gray-400 mb-6">Last updated: 3/10/2025</p>
-      
-      {/* Table of Contents */}
-      <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-2xl mb-6">
-        <h2 className="text-lg font-bold text-indigo-700">Table of Contents</h2>
-        <div className="grid grid-cols-2 gap-4 mt-2 text-black">
-          <a href="#info-collection">Information Collection</a>
-          <a href="#data-usage">Data Usage</a>
-          <a href="#data-protection">Data Protection</a>
-          <a href="#user-rights">User Rights</a>
-          <a href="#cookie-policy">Cookie Policy</a>
-          <a href="#contact-info">Contact Information</a>
-        </div>
-      </div>
 
       {/* Sections */}
       <div className="w-full max-w-2xl space-y-6">
@@ -66,7 +53,7 @@ interface SectionProps {
 function Section({ id, title, children }: SectionProps) {
   return (
     <div id={id} className="bg-white shadow-md rounded-lg p-6">
-      <h2 className="text-lg font-bold text-indigo-700">{title}</h2>
+      <h2 className="text-lg font-bold text-sky-700">{title}</h2>
       <div className="text-gray-700 mt-2">{children}</div>
     </div>
   );
