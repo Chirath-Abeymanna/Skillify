@@ -2,21 +2,20 @@
 
 import { useState } from "react";
 import { Star } from "lucide-react";
+import './ReviewForm.css'; // Import the CSS file
 
 const ReviewForm: React.FC = () => {
   const [rating, setRating] = useState<number>(0);
   const [hover, setHover] = useState<number>(0);
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
   const [comment, setComment] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({ rating, name, email, comment });
+    console.log({ rating, comment });
   };
 
   return (
-    <div className="bg-reviewGlass my-32 p-8 rounded-3xl shadow-lg backdrop-blur-md bg-opacity-40 max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto">
       <h3 className="text-blue text-lg font-normal tracking-widest text-center">
         LEAVE A REVIEW
       </h3>
@@ -32,10 +31,10 @@ const ReviewForm: React.FC = () => {
                 key={index}
                 size={32}
                 className={`cursor-pointer transition-all ${
-                  ratingValue <= (hover || rating)
-                    ? "text-yellow-400"
-                    : "text-gray-300"
-                }`}
+                  ratingValue <= rating
+                    ? "text-yellow-400 fill-current animate-star"
+                    : "text-gray-300 fill-current"
+                } ${ratingValue <= hover && ratingValue > rating ? "text-yellow-400 stroke-current" : ""}`}
                 onMouseEnter={() => setHover(ratingValue)}
                 onMouseLeave={() => setHover(0)}
                 onClick={() => setRating(ratingValue)}
@@ -43,22 +42,6 @@ const ReviewForm: React.FC = () => {
             );
           })}
         </div>
-        <input
-          type="text"
-          className="w-full p-4 text-black rounded-xl bg-lightgrey focus:outline-none focus:ring-2 focus:ring-blue"
-          placeholder="Your name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          className="w-full p-4 text-black rounded-xl bg-lightgrey focus:outline-none focus:ring-2 focus:ring-blue"
-          placeholder="Your email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
         <textarea
           className="w-full p-4 text-black rounded-xl bg-lightgrey focus:outline-none focus:ring-2 focus:ring-blue"
           placeholder="Write your review here..."
@@ -69,7 +52,7 @@ const ReviewForm: React.FC = () => {
         />
         <button
           type="submit"
-          className="w-full text-xl text-white font-semibold text-center rounded-xl bg-blue hover:bg-btnblue py-3 transition-all"
+          className="w-full text-xl text-white font-semibold text-center rounded-xl bg-faqblue hover:bg-sky-800 py-3 transition-all"
         >
           Submit Review
         </button>
