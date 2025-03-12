@@ -13,6 +13,8 @@
     "@heroicons/react": "^2.0.18",
     "@prisma/client": "^6.4.1",
     "@react-spring/web": "^9.7.5",
+    "@react-three/drei": "^8.20.2",
+    "@react-three/fiber": "^8.18.0",
     "@shadcn/ui": "^0.0.4",
     "@splinetool/react-spline": "^4.0.0",
     "@stripe/react-stripe-js": "^3.1.1",
@@ -30,6 +32,7 @@
     "eventsource-parser": "^0.1.0",
     "framer-motion": "^12.4.7",
     "google-auth-library": "^9.15.1",
+    "gsap": "^3.12.7",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.479.0",
     "mongodb": "^5.6.0",
@@ -49,12 +52,14 @@
     "slick-carousel": "^1.8.1",
     "stripe": "^17.7.0",
     "tailwindcss": "3.3.2",
+    "three": "^0.174.0",
     "typescript": "^5.8.2"
   },
   "devDependencies": {
     "@types/d3": "^7.4.3",
     "@types/mongoose": "^5.11.96",
     "@types/react-slick": "^0.23.10",
+    "@types/three": "^0.174.0",
     "shadcn-ui": "^0.9.4"
   }
 }

@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Spline from "@splinetool/react-spline";
 import Roadmap from "../../../components/Roadmap";
 
 const CareerMapPage: React.FC = () => {
@@ -12,10 +13,10 @@ const CareerMapPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-white font-Poppins">
-      {/* {!showRoadmap && (
+      {!showRoadmap && (
         <>
-          <div className="w-full lg:w-3/4 flex flex-col p-4 lg:p-10">
-            <div className="mt-5 w-full justify-center text-lg">
+          <div className="w-full lg:w-2/3 flex flex-col p-4 lg:p-10">
+            <div className="mt-3 w-full justify-center text-lg">
               <div className="flex flex-wrap mb-10 space-x-10 justify-center lg:justify-start">
                 <img
                   src="/images/aboutus/imgFive.svg"
@@ -38,7 +39,7 @@ const CareerMapPage: React.FC = () => {
               <textarea
                 className="w-[80%] lg:ml-10 h-48 border border-gray-300 rounded p-2 mb-4 
                      focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter your goals here"
+                placeholder="Explain you're Career goals and current skill set"
               />
 
               <div className="w-[80%] flex justify-center ">
@@ -55,19 +56,22 @@ const CareerMapPage: React.FC = () => {
             </div>
           </div>
 
-          
-          <div className="hidden lg:block lg:w-1/4" />
+          <div className="hidden  lg:flex justify-center items-center lg:w-2/4 h-screen ">
+            <div>
+              <Spline scene="https://prod.spline.design/AxO7FIBoaQOM0Hr2/scene.splinecode" />
+            </div>
+          </div>
         </>
-      )} */}
-      <div className="w-full flex justify-center mt-10">
+      )}
+      {/* <div className="w-full flex justify-center mt-10">
         <Roadmap />
-      </div>
+      </div> */}
 
-      {/* {showRoadmap && (
+      {showRoadmap && (
         <div className="w-full flex justify-center mt-10">
-        <Roadmap />
-      </div>
-      )} */}
+          <Roadmap />
+        </div>
+      )}
     </div>
   );
 };

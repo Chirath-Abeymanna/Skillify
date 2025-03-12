@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import React from 'react';
+import { useState } from "react";
+import React from "react";
 
 export default function PrivacyPolicy() {
   const [cookiesAccepted, setCookiesAccepted] = useState(false);
@@ -14,27 +14,52 @@ export default function PrivacyPolicy() {
       {/* Sections */}
       <div className="w-full max-w-2xl space-y-6">
         <Section id="info-collection" title="Information Collection">
-          <p>We collect various types of information to provide and improve our services. This includes personal information you provide directly, data collected automatically through cookies and similar technologies, and information from third-party sources.</p>
+          <p>
+            We collect various types of information to provide and improve our
+            services. This includes personal information you provide directly,
+            data collected automatically through cookies and similar
+            technologies, and information from third-party sources.
+          </p>
         </Section>
 
         <Section id="data-usage" title="Data Usage">
-          <p>Your data is used to personalize your experience, improve our services, communicate with you about updates and offers, and ensure the security of our platform. We do not sell your personal information to third parties.</p>
+          <p>
+            Your data is used to personalize your experience, improve our
+            services, communicate with you about updates and offers, and ensure
+            the security of our platform. We do not sell your personal
+            information to third parties.
+          </p>
         </Section>
 
         <Section id="data-protection" title="Data Protection">
-          <p>We implement security measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction. However, no security system is completely impenetrable.</p>
+          <p>
+            We implement security measures to protect your personal information
+            from unauthorized access, alteration, disclosure, or destruction.
+            However, no security system is completely impenetrable.
+          </p>
         </Section>
 
         <Section id="user-rights" title="User Rights">
-          <p>You have the right to access, modify, or delete your personal data. You can also object to certain data processing activities. To exercise your rights, please contact us.</p>
+          <p>
+            You have the right to access, modify, or delete your personal data.
+            You can also object to certain data processing activities. To
+            exercise your rights, please contact us.
+          </p>
         </Section>
 
         <Section id="cookie-policy" title="Cookie Policy">
-          <p>We use cookies to enhance your experience. You can manage your cookie preferences in your browser settings. Disabling cookies may affect the functionality of the website.</p>
+          <p>
+            We use cookies to enhance your experience. You can manage your
+            cookie preferences in your browser settings. Disabling cookies may
+            affect the functionality of the website.
+          </p>
         </Section>
 
         <Section id="contact-info" title="Contact Information">
-          <p>If you have any questions about this Privacy Policy, please contact us at privacy@example.com.</p>
+          <p>
+            If you have any questions about this Privacy Policy, please contact
+            us at privacy@example.com.
+          </p>
         </Section>
       </div>
 
@@ -59,17 +84,28 @@ function Section({ id, title, children }: SectionProps) {
   );
 }
 
-function Card({ setCookiesAccepted }: { setCookiesAccepted: React.Dispatch<React.SetStateAction<boolean>> }) {
+function Card({
+  setCookiesAccepted,
+}: {
+  setCookiesAccepted: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   return (
     <div className="bottom-4 left-4 right-4 bg-gradient-to-r from-indigo-400 to-indigo-600 rounded-lg overflow-hidden shadow-xl max-w-sm p-4 sticky">
       <p className="text-sm mb-4 text-white">
-        This website uses cookies to enhance user experience and to analyze performance and traffic on our website.
+        This website uses cookies to enhance user experience and to analyze
+        performance and traffic on our website.
       </p>
       <div className="flex justify-end space-x-4">
-        <button className="duration-300 bg-black/0 hover:bg-black/25 text-white font-bold py-2 px-4 rounded" onClick={() => setCookiesAccepted(true)}>
+        <button
+          className="duration-300 bg-black/0 hover:bg-black/25 text-white font-bold py-2 px-4 rounded"
+          onClick={() => setCookiesAccepted(true)}
+        >
           Accept
         </button>
-        <button className="duration-300 bg-black/0 hover:bg-black/25 text-white font-bold py-2 px-4 rounded" onClick={() => setCookiesAccepted(true)}>
+        <button
+          className="duration-300 bg-black/0 hover:bg-black/25 text-white font-bold py-2 px-4 rounded"
+          onClick={() => setCookiesAccepted(true)}
+        >
           Decline
         </button>
       </div>
