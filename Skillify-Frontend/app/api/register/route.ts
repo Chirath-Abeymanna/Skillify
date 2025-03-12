@@ -30,6 +30,7 @@ export async function POST(req: Request) {
       email,
       password,
       avatar: avatar || "default",
+      provider: "credentials",
       reviews: reviews || [],
       starNo: starNo || 0,
     });

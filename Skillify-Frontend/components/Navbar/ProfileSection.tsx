@@ -1,9 +1,10 @@
 "use client";
 
-import { useSession, signOut } from "next-auth/react";
+import { useSession, signOut, SessionProvider } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import NextAuth from "next-auth";
 
 declare module "next-auth" {
@@ -42,10 +43,6 @@ const ProfileSection = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
   session?.user.firstName;
 
   if (status === "authenticated" && session) {
@@ -67,22 +64,28 @@ const ProfileSection = () => {
               onClick={() => setDropdownVisible(!dropdownVisible)}
             />
             {dropdownVisible && (
-              <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50 pb-5 space-y-5">
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+                className="absolute top-28 right-0  w-48 bg-white border border-gray-200 rounded-sm shadow-lg z-50 pb-2 space-y-5"
+              >
                 <Link
                   href="/Profile"
-                  className="block ml-5 w-[80%] px-4 py-2 mt-5 text-center bg-btnblue text-white hover:bg-[#2969a0] rounded-lg"
+                  className="block ml-2 w-[90%] px-4 py-2 mt-5 text-center bg-btnblue text-white hover:bg-[#2969a0] rounded-md"
                 >
-                  Go to Profile
+                  Manage account
                 </Link>
                 <button
                   onClick={() => {
                     signOut({ callbackUrl: "/" });
                   }}
-                  className="block w-[80%] text-center px-4 py-2 bg-red-500  text-white hover:bg-red-700 rounded-lg ml-5 "
+                  className="block w-[90%] text-center px-4 py-2 bg-red-500  text-white hover:bg-red-700 rounded-md ml-2 "
                 >
                   Log Out
                 </button>
-              </div>
+              </motion.div>
             )}
           </div>
           <div className="lg:hidden flex flex-col items-center">

@@ -1,17 +1,87 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import MessageBox from "@/components/MessageBox";
 
 export default function UserProfile() {
-  // Ensure the component runs only on the client
   const [isClient, setIsClient] = useState(false);
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
+  const user_mail = session?.user.email;
+  console.log(session?.user.email);
+  console.log(user_mail);
+
+  // Ensure session.user exists to avoid errors
+  const user = session?.user || {};
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordMatch, setPasswordMatch] = useState(true);
+  const [isVerified, setIsVerified] = useState(false);
+
+  // Initialized custom message box
+  const [messages, setMessages] = useState<
+    { message: string; type: "success" | "info" | "warning" | "error" }[]
+  >([]);
+
+  const handlePasswordVerification = async () => {
+    try {
+      const response = await fetch("/api/verifyPassword", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: user_mail,
+          currentPassword: currentPassword,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setIsVerified(true);
+        setMessages([
+          ...messages,
+          { message: "Password verified", type: "success" },
+        ]);
+      } else {
+        setIsVerified(false);
+        setMessages([
+          ...messages,
+          {
+            message: data.message || "Error verifying password",
+            type: "error",
+          },
+        ]);
+      }
+    } catch (error) {
+      setMessages([...messages, { message: "Server error", type: "error" }]);
+    }
+  };
+
+  const handlePasswordChange = () => {
+    if (newPassword === confirmPassword) {
+      setPasswordMatch(true);
+      console.log("Password changed successfully");
+    } else {
+      setPasswordMatch(false);
+    }
+  };
+
+  // Handle form state
+  const [firstName, setFirstName] = useState(user.firstName ?? "");
+  const [lastName, setLastName] = useState(user.lastName ?? "");
+  const [email, setEmail] = useState(user.email ?? "");
   const [selectedAvatar, setSelectedAvatar] = useState(
-    "/images/Avatars/default.svg"
+    `/images/Avatars/${user.avatar || "default"}.svg`
   );
 
   const avatars = [
@@ -25,22 +95,25 @@ export default function UserProfile() {
     "/images/Avatars/Avatar8.svg",
   ];
 
-  // Prevent SSR mismatches
   if (!isClient) return null;
 
   return (
-    <div className="relative flex flex-col min-h-screen">
+    <div className="relative flex flex-col min-h-screen font-Poppins">
+      {messages.map((msg, index) => (
+        <MessageBox key={index} message={msg.message} type={msg.type} />
+      ))}
       {/* Video Background */}
       <video
         className="absolute inset-0 w-full h-full object-cover"
         autoPlay
         loop
+        muted
       >
-        <source src="/public/videos/profile/background.mp4" type="video/mp4" />
+        <source src="/videos/profile/background.mp4" type="video/mp4" />
       </video>
 
       {/* Glass Effect Overlay */}
-      <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-xl"></div>
+      <div className="absolute inset-0 bg-black bg-opacity-30"></div>
 
       {/* Main Content */}
       <main className="relative flex-grow flex justify-center items-center py-10 px-4">
@@ -56,11 +129,7 @@ export default function UserProfile() {
               <img
                 src={selectedAvatar}
                 alt="Selected Avatar"
-                className={`w-24 h-24 rounded-full border-4 p-1 transition-all duration-200 ${
-                  selectedAvatar === "/images/Avatars/default.svg"
-                    ? "bg-gradient-to-r from-[#002DF4] to-[#000E4B] border-blue-500"
-                    : "bg-[#002DF4] border-blue-500"
-                }`}
+                className="w-48 h-48 rounded-full border-4 p-1 transition-all duration-200"
               />
               <p className="mt-2 text-sm text-white">Selected Avatar</p>
             </div>
@@ -72,7 +141,7 @@ export default function UserProfile() {
                   key={index}
                   src={avatar}
                   alt={`Avatar ${index + 1}`}
-                  className={`w-16 h-16 rounded-full cursor-pointer border-2 p-1 bg-gradient-to-r from-[#002DF4] to-[#000E4B] transition-all duration-200 ${
+                  className={`w-16 h-16 rounded-full cursor-pointer border-2 p-1 bg-gradient-to-r transition-all duration-200 ${
                     selectedAvatar === avatar
                       ? "border-blue-500 scale-110"
                       : "border-gray-300 hover:border-blue-400 hover:scale-105"
@@ -84,39 +153,118 @@ export default function UserProfile() {
           </div>
 
           {/* Forms */}
-          <div className="space-y-4">
+          <div className="space-y-4 te">
             {/* Personal Details */}
-            <div className="border p-4 rounded-md bg-white/20 backdrop-blur-md text-white">
+            <div className="border p-4 rounded-md bg-white/20 backdrop-blur-md text-black">
               <h3 className="font-semibold mb-2">Change Personal Details</h3>
-              <input
-                type="text"
-                placeholder="First Name"
-                className="w-full p-2 border border-gray-300 rounded bg-transparent text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-              <input
-                type="text"
-                placeholder="Last Name"
-                className="w-full p-2 border border-gray-300 rounded bg-transparent text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none mt-2"
-              />
+
+              <div className="block  lg:flex lg:space-x-4">
+                {/* First Name Input */}
+                <div className="mb-5">
+                  <label htmlFor="firstName" className="pb-5">
+                    First Name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="First Name"
+                    value={
+                      isEditing ? firstName : session?.user.firstName ?? ""
+                    }
+                    onChange={(e) => setFirstName(e.target.value)}
+                    onFocus={() => {
+                      setIsEditing(true); // Enable editing mode
+                      if (firstName === session?.user.firstName) {
+                        setFirstName(""); // Clear only if unchanged
+                      }
+                    }}
+                    onBlur={() => {
+                      if (firstName.trim() === "") {
+                        setFirstName(session?.user.firstName ?? ""); // Restore original value if empty
+                      }
+                      setIsEditing(false); // Exit editing mode
+                    }}
+                    className="relative top-2 w-full h-12 p-2 border border-gray-300 rounded bg-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none text-gray-500"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="lastName" className="pb-5 ">
+                    Last Name
+                  </label>
+                  {/* Last Name Input */}
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    value={isEditing ? lastName : session?.user.lastName ?? ""}
+                    onChange={(e) => setLastName(e.target.value)}
+                    onFocus={() => {
+                      setIsEditing(true); // Enable editing mode
+                      if (lastName === session?.user.lastName) {
+                        setLastName(""); // Clear only if unchanged
+                      }
+                    }}
+                    onBlur={() => {
+                      if (lastName.trim() === "") {
+                        setLastName(session?.user.lastName ?? ""); // Restore original value if empty
+                      }
+                      setIsEditing(false); // Exit editing mode
+                    }}
+                    className="relative top-2 w-full h-12 p-2 border border-gray-300 rounded bg-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none text-gray-500 "
+                  />
+                </div>
+              </div>
             </div>
 
-            {/* Contact Details */}
-            <div className="border p-4 rounded-md bg-white/20 backdrop-blur-md text-white">
-              <h3 className="font-semibold mb-2">Change Contact Details</h3>
-              <input
-                type="email"
-                placeholder="Email Address"
-                className="w-full p-2 border border-gray-300 rounded bg-transparent text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none"
-              />
-            </div>
+            {/* Sensitive details */}
+            {session?.user.provider == "credentials" && (
+              <div className="border p-4 rounded-md bg-white/20 backdrop-blur-md ">
+                <h3 className="font-semibold mb-2">Change Password</h3>
+                <div className="lg:flex lg:space-x-20 ">
+                  <input
+                    type="password"
+                    placeholder="Current Password"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    className="w-[70%] p-2 border border-gray-300 rounded bg-transparent outline-none text-gray-500 focus:ring-2"
+                  />
+                  <button
+                    onClick={handlePasswordVerification}
+                    className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+                  >
+                    Verify
+                  </button>
+                </div>
+
+                {isVerified && (
+                  <>
+                    <input
+                      type="password"
+                      placeholder="New Password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      className="w-full p-2 mt-4 border border-gray-300 rounded bg-transparent outline-none text-gray-500 focus:ring-2"
+                    />
+                    <input
+                      type="password"
+                      placeholder="Confirm New Password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="w-full p-2 mt-2 border border-gray-300 rounded bg-transparent outline-none text-gray-500 focus:ring-2"
+                    />
+                    {!passwordMatch && (
+                      <p className="text-red-500">Passwords do not match.</p>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Buttons */}
-          <div className="flex justify-end gap-2 mt-4">
-            <button className="px-4 py-2 bg-gray-300 text-black rounded">
+          <div className="flex justify-end gap-2 mt-4 font-semibold">
+            <button className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400">
               Cancel Changes
             </button>
-            <button className="px-4 py-2 bg-[#002DF4] text-white rounded">
+            <button className="px-4 py-2 bg-[#002DF4] text-white rounded hover:bg-[#121e4d]">
               Save Changes
             </button>
           </div>
