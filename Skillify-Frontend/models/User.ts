@@ -19,7 +19,7 @@ const UserSchema: Schema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String },
   avatar: { type: String, default: "default" },
-  provider: { type: String },
+  provider: { type: String, default: "" },
   reviews: { type: [String], default: [] },
   starNo: { type: Number, default: 0 },
 });
@@ -33,5 +33,5 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
-export default mongoose.models.User ||
-  mongoose.model<IUser>("User", UserSchema);
+const User = mongoose.models.User || mongoose.model<IUser>("User", UserSchema);
+export default User;

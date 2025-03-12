@@ -2,9 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import { connectDB } from "@/utils/database";
-import User from "@/models/User";
-import bcrypt from "bcryptjs";
 import MessageBox from "@/components/MessageBox";
 
 export default function UserProfile() {
@@ -15,7 +12,9 @@ export default function UserProfile() {
     setIsClient(true);
   }, []);
 
-  console.log(session);
+  const user_mail = session?.user.email;
+  console.log(session?.user.email);
+  console.log(user_mail);
 
   // Ensure session.user exists to avoid errors
   const user = session?.user || {};
@@ -33,12 +32,39 @@ export default function UserProfile() {
   >([]);
 
   const handlePasswordVerification = async () => {
-    connectDB();
-    const db_user = await User.findOne({ email: session?.user.email });
+    try {
+      const response = await fetch("/api/verifyPassword", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: user_mail,
+          currentPassword: currentPassword,
+        }),
+      });
 
-    const storedHashedPassword = db_user.password;
-    const isMatch = await bcrypt.compare(currentPassword, storedHashedPassword);
-    setIsVerified(isMatch);
+      const data = await response.json();
+
+      if (response.ok) {
+        setIsVerified(true);
+        setMessages([
+          ...messages,
+          { message: "Password verified", type: "success" },
+        ]);
+      } else {
+        setIsVerified(false);
+        setMessages([
+          ...messages,
+          {
+            message: data.message || "Error verifying password",
+            type: "error",
+          },
+        ]);
+      }
+    } catch (error) {
+      setMessages([...messages, { message: "Server error", type: "error" }]);
+    }
   };
 
   const handlePasswordChange = () => {
@@ -189,49 +215,48 @@ export default function UserProfile() {
             </div>
 
             {/* Sensitive details */}
-            <div className="border p-4 rounded-md bg-white/20 backdrop-blur-md ">
-              <h3 className="font-semibold mb-2">Change Password</h3>
-              <input
-                type="password"
-                placeholder="Current Password"
-                value={currentPassword}
-                onChange={(e) => setCurrentPassword(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded bg-transparent outline-none text-gray-500 focus:ring-2"
-              />
-              <button
-                onClick={handlePasswordVerification}
-                className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
-              >
-                Verify Password
-              </button>
-              {isVerified && (
-                <>
+            {session?.user.provider == "credentials" && (
+              <div className="border p-4 rounded-md bg-white/20 backdrop-blur-md ">
+                <h3 className="font-semibold mb-2">Change Password</h3>
+                <div className="lg:flex lg:space-x-20 ">
                   <input
                     type="password"
-                    placeholder="New Password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full p-2 mt-4 border border-gray-300 rounded bg-transparent outline-none text-gray-500 focus:ring-2"
+                    placeholder="Current Password"
+                    value={currentPassword}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
+                    className="w-[70%] p-2 border border-gray-300 rounded bg-transparent outline-none text-gray-500 focus:ring-2"
                   />
-                  <input
-                    type="password"
-                    placeholder="Confirm New Password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full p-2 mt-2 border border-gray-300 rounded bg-transparent outline-none text-gray-500 focus:ring-2"
-                  />
-                  {!passwordMatch && (
-                    <p className="text-red-500">Passwords do not match.</p>
-                  )}
                   <button
-                    onClick={handlePasswordChange}
-                    className="mt-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-700"
+                    onClick={handlePasswordVerification}
+                    className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
                   >
-                    Change Password
+                    Verify
                   </button>
-                </>
-              )}
-            </div>
+                </div>
+
+                {isVerified && (
+                  <>
+                    <input
+                      type="password"
+                      placeholder="New Password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      className="w-full p-2 mt-4 border border-gray-300 rounded bg-transparent outline-none text-gray-500 focus:ring-2"
+                    />
+                    <input
+                      type="password"
+                      placeholder="Confirm New Password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      className="w-full p-2 mt-2 border border-gray-300 rounded bg-transparent outline-none text-gray-500 focus:ring-2"
+                    />
+                    {!passwordMatch && (
+                      <p className="text-red-500">Passwords do not match.</p>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Buttons */}

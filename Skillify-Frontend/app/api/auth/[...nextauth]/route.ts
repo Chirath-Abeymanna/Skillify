@@ -83,6 +83,7 @@ export const authOptions = {
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
+          provider: user.provider,
           avatar: user.avatar,
         };
       },
@@ -122,6 +123,7 @@ export const authOptions = {
         user.id = fetchedUser._id;
         user.firstName = fetchedUser.firstName;
         user.lastName = fetchedUser.lastName;
+        user.provider = fetchedUser.provider;
         user.avatar = fetchedUser.avatar || "default";
       }
 
@@ -133,6 +135,7 @@ export const authOptions = {
         token.email = user.email;
         token.firstName = user.firstName;
         token.lastName = user.lastName;
+        token.provider = user.provider;
         token.avatar = user.avatar;
       }
       return token;
@@ -141,6 +144,8 @@ export const authOptions = {
       session.user.id = token.id;
       session.user.avatar = token.avatar || "default";
       session.user.email = token.email;
+      session.user.lastName = token.lastName;
+      session.user.provider = token.provider;
 
       const sessionUser = await User.findOne({ email: session.user.email });
 
