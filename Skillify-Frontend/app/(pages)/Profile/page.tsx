@@ -13,11 +13,17 @@ export default function UserProfile() {
   }, []);
 
   const user_mail = session?.user.email;
-  console.log(session?.user.email);
-  console.log(user_mail);
 
   // Ensure session.user exists to avoid errors
-  const user = session?.user || {};
+  interface User {
+    firstName?: string | null;
+    lastName?: string | null;
+    email?: string | null;
+    avatar?: string | null;
+    provider?: string | null;
+  }
+
+  const user: User = session?.user || {};
 
   const [isEditing, setIsEditing] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
@@ -80,22 +86,60 @@ export default function UserProfile() {
   const [firstName, setFirstName] = useState(user.firstName ?? "");
   const [lastName, setLastName] = useState(user.lastName ?? "");
   const [email, setEmail] = useState(user.email ?? "");
+  console.log(user.avatar);
   const [selectedAvatar, setSelectedAvatar] = useState(
-    `/images/Avatars/${user.avatar || "default"}.svg`
+    session?.user.avatar || "Avatar1"
   );
 
   const avatars = [
-    "/images/Avatars/Avatar1.svg",
-    "/images/Avatars/Avatar2.svg",
-    "/images/Avatars/Avatar3.svg",
-    "/images/Avatars/Avatar4.svg",
-    "/images/Avatars/Avatar5.svg",
-    "/images/Avatars/Avatar6.svg",
-    "/images/Avatars/Avatar7.svg",
-    "/images/Avatars/Avatar8.svg",
+    "Avatar1",
+    "Avatar2",
+    "Avatar3",
+    "Avatar4",
+    "Avatar5",
+    "Avatar6",
+    "Avatar7",
+    "Avatar8",
   ];
 
   if (!isClient) return null;
+
+  const handleSaveChanges = async () => {
+    const requestBody = {
+      email: user_mail || "",
+      firstName,
+      lastName,
+      avatar: selectedAvatar, // Ensure this is a string URL, not a file
+      newPassword:
+        isVerified && newPassword === confirmPassword ? newPassword : undefined,
+    };
+
+    try {
+      const response = await fetch("/api/users/update", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessages([
+          ...messages,
+          { message: "Profile updated successfully!", type: "success" },
+        ]);
+      } else {
+        setMessages([
+          ...messages,
+          { message: data.message || "Update failed", type: "error" },
+        ]);
+      }
+    } catch (error) {
+      setMessages([...messages, { message: "Server error", type: "error" }]);
+    }
+  };
 
   return (
     <div className="relative flex flex-col min-h-screen font-Poppins">
@@ -127,7 +171,7 @@ export default function UserProfile() {
             {/* Selected Avatar */}
             <div className="flex flex-col items-center">
               <img
-                src={selectedAvatar}
+                src={`/images/Avatars/${selectedAvatar}.svg`}
                 alt="Selected Avatar"
                 className="w-48 h-48 rounded-full border-4 p-1 transition-all duration-200"
               />
@@ -139,7 +183,7 @@ export default function UserProfile() {
               {avatars.map((avatar, index) => (
                 <img
                   key={index}
-                  src={avatar}
+                  src={`/images/Avatars/${avatar}.svg`}
                   alt={`Avatar ${index + 1}`}
                   className={`w-16 h-16 rounded-full cursor-pointer border-2 p-1 bg-gradient-to-r transition-all duration-200 ${
                     selectedAvatar === avatar
@@ -158,7 +202,7 @@ export default function UserProfile() {
             <div className="border p-4 rounded-md bg-white/20 backdrop-blur-md text-black">
               <h3 className="font-semibold mb-2">Change Personal Details</h3>
 
-              <div className="block  lg:flex lg:space-x-4">
+              <div className="block lg:flex lg:space-x-4">
                 {/* First Name Input */}
                 <div className="mb-5">
                   <label htmlFor="firstName" className="pb-5">
@@ -167,48 +211,33 @@ export default function UserProfile() {
                   <input
                     type="text"
                     placeholder="First Name"
-                    value={
-                      isEditing ? firstName : session?.user.firstName ?? ""
-                    }
+                    value={firstName} // Always use state value
                     onChange={(e) => setFirstName(e.target.value)}
-                    onFocus={() => {
-                      setIsEditing(true); // Enable editing mode
-                      if (firstName === session?.user.firstName) {
-                        setFirstName(""); // Clear only if unchanged
-                      }
-                    }}
                     onBlur={() => {
                       if (firstName.trim() === "") {
-                        setFirstName(session?.user.firstName ?? ""); // Restore original value if empty
+                        setFirstName(session?.user.firstName ?? ""); // Restore only if empty
                       }
-                      setIsEditing(false); // Exit editing mode
                     }}
                     className="relative top-2 w-full h-12 p-2 border border-gray-300 rounded bg-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none text-gray-500"
                   />
                 </div>
+
+                {/* Last Name Input */}
                 <div>
-                  <label htmlFor="lastName" className="pb-5 ">
+                  <label htmlFor="lastName" className="pb-5">
                     Last Name
                   </label>
-                  {/* Last Name Input */}
                   <input
                     type="text"
                     placeholder="Last Name"
-                    value={isEditing ? lastName : session?.user.lastName ?? ""}
+                    value={lastName} // Always use state value
                     onChange={(e) => setLastName(e.target.value)}
-                    onFocus={() => {
-                      setIsEditing(true); // Enable editing mode
-                      if (lastName === session?.user.lastName) {
-                        setLastName(""); // Clear only if unchanged
-                      }
-                    }}
                     onBlur={() => {
                       if (lastName.trim() === "") {
-                        setLastName(session?.user.lastName ?? ""); // Restore original value if empty
+                        setLastName(session?.user.lastName ?? ""); // Restore only if empty
                       }
-                      setIsEditing(false); // Exit editing mode
                     }}
-                    className="relative top-2 w-full h-12 p-2 border border-gray-300 rounded bg-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none text-gray-500 "
+                    className="relative top-2 w-full h-12 p-2 border border-gray-300 rounded bg-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500 outline-none text-gray-500"
                   />
                 </div>
               </div>
@@ -264,7 +293,10 @@ export default function UserProfile() {
             <button className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400">
               Cancel Changes
             </button>
-            <button className="px-4 py-2 bg-[#002DF4] text-white rounded hover:bg-[#121e4d]">
+            <button
+              onClick={handleSaveChanges}
+              className="px-4 py-2 bg-[#002DF4] text-white rounded hover:bg-[#121e4d]"
+            >
               Save Changes
             </button>
           </div>

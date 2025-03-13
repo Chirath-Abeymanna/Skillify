@@ -46,7 +46,7 @@ const CareerMapPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={submit}
-                  className="bg-blue text-white border-indigo-900 hover:bg-indigo-700
+                  className="bg-blue-500 text-white border-indigo-900 hover:bg-blue-700
                      font-semibold rounded-xl px-6 py-3 text-lg shadow-md 
                      transform hover:scale-105 transition duration-300 ease-in-out"
                 >
