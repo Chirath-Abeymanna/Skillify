@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.14",
+    "@headlessui/react": "^1.7.19",
     "@heroicons/react": "^2.0.18",
     "@prisma/client": "^6.4.1",
     "@react-spring/web": "^9.7.5",
@@ -30,7 +30,7 @@
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
     "eventsource-parser": "^0.1.0",
-    "framer-motion": "^12.4.7",
+    "framer-motion": "^12.5.0",
     "google-auth-library": "^9.15.1",
     "gsap": "^3.12.7",
     "jwt-decode": "^4.0.0",

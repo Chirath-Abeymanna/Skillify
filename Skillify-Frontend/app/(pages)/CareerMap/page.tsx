@@ -13,7 +13,7 @@ const CareerMapPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-white font-Poppins">
-      {!showRoadmap && (
+      {/* {!showRoadmap && (
         <>
           <div className="w-full lg:w-2/3 flex flex-col p-4 lg:p-10">
             <div className="mt-3 w-full justify-center text-lg">
@@ -62,16 +62,16 @@ const CareerMapPage: React.FC = () => {
             </div>
           </div>
         </>
-      )}
-      {/* <div className="w-full flex justify-center mt-10">
+      )} */}
+      <div className="w-full h-max flex justify-center mt-10">
         <Roadmap />
-      </div> */}
+      </div>
 
-      {showRoadmap && (
+      {/* {showRoadmap && (
         <div className="w-full flex justify-center mt-10">
           <Roadmap />
         </div>
-      )}
+      )} */}
     </div>
   );
 };
