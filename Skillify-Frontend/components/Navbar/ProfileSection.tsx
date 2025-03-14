@@ -1,116 +1,45 @@
 "use client";
 
-import { useSession, signOut, SessionProvider } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
-import NextAuth from "next-auth";
-
-declare module "next-auth" {
-  interface Session {
-    user: {
-      firstName?: string | null;
-      lastName?: string | null;
-      name?: string | null;
-      email?: string | null;
-      image?: string | null;
-      avatar?: string | null;
-      provider?: string | null;
-      reviews?: string[] | null;
-      starNo?: number | null;
-    };
-  }
-}
 
 const ProfileSection = () => {
-  const router = useRouter();
-  const [dropdownVisible, setDropdownVisible] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  let userAvatar: string;
   const { data: session, status } = useSession();
+  console.log("Session Status:", status);
+  console.log("Session Data:", session);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setDropdownVisible(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-  session?.user.firstName;
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
 
   if (status === "authenticated" && session) {
     console.log(session.user);
-    userAvatar = "/images/avatars/" + session.user.avatar + ".svg";
     return (
-      <div className="relative flex flex-col items-center sm:items-center sm:space-x-10 sm:justify-center lg:left-24 lg:space-x-10 lg:w-[17vw] lg:justify-between">
-        <div className="flex flex-col lg:flex-row lg:space-x-10 items-center sm:items-center">
-          <div className="hidden lg:flex flex-col items-center">
-            <h3 className="text-xl font-semibold">
-              Hey <span>{session.user?.firstName || "User"}</span>
-            </h3>
-          </div>
-          <div className="relative lg:block hidden" ref={dropdownRef}>
-            <img
-              src={userAvatar}
-              alt="avatar pic"
-              className="w-16 h-16 lg:relative sm:w-20 sm:h-20 lg:w-28 lg:h-28 lg:top-3 rounded-full mb-4 lg:mb-4 cursor-pointer"
-              onClick={() => setDropdownVisible(!dropdownVisible)}
-            />
-            {dropdownVisible && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-                className="absolute top-28 right-0  w-48 bg-white border border-gray-200 rounded-sm shadow-lg z-50 pb-2 space-y-5"
-              >
-                <Link
-                  href="/Profile"
-                  className="block ml-2 w-[90%] px-4 py-2 mt-5 text-center bg-btnblue text-white hover:bg-[#2969a0] rounded-md"
-                >
-                  Manage account
-                </Link>
-                <button
-                  onClick={() => {
-                    signOut({ callbackUrl: "/" });
-                  }}
-                  className="block w-[90%] text-center px-4 py-2 bg-red-500  text-white hover:bg-red-700 rounded-md ml-2 "
-                >
-                  Log Out
-                </button>
-              </motion.div>
-            )}
-          </div>
-          <div className="lg:hidden flex flex-col items-center">
-            <img
-              src={userAvatar}
-              alt="avatar pic"
-              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full mb-4 lg:mb-4 cursor-pointer"
-              onClick={() => router.push("/Profile")}
-            />
-          </div>
+      <div className="relative flex flex-col sm:flex-row sm:space-x-10 sm:items-center sm:justify-center sm:left-20 lg:left-28">
+        <div className="flex flex-col items-center sm:items-start">
+          <h3 className="text-xl font-semibold hidden sm:block md:block">
+            Hey <span>{session.user?.name || "User"}</span>
+          </h3>
         </div>
         <div className="lg:hidden flex flex-col items-center">
-          <h3 className="text-xl font-semibold">
-            Hey <span>{session.user?.firstName || "User"}</span>
+          <h3 className="absolute top-16 text-xl font-semibold ">
+            Hey <span>{session.user?.name || "User"}</span>
           </h3>
+        </div>
+        <div className="flex flex-col items-center sm:items-start">
+          <img
+            src={session.user?.image || "/images/Avatars/Avatar1.svg"}
+            alt="avatar pic"
+            className="w-20 h-20 rounded-full mb-4 lg:mb-4 "
+          />
         </div>
       </div>
     );
   } else {
     console.log("No session found");
     return (
-      <div className="relative w-max left-6 lg:left-16">
-        <div className="flex justify-end space-x-3 lg:space-x-10 font-Inter">
+      <div className="top-5 lg:top-0 relative w-max left-6 lg:left-16 ">
+        <div className="flex justify-end space-x-3 lg:space-x-10  font-Inter">
           <Link
             href={"/SignIn"}
             className="relative top-2 text-lg transition-all duration-500 ease-in-out after:absolute after:left-0 after:bottom-1 after:w-0 after:h-[8%] after:rounded-full after:bg-black after:transition-all after:duration-500 hover:after:w-full"
