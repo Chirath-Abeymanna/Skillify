@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/free-brands-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@headlessui/react": "^1.7.19",
     "@heroicons/react": "^2.0.18",
     "@prisma/client": "^6.4.1",
@@ -58,6 +60,7 @@
   "devDependencies": {
     "@types/d3": "^7.4.3",
     "@types/mongoose": "^5.11.96",
+    "@types/react-fontawesome": "^1.6.8",
     "@types/react-slick": "^0.23.10",
     "@types/three": "^0.174.0",
     "shadcn-ui": "^0.9.4"
