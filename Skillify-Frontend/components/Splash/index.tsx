@@ -3,7 +3,7 @@ import style from "../style/Splash.module.css";
 
 const LoadingScreen = () => {
   return (
-    <div className="absolute top-0 left-0 flex items-center justify-center h-screen z-[999999] w-full bg-slate-500 overflow-hidden">
+    <div className="absolute top-0 left-0 flex items-center justify-center h-screen z-[999999] w-full bg-white overflow-hidden">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="200px"
