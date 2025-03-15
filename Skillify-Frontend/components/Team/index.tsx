@@ -35,7 +35,7 @@ const developers = [
     name: "Onel Silva",
     role: "Full stack Developer",
     image: "/images/team/onel.jpg",
-    linkedIn: "",
+    linkedIn: "https://www.linkedin.com/in/onel-silva-203031290",
     instagram: "#!",
   },
   {
