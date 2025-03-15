@@ -47,7 +47,7 @@ def predict():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
-@app.route('/process', methods=['POST'])
+@app.route('/Resume', methods=['POST'])
 def parse_resume():
     """
     API endpoint that processes a CV, extracts career paths, finds available jobs, and returns the results.
