@@ -1,14 +1,14 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+import LinkedInProvider from "next-auth/providers/linkedin";
 import { connectDB } from "@/utils/database";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
-import { debug } from "console";
 
 export const authOptions = {
   session: {
-    strategy: "jwt" as const, // Ensure JWT session strategy is used
+    strategy: "jwt" as const,
     maxAge: 30 * 24 * 60 * 60,
   },
   providers: [
@@ -16,10 +16,44 @@ export const authOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       authorization: {
+        params: { scope: "profile email" },
+      },
+    }),
+    LinkedInProvider({
+      clientId: process.env.LINKEDIN_CLIENT_ID!,
+      clientSecret: process.env.LINKEDIN_CLIENT_SECRET!,
+      authorization: {
+        url: "https://www.linkedin.com/oauth/v2/authorization",
         params: {
-          scope: "profile email",
+          response_type: "code",
+          scope: "r_liteprofile r_emailaddress", // ✅ Corrected scope
         },
       },
+      token: "https://www.linkedin.com/oauth/v2/accessToken",
+      userinfo: {
+        async request({ tokens }) {
+          const profileRes = await fetch("https://api.linkedin.com/v2/me", {
+            headers: { Authorization: `Bearer ${tokens.access_token}` },
+          });
+          const emailRes = await fetch(
+            "https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))",
+            {
+              headers: { Authorization: `Bearer ${tokens.access_token}` },
+            }
+          );
+
+          const profile = await profileRes.json();
+          const emailData = await emailRes.json();
+
+          return {
+            id: profile.id,
+            firstName: profile.localizedFirstName,
+            lastName: profile.localizedLastName,
+            email: emailData.elements?.[0]?.["handle~"]?.emailAddress || null,
+          };
+        },
+      },
+      checks: ["state"], // ✅ Avoids issuer validation error
     }),
     CredentialsProvider({
       name: "Credentials",
@@ -44,14 +78,13 @@ export const authOptions = {
           throw new Error("Incorrect password");
         }
 
-        // Ensure the user object is returned correctly
         return {
           id: user._id,
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
-          image: user.image,
-          role: user.role,
+          provider: user.provider,
+          avatar: user.avatar,
         };
       },
     }),
@@ -71,45 +104,48 @@ export const authOptions = {
     }) {
       await connectDB();
 
-      if (account?.provider === "google") {
+      if (account?.provider === "google" || account?.provider === "linkedin") {
         let existingUser = await User.findOne({ email: user.email });
 
         if (!existingUser) {
-          // If user does not exist, create a new one
           existingUser = await User.create({
-            firstName: profile?.given_name,
-            lastName: profile?.family_name,
-            email: profile?.email,
-            image: profile?.picture,
-            role: "user", // Default role
+            firstName: profile?.given_name || profile?.localizedFirstName,
+            lastName: profile?.family_name || profile?.localizedLastName,
+            email: user.email, // ✅ Ensure we save the correct email
+            avatar: "default",
+            provider: "social",
+            reviews: [],
+            starNo: 0,
           });
         }
 
-        // Fetch the user details after creating/finding
         const fetchedUser = await User.findOne({ email: user.email });
         user.id = fetchedUser._id;
         user.firstName = fetchedUser.firstName;
         user.lastName = fetchedUser.lastName;
-        user.role = fetchedUser.role;
+        user.provider = fetchedUser.provider;
+        user.avatar = fetchedUser.avatar || "default";
       }
 
       return true;
     },
-    async jwt({ token, user }: { token: any; user?: any }) {
+    async jwt({ token, user }: { token: any; user: any }) {
       if (user) {
         token.id = user.id;
         token.email = user.email;
         token.firstName = user.firstName;
         token.lastName = user.lastName;
-        token.avatar = user.avatar || user.image;
-        token.role = user.role;
+        token.provider = user.provider;
+        token.avatar = user.avatar;
       }
       return token;
     },
     async session({ session, token }: { session: any; token: any }) {
       session.user.id = token.id;
-      session.user.avatar = token.avatar;
+      session.user.avatar = token.avatar || "default";
       session.user.email = token.email;
+      session.user.lastName = token.lastName;
+      session.user.provider = token.provider;
 
       const sessionUser = await User.findOne({ email: session.user.email });
 
@@ -117,17 +153,11 @@ export const authOptions = {
         session.user.firstName = sessionUser.firstName;
         session.user.lastName = sessionUser.lastName;
       }
-      console.log("Updated Session Data:", session);
 
       return session;
     },
-
-    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
-      return baseUrl;
-    },
   },
   secret: process.env.JWT_SECRET,
-  debug: true,
 };
 
 const handler = NextAuth(authOptions);
