@@ -48,7 +48,6 @@ const ProfileSection = () => {
   session?.user.firstName;
 
   if (status === "authenticated" && session) {
-    console.log(session.user);
     userAvatar = "/images/avatars/" + session.user.avatar + ".svg";
     return (
       <div className="relative flex flex-col items-center sm:items-center sm:space-x-10 sm:justify-center lg:left-24 lg:space-x-10 lg:w-[17vw] lg:justify-between">
@@ -107,7 +106,6 @@ const ProfileSection = () => {
       </div>
     );
   } else {
-    console.log("No session found");
     return (
       <div className="relative w-max left-6 lg:left-16">
         <div className="flex justify-end space-x-3 lg:space-x-10 font-Inter">
