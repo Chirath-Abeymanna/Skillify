@@ -8,14 +8,14 @@ const Beliefs = () => {
         <div className="absolute bottom-[30%] left-[8%] text-center sm:text-start  ">
           <Link
             href="/CareerMap"
-            className=" text-xl py-5 px-14 mt-5 font-semibold text-white rounded-full bg-blue border border-blue hover:bg-hoblue "
+            className=" text-xl py-5 px-14 mt-5 font-semibold text-white rounded-full bg-blue-600  hover:bg-blue-800 "
           >
             Get Started
           </Link>
         </div>
 
         <div className="relative bg-darkblue bg-beliefs pt-12 px-10 sm:px-24 pb-52 md:pb-70 rounded-3xl  -z-30">
-          <div className=" relative top-[70%] -left-44  m-0 p-0 lg:w-[45.5rem] ">
+          <div className=" relative top-[85%] lg:top-[70%] right-[22vw]  lg:right-[11.5vw] m-0 p-0 w-[110vw] lg:w-[45.5rem] ">
             <img
               src="/images/beliefs/swirls.svg"
               alt="roadmap"
@@ -40,7 +40,7 @@ const Beliefs = () => {
         {/* COLUMN-2 */}
 
         <div className="relative  bg-green-100 pt-12 px-10 sm:px-24 pb-52 md:pb-70 rounded-3xl ">
-          <div className="relative top-[90%] left-48  m-0 p-0 w-[20rem] ">
+          <div className="relative top-[98%] lg:top-[90%] left-32 lg:left-48  m-0 p-0 w-[15rem] lg:w-[20rem] ">
             <img
               src="/images/beliefs/Sally.svg"
               alt="roadmap"
@@ -61,7 +61,7 @@ const Beliefs = () => {
           <div className="text-center sm:text-start">
             <Link
               href="/HelpCenter"
-              className="text-xl py-5 px-14 mt-10 font-semibold text-white rounded-full bg-blue border border-blue hover:bg-hoblue"
+              className="text-xl py-5 px-14 mt-10 font-semibold text-white rounded-full bg-blue-600 border border-blue hover:bg-blue-800"
             >
               Ask Sally
             </Link>
