@@ -11,8 +11,7 @@ export async function POST(req: NextRequest) {
     const user = await User.findOne({ email });
 
     if (user) {
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
-      user.password = hashedPassword;
+      user.password = newPassword;
       await user.save();
 
       return NextResponse.json({ success: true }, { status: 200 });
