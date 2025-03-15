@@ -1,22 +1,49 @@
 "use client";
 import React, { useState, useRef } from "react";
-import axios from "axios";
 import MessageBox from "@/components/MessageBox";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const ForgetPasswordPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
+  const [generatedOtp, setGeneratedOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [messages, setMessages] = useState<
     { message: string; type: "success" | "info" | "warning" | "error" }[]
   >([]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
+  const generateOtp = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  };
+
   const handleEmailSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    const generatedOtp = generateOtp();
+    setGeneratedOtp(generatedOtp);
     try {
-      const response = await axios.post("/api/check-email", { email });
-      if (response.data.exists) {
+      const response = await fetch("/api/check-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+      if (data.exists) {
+        await fetch("/api/send-OTP", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, otp: generatedOtp }),
+        });
         setMessages([
           ...messages,
           {
@@ -52,7 +79,15 @@ const ForgetPasswordPage: React.FC = () => {
       newOtp[index] = value;
       setOtp(newOtp);
 
-      if (value && index < 5) {
+      if (value.length === 6) {
+        value.split("").forEach((digit, idx) => {
+          if (idx < 6) {
+            newOtp[idx] = digit;
+            inputRefs.current[idx]!.value = digit;
+          }
+        });
+        setOtp(newOtp);
+      } else if (value && index < 5) {
         inputRefs.current[index + 1]?.focus();
       }
     }
@@ -64,10 +99,27 @@ const ForgetPasswordPage: React.FC = () => {
     }
   };
 
-  const handleOtpSubmit = async (event: React.FormEvent) => {
+  const handleOtpSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    // Handle OTP verification logic here
-    console.log("OTP submitted:", otp.join(""));
+    const enteredOtp = otp.join("");
+    if (enteredOtp === generatedOtp) {
+      setMessages([
+        ...messages,
+        {
+          message: "OTP verified successfully.",
+          type: "success",
+        },
+      ]);
+      setOtpVerified(true);
+    } else {
+      setMessages([
+        ...messages,
+        {
+          message: "Invalid OTP. Please try again.",
+          type: "error",
+        },
+      ]);
+    }
   };
 
   const handleClearOtp = () => {
@@ -75,9 +127,88 @@ const ForgetPasswordPage: React.FC = () => {
     inputRefs.current[0]?.focus();
   };
 
-  const handleResendOtp = () => {
-    // Handle resend OTP logic here
-    console.log("Resend OTP");
+  const handleResendOtp = async () => {
+    try {
+      const newGeneratedOtp = generateOtp();
+      setGeneratedOtp(newGeneratedOtp);
+      await fetch("/api/send-OTP", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, otp: newGeneratedOtp }),
+      });
+      setMessages([
+        ...messages,
+        {
+          message: "OTP resent to your email.",
+          type: "info",
+        },
+      ]);
+    } catch (error) {
+      console.error("Error resending OTP:", error);
+      setMessages([
+        ...messages,
+        {
+          message: "Internal server error. Contact support.",
+          type: "error",
+        },
+      ]);
+    }
+  };
+
+  const handlePasswordSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (newPassword !== confirmPassword) {
+      setMessages([
+        ...messages,
+        {
+          message: "Passwords do not match.",
+          type: "error",
+        },
+      ]);
+      return;
+    }
+
+    console.log(newPassword);
+
+    if (!/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(newPassword)) {
+      setMessages([
+        ...messages,
+        {
+          message:
+            "Password must be at least 8 characters long, contain an uppercase letter and a number.",
+          type: "error",
+        },
+      ]);
+      return;
+    }
+
+    try {
+      await fetch("/api/update-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, newPassword }),
+      });
+      setMessages([
+        ...messages,
+        {
+          message: "Password updated successfully.",
+          type: "success",
+        },
+      ]);
+    } catch (error) {
+      console.error("Error updating password:", error);
+      setMessages([
+        ...messages,
+        {
+          message: "Internal server error. Contact support.",
+          type: "error",
+        },
+      ]);
+    }
   };
 
   return (
@@ -112,7 +243,7 @@ const ForgetPasswordPage: React.FC = () => {
               Verify Email
             </button>
           </form>
-        ) : (
+        ) : !otpVerified ? (
           <form onSubmit={handleOtpSubmit} className="space-y-6">
             <div>
               <label
@@ -157,6 +288,57 @@ const ForgetPasswordPage: React.FC = () => {
               className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               Verify OTP
+            </button>
+          </form>
+        ) : (
+          <form onSubmit={handlePasswordSubmit} className="space-y-6">
+            <div className="relative">
+              <label
+                htmlFor="newPassword"
+                className="block font-medium text-gray-700 mb-5"
+              >
+                New Password
+              </label>
+              <input
+                type={showNewPassword ? "text" : "password"}
+                id="newPassword"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                required
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-lg text-lg "
+              />
+              <FontAwesomeIcon
+                icon={showNewPassword ? faEyeSlash : faEye}
+                onClick={() => setShowNewPassword(!showNewPassword)}
+                className="absolute top-14 right-3 cursor-pointer"
+              />
+            </div>
+            <div className="relative">
+              <label
+                htmlFor="confirmPassword"
+                className="block text-sm font-medium text-gray-700 mb-5"
+              >
+                Confirm New Password
+              </label>
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                id="confirmPassword"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-lg sm:text-lg tracking-wide"
+              />
+              <FontAwesomeIcon
+                icon={showConfirmPassword ? faEyeSlash : faEye}
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute top-14 right-3 cursor-pointer"
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+              Update Password
             </button>
           </form>
         )}

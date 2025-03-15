@@ -15,17 +15,27 @@ const EmailTemplate: React.FC<EmailTemplateProps> = ({ otp }) => {
     >
       <h2 style={{ color: "#007bff" }}>Your One-Time Password (OTP)</h2>
       <p>Use the following OTP to complete your verification:</p>
-      <h1
+      <div
         style={{
-          background: "#007bff",
-          color: "#fff",
-          padding: "10px 20px",
-          display: "inline-block",
-          borderRadius: "5px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        {otp}
-      </h1>
+        <h1
+          style={{
+            background: "#007bff",
+            color: "#fff",
+            padding: "10px 20px",
+            display: "inline-block",
+            borderRadius: "0px",
+            letterSpacing: "5px",
+          }}
+        >
+          {otp}
+        </h1>
+      </div>
+
       <p>This OTP is valid for a limited time. Do not share it with anyone.</p>
       <hr
         style={{
@@ -36,7 +46,7 @@ const EmailTemplate: React.FC<EmailTemplateProps> = ({ otp }) => {
       />
       <p>Best Regards,</p>
       <p>
-        <strong>Acme Team</strong>
+        <strong>Skillify solutions.</strong>
       </p>
     </div>
   );
