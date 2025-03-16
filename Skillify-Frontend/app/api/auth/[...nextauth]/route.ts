@@ -85,6 +85,7 @@ export const authOptions = {
           lastName: user.lastName,
           provider: user.provider,
           avatar: user.avatar,
+          roadmaps: user.roadmaps,
         };
       },
     }),
@@ -125,6 +126,7 @@ export const authOptions = {
         user.lastName = fetchedUser.lastName;
         user.provider = fetchedUser.provider;
         user.avatar = fetchedUser.avatar || "default";
+        user.roadmaps = fetchedUser.roadmaps;
       }
 
       return true;
@@ -137,6 +139,7 @@ export const authOptions = {
         token.lastName = user.lastName;
         token.provider = user.provider;
         token.avatar = user.avatar;
+        token.roadmaps = user.roadmaps;
       }
       return token;
     },
@@ -146,6 +149,8 @@ export const authOptions = {
       session.user.email = token.email;
       session.user.lastName = token.lastName;
       session.user.provider = token.provider;
+      session.user.firstName = token.firstName;
+      session.user.roadmaps = token.roadmaps;
 
       const sessionUser = await User.findOne({ email: session.user.email });
 

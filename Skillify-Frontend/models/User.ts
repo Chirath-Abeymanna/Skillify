@@ -11,6 +11,7 @@ interface IUser extends Document {
   provider: string;
   reviews: string[];
   starNo: number;
+  roadmaps: mongoose.Types.ObjectId[];
 }
 
 const UserSchema: Schema = new Schema({
@@ -22,6 +23,7 @@ const UserSchema: Schema = new Schema({
   provider: { type: String, default: "" },
   reviews: { type: [String], default: [] },
   starNo: { type: Number, default: 0 },
+  roadmaps: [{ type: mongoose.Schema.Types.ObjectId, ref: "Roadmap" }],
 });
 
 UserSchema.pre("save", async function (next) {

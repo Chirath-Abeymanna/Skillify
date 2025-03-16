@@ -4,10 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ProfileSection from "./ProfileSection";
 import { signOut, useSession } from "next-auth/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 const navigation = [
   { name: "Home", href: "/" },
-  { name: "Services", href: "#", dropdown: true }, // No href to prevent navigation
+  { name: "Services", href: "#", dropdown: true },
   { name: "FAQ", href: "/#faq-section" },
   { name: "Blogs", href: "/blogs" },
   { name: "Contact Us", href: "/#joinUs-section" },
@@ -106,9 +108,10 @@ const Drawerdata = ({ setIsOpen }: DataProps) => {
                 onClick={() => {
                   signOut({ callbackUrl: "/" });
                 }}
-                className="block w-[80%] text-center px-4 py-2 bg-red-500  text-white hover:bg-red-700 rounded-lg ml-5 "
+                className="flex justify-center w-[80%] text-center px-4 py-2 bg-red-500  text-white hover:bg-red-700 rounded-lg ml-5 space-x-5"
               >
-                Log Out
+                <FontAwesomeIcon icon={faRightFromBracket} className="mt-1" />
+                <p>Log Out</p>
               </button>
             )}
           </div>

@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 import GoogleSignInButton from "@/components/GoogleSignInButton";
 import MessageBox from "@/components/MessageBox";
@@ -13,6 +15,8 @@ const SignIn = () => {
     email: "",
     password: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const [messages, setMessages] = useState<
     { message: string; type: "success" | "info" | "warning" | "error" }[]
@@ -137,15 +141,20 @@ const SignIn = () => {
                   <p className="text-red-600 text-sm">{errors.email}</p>
                 )}
               </div>
-              <div>
+              <div className="relative">
                 <input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   placeholder="Password"
                   value={formData.password}
                   onChange={handleChange}
                   required
                   className="w-full p-3 border border-gray-300 rounded"
+                />
+                <FontAwesomeIcon
+                  icon={showPassword ? faEyeSlash : faEye}
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute top-5 right-3 cursor-pointer text-slate-700"
                 />
                 {errors.password && (
                   <p className="text-red-600 text-sm">{errors.password}</p>

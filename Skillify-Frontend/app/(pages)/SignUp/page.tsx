@@ -3,6 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 import MessageBox from "@/components/MessageBox";
 
@@ -15,6 +17,8 @@ const Registration = () => {
   });
 
   const [reEnterPassword, setReEnterPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showReEnterPassword, setShowReEnterPassword] = useState(false);
   const [messages, setMessages] = useState<
     { message: string; type: "success" | "info" | "warning" | "error" }[]
   >([]);
@@ -211,9 +215,9 @@ const Registration = () => {
                 <p className="text-red-600 text-sm">{errors.email}</p>
               )}
             </div>
-            <div>
+            <div className="relative">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
                 value={formData.password}
@@ -221,19 +225,29 @@ const Registration = () => {
                 required
                 className="w-full p-2 border border-gray-300 rounded"
               />
+              <FontAwesomeIcon
+                icon={showPassword ? faEyeSlash : faEye}
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute top-3 right-3 cursor-pointer text-slate-700"
+              />
               {errors.password && (
                 <p className="text-red-600 text-sm">{errors.password}</p>
               )}
             </div>
-            <div>
+            <div className="relative">
               <input
-                type="password"
+                type={showReEnterPassword ? "text" : "password"}
                 name="reEnterPassword"
                 placeholder="Confirm Password"
                 value={reEnterPassword}
                 onChange={handleChange}
                 required
                 className="w-full p-2 border border-gray-300 rounded"
+              />
+              <FontAwesomeIcon
+                icon={showReEnterPassword ? faEyeSlash : faEye}
+                onClick={() => setShowReEnterPassword(!showReEnterPassword)}
+                className="absolute top-3 right-3 cursor-pointer text-slate-700"
               />
               {errors.reEnterPassword && (
                 <p className="text-red-600 text-sm">{errors.reEnterPassword}</p>
