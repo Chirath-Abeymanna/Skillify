@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar/index";
 import Footer from "../components/Footer/index";
 import { SessionProvider } from "next-auth/react";
 import LoadingScreen from "@/components/Splash";
+import CookiesButton from "@/components/CookiesButton";
 
 export default function RootLayout({
   children,
@@ -67,6 +68,7 @@ export default function RootLayout({
           >
             <Navbar />
             {children}
+            <CookiesButton />
             <Footer />
           </div>
         </SessionProvider>
