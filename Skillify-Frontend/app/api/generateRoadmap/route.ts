@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
+import axios from "axios";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY, // Ensure you have this in your .env file
 });
+
+const SERPER_API_KEY = process.env.SERPER_API_KEY; // Ensure you have this in your .env file
 
 export async function POST(req: NextRequest) {
   try {
@@ -28,7 +31,7 @@ export async function POST(req: NextRequest) {
     - description: A short explanation of why this skill is needed.
     - searchQuery: A relevant search query to find online courses.
 
-    Return the response as a JSON array without extra explanations.
+    Return the response as a JSON array.
     `;
 
     const response = await openai.chat.completions.create({
@@ -37,7 +40,51 @@ export async function POST(req: NextRequest) {
       temperature: 0.7,
     });
 
-    const roadmap = JSON.parse(response.choices[0].message.content || "[]");
+    const messageContent = response.choices[0]?.message?.content?.trim();
+    if (!messageContent) {
+      return NextResponse.json(
+        { error: "Failed to get a valid response from OpenAI" },
+        { status: 500 }
+      );
+    }
+
+    let roadmap;
+    try {
+      roadmap = JSON.parse(messageContent);
+    } catch (parseError) {
+      console.error("Error parsing JSON:", parseError);
+      return NextResponse.json(
+        { error: "Failed to parse roadmap JSON" },
+        { status: 500 }
+      );
+    }
+
+    // Fetch course links using Serper API
+    for (let milestone of roadmap) {
+      const searchQuery = milestone.searchQuery;
+
+      const serperResponse = await axios.post(
+        "https://google.serper.dev/search",
+        {
+          q: searchQuery,
+          gl: "lk", // Sri Lanka
+          hl: "en", // English
+        },
+        {
+          headers: {
+            "X-API-KEY": SERPER_API_KEY,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (serperResponse.status === 200 && serperResponse.data.organic) {
+        milestone.courseLink =
+          serperResponse.data.organic[0]?.link || "No Link Found";
+      } else {
+        milestone.courseLink = "No Link Found";
+      }
+    }
 
     return NextResponse.json(roadmap);
   } catch (error) {

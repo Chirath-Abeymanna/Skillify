@@ -106,31 +106,7 @@ const CareerMapPage: React.FC = () => {
           </div>
         </>
       )}
-      {/* {showRoadmap && (
-        <div className="w-full flex flex-col items-center mt-10">
-          <h2 className="text-3xl font-bold mb-6">Your Career Roadmap</h2>
-          <div className="w-[80%] bg-white p-4 rounded-lg shadow-lg">
-            {roadmap.map((milestone, index) => (
-              <div key={index} className="mb-6 p-4 border-b border-gray-300">
-                <h3 className="text-xl font-semibold text-blue-600">
-                  {milestone.milestoneName}
-                </h3>
-                <p className="text-gray-700">{milestone.description}</p>
-                <a
-                  href={`https://www.google.com/search?q=${encodeURIComponent(
-                    milestone.searchQuery
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 underline mt-2 block"
-                >
-                  Search for courses
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
-      )} */}
+      {showRoadmap && <Roadmap />}
     </div>
   );
 };
