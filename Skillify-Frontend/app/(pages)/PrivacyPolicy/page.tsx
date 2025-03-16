@@ -56,7 +56,7 @@ export default function PrivacyPolicy() {
         <Section id="contact-info" title="Contact Information">
           <p>
             If you have any questions about this Privacy Policy, please contact
-            us at privacy@example.com.
+            us at info.skillify.inc@gmail.com
           </p>
         </Section>
       </div>

@@ -121,7 +121,7 @@ const footer = () => {
           <div className="mt-4 grid grid-cols-1 gap-y-15 gap-x-16 sm:grid-cols-2 xl:gap-x-8">
             <div>
               <h3 className="text-center md:text-start text-offwhite text-lg">
-                @2023 - All Rights Reserved by{" "}
+                @2025 - All Rights Reserved by{" "}
                 <Link href="https://adminmart.com/" target="_blank">
                   Skillify
                 </Link>
