@@ -45,9 +45,6 @@ const Roadmap: React.FC<{
   const [screenHeight, setScreenHeight] = useState(0);
   const [activeMilestone, setActiveMilestone] = useState<number | null>(null); // State to track active milestone
 
-  console.log("Roadmap:", roadmap);
-  console.log("Colors:", colors);
-
   // Access window only after the component mounts on the client side
   useEffect(() => {
     setScreenWidth(window.innerWidth);
