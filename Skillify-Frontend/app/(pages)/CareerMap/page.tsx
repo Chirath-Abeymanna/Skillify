@@ -1,9 +1,11 @@
 "use client";
 import React, { useState } from "react";
+import { useSession } from "next-auth/react";
 import Spline from "@splinetool/react-spline";
 import Roadmap from "../../../components/Roadmap";
 
 const CareerMapPage: React.FC = () => {
+  const { data: session } = useSession();
   const [showRoadmap, setShowRoadmap] = useState(false);
 
   const submit = () => {
@@ -11,9 +13,17 @@ const CareerMapPage: React.FC = () => {
     setShowRoadmap(true);
   };
 
+  if (!session) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white font-Poppins">
+        <p className="text-lg">Please sign in to view your career map.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-white font-Poppins">
-      {/* {!showRoadmap && (
+      {!showRoadmap && (
         <>
           <div className="w-full lg:w-2/3 flex flex-col p-4 lg:p-10">
             <div className="mt-3 w-full justify-center text-lg">
@@ -62,16 +72,12 @@ const CareerMapPage: React.FC = () => {
             </div>
           </div>
         </>
-      )} */}
-      <div className="w-full h-max flex justify-center mt-10">
-        <Roadmap />
-      </div>
-
-      {/* {showRoadmap && (
+      )}
+      {showRoadmap && (
         <div className="w-full flex justify-center mt-10">
           <Roadmap />
         </div>
-      )} */}
+      )}
     </div>
   );
 };
