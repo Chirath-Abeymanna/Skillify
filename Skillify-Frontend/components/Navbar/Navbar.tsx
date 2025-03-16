@@ -16,12 +16,12 @@ const Navbar = () => {
   const isActive = (path: string) => pathname === path;
 
   return (
-    <nav className="navbar z-[9999]">
+    <nav className="navbar z-[9999] w-[100vw]">
       <div className="mx-auto max-w-7xl md:p-4 lg">
         <div className="relative flex h-12 sm:h-20 items-center">
           <div className="flex flex-1 items-center sm:justify-between ">
             {/* LOGO */}
-            <div className="relative lg:right-12 flex flex-shrink-0 items-center justify-start border-right">
+            <div className="relative lg:right-12 flex flex-shrink-0 items-center justify-start border-right ">
               <Link
                 href="/"
                 className="w-[150px] lg:w-[230px] relative font-semibold text-black"
@@ -75,7 +75,7 @@ const Navbar = () => {
                         Job Seeker
                       </Link>
                       <Link
-                        href="/SalaryPredictor"
+                        href="/SalaryScope"
                         className="block text-black py-1 px-2 hover:bg-gray-100"
                       >
                         Salary Scope
@@ -137,7 +137,7 @@ const Navbar = () => {
           </div>
 
           {/* DRAWER FOR MOBILE AND TABLET VIEW (Shown on Small and Medium Screens) */}
-          <div className="block lg:hidden">
+          <div className="block lg:hidden ">
             <Bars3Icon
               className="block h-6 w-6"
               aria-hidden="true"

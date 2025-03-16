@@ -12,12 +12,18 @@ const products: ProductType[] = [
   {
     id: 1,
     section: "Pages",
-    link: ["Blogs", "Reviews", "Contact Us" , "Help Center"],
+    link: ["Blogs", "Reviews", "Contact Us", "Help Center"],
   },
   {
     id: 2,
     section: "Services",
-    link: ["Career Map", "Job Seeker", "Salary Predictor", "Degree Matcher" , "Consultations"],
+    link: [
+      "Career Map",
+      "Job Seeker",
+      "Salary Predictor",
+      "Degree Matcher",
+      "Consultations",
+    ],
   },
 ];
 
@@ -69,16 +75,16 @@ const footer = () => {
           </div>
 
           {/* COLUMN-2/3 */}
-          <div className="space-y-5">
+          <div className="space-y-5 col-span-8 md:col-span-4">
             {products.map((product) => (
               <div
                 key={product.id}
-                className="flex flex-col space-x-0 relative"
+                className="flex flex-col space-x-10 relative justify-between"
               >
                 <p className="text-white text-xl font-extrabold mb-9">
                   {product.section}
                 </p>
-                <ul className="flex space-x-32 flex-auto">
+                <ul className="flex flex-auto space-x-4 md:space-x-16 justify-between">
                   {product.link.map((link: string, index: number) => {
                     let href = "/"; // Default link
                     if (link === "Blogs") href = "/blogs"; // Link to Blogs page
@@ -125,7 +131,7 @@ const footer = () => {
               <Link href="/PrivacyPolicy">
                 <h3 className="text-offwhite pr-6">Privacy policy</h3>
               </Link>
-              <Link href="/terms-conditions">
+              <Link href="/Terms&conditions">
                 <h3 className="text-offwhite pl-6 border-solid border-l border-footer">
                   Terms & conditions
                 </h3>

@@ -4,7 +4,8 @@ import User from "@/models/User";
 
 export async function POST(req: Request) {
   try {
-    const { firstName, lastName, email, password } = await req.json();
+    const { firstName, lastName, email, password, avatar, reviews, starNo } =
+      await req.json();
 
     if (!firstName || !lastName || !email || !password) {
       return NextResponse.json(
@@ -28,6 +29,10 @@ export async function POST(req: Request) {
       lastName,
       email,
       password,
+      avatar: avatar || "default",
+      provider: "credentials",
+      reviews: reviews || [],
+      starNo: starNo || 0,
     });
 
     await newUser.save();

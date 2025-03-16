@@ -81,20 +81,17 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen bg-white p-6 flex justify-center overflow-x-hidden">
-      <div className="max-w-6xl w-full grid grid-cols-3 gap-6">
+      <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Blog Articles Section */}
-        <div className="col-span-2 min-w-[700px]">
-
+        <div className="col-span-2 min-w-[300px] md:min-w-[700px]">
           <h1 className="text-4xl font-bold text-gray-800 mb-8">
             🚀 Latest Blogs
           </h1>
-
           {articles.map((article) => (
             <div
               key={article.id}
               ref={(el) => (articleRefs.current[article.id] = el)}
               className="mb-6 p-6 rounded-lg shadow-lg border transition duration-300 hover:shadow-xl min-w-[300px]"
-
             >
               <Image
                 src={article.image}
@@ -102,35 +99,32 @@ export default function BlogPage() {
                 width={150}
                 height={150}
                 className="rounded-lg w-full object-cover"
-
               />
               <h2 className="text-2xl font-semibold text-gray-800 mt-4">
                 {article.title}
               </h2>
               <p className="text-sm text-gray-600 mb-2">
                 📅 Published Date: {article.publishedDate}
-
               </p>
               <p className="text-gray-700 whitespace-pre-line">
                 {article.content}
               </p>
-
               {/* Featured Author */}
               <div className="flex items-center mt-6">
                 <div className="ml-4">
                   <p className="font-semibold">Nadini Salisha</p>
-
                   <p className="text-sm text-gray-500">Tech Blogger</p>
                 </div>
               </div>
             </div>
           ))}
         </div>
-
         {/* Sidebar Section (Sticky Sidebar) */}
         <div className="relative">
           <div className="bg-white p-6 rounded-lg shadow-lg border min-w-[300px] sticky top-40">
-            <h3 className="mt-6 text-lg font-semibold text-gray-800">Categories</h3>
+            <h3 className="mt-6 text-lg font-semibold text-gray-800">
+              Categories
+            </h3>
             <Image
               src="/images/blogs/blog6.png"
               alt="Categories"
@@ -152,7 +146,6 @@ export default function BlogPage() {
               )}
             </ul>
           </div>
-
         </div>
       </div>
     </div>
