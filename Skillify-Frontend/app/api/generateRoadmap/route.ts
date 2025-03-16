@@ -25,13 +25,15 @@ export async function POST(req: NextRequest) {
     const prompt = `
     Based on the following career goals: "${careerGoals}"
     and the current skill set: "${skills}", 
-    identify the missing skills needed to achieve this goal.
-    Provide the response as an array of milestones, where each milestone includes:
-    - milestoneName: A concise name for the milestone.
-    - description: A short explanation of why this skill is needed.
-    - searchQuery: A relevant search query to find online courses.
+    generate a name for the roadmap and identify the missing skills needed to achieve this goal.
+    Provide the response as an object with the following properties:
+    - roadmapName: A concise name for the roadmap.
+    - milestones: An array of milestones, where each milestone includes:
+      - milestoneName: A concise name for the milestone.
+      - description: A short explanation of why this skill is needed.
+      - searchQuery: A relevant search query to find online courses.
 
-    Return the response as a JSON array.
+    Return the response as a JSON object.
     `;
 
     const response = await openai.chat.completions.create({
@@ -48,9 +50,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    let roadmap;
+    let roadmapData;
     try {
-      roadmap = JSON.parse(messageContent);
+      roadmapData = JSON.parse(messageContent);
     } catch (parseError) {
       console.error("Error parsing JSON:", parseError);
       return NextResponse.json(
@@ -60,7 +62,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Fetch course links using Serper API
-    for (let milestone of roadmap) {
+    for (let milestone of roadmapData.milestones) {
       const searchQuery = milestone.searchQuery;
 
       const serperResponse = await axios.post(
@@ -86,7 +88,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    return NextResponse.json(roadmap);
+    return NextResponse.json(roadmapData);
   } catch (error) {
     console.error("Error generating roadmap:", error);
     return NextResponse.json(

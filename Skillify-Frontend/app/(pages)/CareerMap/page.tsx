@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Spline from "@splinetool/react-spline";
 import Roadmap from "../../../components/Roadmap";
@@ -13,9 +13,39 @@ const CareerMapPage: React.FC = () => {
     milestoneName: string;
     description: string;
     searchQuery: string;
+    courseLink?: string;
   }
 
-  const [roadmap, setRoadmap] = useState<Milestone[]>([]);
+  const [roadmap, setRoadmap] = useState<{
+    roadmapName: string;
+    milestones: Milestone[];
+  }>({
+    roadmapName: "",
+    milestones: [],
+  });
+  const [colors, setColors] = useState({
+    backgroundColor: "",
+    milestoneColor: "",
+    roadColor: "",
+  });
+
+  // Define color lists
+  const backgroundColors = ["#f0f4f8", "#e8f5e9", "#fff3e0"];
+  const milestoneColors = ["#D3D3D3", "#FFD700", "#FF6347"];
+  const roadColors = ["#4A90E2", "#32CD32", "#FF4500"];
+
+  // Set colors once when the component mounts
+  useEffect(() => {
+    const selectedColors = {
+      backgroundColor:
+        backgroundColors[Math.floor(Math.random() * backgroundColors.length)],
+      milestoneColor:
+        milestoneColors[Math.floor(Math.random() * milestoneColors.length)],
+      roadColor: roadColors[Math.floor(Math.random() * roadColors.length)],
+    };
+
+    setColors(selectedColors);
+  }, []); // Empty dependency array to run this only once after mount
 
   const submit = async () => {
     console.log("Career Map Submitted");
@@ -32,9 +62,21 @@ const CareerMapPage: React.FC = () => {
       });
 
       const data = await response.json();
-      console.log("Roadmap data:", data);
-      setRoadmap(data.roadmap);
+      setRoadmap(data); // Update to set the entire roadmap data
       setShowRoadmap(true);
+
+      // Save roadmap to the database
+      await fetch("/api/saveRoadmap", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          roadmap: data,
+          email: session?.user?.email,
+          colors,
+        }),
+      });
     } catch (error) {
       console.error("Error fetching roadmap:", error);
     }
@@ -106,7 +148,8 @@ const CareerMapPage: React.FC = () => {
           </div>
         </>
       )}
-      {showRoadmap && <Roadmap />}
+      {showRoadmap && <Roadmap roadmap={roadmap.milestones} colors={colors} />}{" "}
+      {/* Pass roadmap data */}
     </div>
   );
 };

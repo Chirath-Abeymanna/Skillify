@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from "mongoose";
 
 interface IRoadmap extends Document {
   roadColor: string;
+  roadmapName: string;
   milestoneColor: string;
   backgroundColor: string;
   user: mongoose.Types.ObjectId;
@@ -10,6 +11,7 @@ interface IRoadmap extends Document {
 
 const RoadmapSchema: Schema = new Schema({
   roadColor: { type: String, required: true },
+  roadmapName: { type: String, required: true },
   milestoneColor: { type: String, required: true },
   backgroundColor: { type: String, required: true },
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
