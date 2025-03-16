@@ -9,6 +9,8 @@ const CareerMapPage: React.FC = () => {
   const [showRoadmap, setShowRoadmap] = useState(false);
   const [careerGoals, setCareerGoals] = useState("");
   const [skills, setSkills] = useState("");
+  const [userRoadmaps, setUserRoadmaps] = useState<any[]>([]);
+  const [selectedRoadmap, setSelectedRoadmap] = useState<any>(null);
   interface Milestone {
     milestoneName: string;
     description: string;
@@ -47,6 +49,17 @@ const CareerMapPage: React.FC = () => {
     setColors(selectedColors);
   }, []); // Empty dependency array to run this only once after mount
 
+  useEffect(() => {
+    if (session?.user?.email) {
+      fetch(`/api/getUserRoadmaps?email=${session.user.email}`)
+        .then((res) => res.json())
+        .then((data) => setUserRoadmaps(data.roadmaps))
+        .catch((error) =>
+          console.error("Error fetching user roadmaps:", error)
+        );
+    }
+  }, [session]);
+
   const submit = async () => {
     console.log("Career Map Submitted");
     console.log("Career Goals:", careerGoals);
@@ -82,6 +95,17 @@ const CareerMapPage: React.FC = () => {
     }
   };
 
+  const viewRoadmap = async (roadmapId: string) => {
+    try {
+      const response = await fetch(`/api/getRoadmap?roadmapId=${roadmapId}`);
+      const data = await response.json();
+      setSelectedRoadmap(data);
+      setShowRoadmap(true);
+    } catch (error) {
+      console.error("Error fetching roadmap:", error);
+    }
+  };
+
   if (!session) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white font-Poppins">
@@ -92,7 +116,7 @@ const CareerMapPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-white font-Poppins">
-      {!showRoadmap && (
+      {userRoadmaps.length === 0 && !showRoadmap && (
         <>
           <div className="w-full lg:w-2/3 flex flex-col p-4 lg:p-10">
             <div className="mt-3 w-full justify-center text-lg">
@@ -148,7 +172,32 @@ const CareerMapPage: React.FC = () => {
           </div>
         </>
       )}
-      {showRoadmap && <Roadmap roadmap={roadmap.milestones} colors={colors} />}{" "}
+      {userRoadmaps.length > 0 && !showRoadmap && (
+        <div className="w-full flex flex-wrap justify-center mt-10">
+          {userRoadmaps.map((roadmap) => (
+            <div
+              key={roadmap._id}
+              className="bg-white shadow-md rounded-lg p-4 m-4 w-80"
+            >
+              <h2 className="text-xl font-bold mb-2">{roadmap.roadmapName}</h2>
+              <button
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+                onClick={() => viewRoadmap(roadmap._id)}
+              >
+                View Roadmap
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+      {showRoadmap && (
+        <Roadmap
+          roadmap={
+            selectedRoadmap ? selectedRoadmap.milestones : roadmap.milestones
+          }
+          colors={colors}
+        />
+      )}{" "}
       {/* Pass roadmap data */}
     </div>
   );

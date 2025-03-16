@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     - roadmapName: A concise name for the roadmap.
     - milestones: An array of milestones, where each milestone includes:
       - milestoneName: A concise name for the milestone.
-      - description: A short explanation of why this skill is needed.
+      - milestoneDescription: A short explanation of why this skill is needed.
       - searchQuery: A relevant search query to find online courses.
 
     Return the response as a JSON object.
@@ -81,10 +81,10 @@ export async function POST(req: NextRequest) {
       );
 
       if (serperResponse.status === 200 && serperResponse.data.organic) {
-        milestone.courseLink =
+        milestone.milestoneLink =
           serperResponse.data.organic[0]?.link || "No Link Found";
       } else {
-        milestone.courseLink = "No Link Found";
+        milestone.milestoneLink = "No Link Found";
       }
     }
 

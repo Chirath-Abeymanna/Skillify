@@ -10,9 +10,6 @@ export async function POST(req: NextRequest) {
 
   try {
     const { roadmap, email, colors } = await req.json();
-    console.log("Roadmap:", roadmap);
-    console.log("User Email:", email);
-    console.log("Colors:", colors);
 
     const user = await User.findOne({ email });
 
@@ -43,8 +40,8 @@ export async function POST(req: NextRequest) {
         const newMilestone = new Milestone({
           milestoneNumber: index + 1,
           milestoneName: milestone.milestoneName,
-          milestoneDescription: milestone.description,
-          milestoneLink: milestone.courseLink,
+          milestoneDescription: milestone.milestoneDescription,
+          milestoneLink: milestone.milestoneLink,
           roadmap: newRoadmap._id, // Assign the roadmap ID now
         });
         await newMilestone.save();

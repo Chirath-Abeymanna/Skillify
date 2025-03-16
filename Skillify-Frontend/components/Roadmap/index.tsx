@@ -3,9 +3,9 @@ import { useSession } from "next-auth/react";
 
 interface Milestone {
   milestoneName: string;
-  description: string;
+  milestoneDescription: string;
   searchQuery: string;
-  courseLink?: string;
+  milestoneLink?: string;
 }
 
 const generatePath = (milestones: number, width: number, height: number) => {
@@ -44,6 +44,9 @@ const Roadmap: React.FC<{
   const [screenWidth, setScreenWidth] = useState(0);
   const [screenHeight, setScreenHeight] = useState(0);
   const [activeMilestone, setActiveMilestone] = useState<number | null>(null); // State to track active milestone
+
+  console.log("Roadmap:", roadmap);
+  console.log("Colors:", colors);
 
   // Access window only after the component mounts on the client side
   useEffect(() => {
@@ -134,11 +137,11 @@ const Roadmap: React.FC<{
                   >
                     <p className="font-bold pb-3">{milestone.milestoneName}</p>
                     <p className="text-sm text-gray-400 pb-3">
-                      {milestone.description}
+                      {milestone.milestoneDescription}
                     </p>
-                    {milestone.courseLink && (
+                    {milestone.milestoneLink && (
                       <a
-                        href={milestone.courseLink}
+                        href={milestone.milestoneLink}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-blue-500 underline"
