@@ -28,7 +28,7 @@ const developers = [
     name: "Sehansa Dilsadi",
     role: "Frontend Developer",
     image: "/images/team/sehansa.jpg",
-    linkedIn: "/images/team/sehansa.jpg",
+    linkedIn: "https://www.linkedin.com/in/sehansa-dilsadi-a42633334/",
     instagram: "#!",
   },
   {
@@ -42,7 +42,7 @@ const developers = [
     name: "Nadini Salisha",
     role: "Frontend Developer",
     image: "images/team/nadini.jpg",
-    linkedIn: "#!",
+    linkedIn: "http://www.linkedin.com/in/nadini-atugoda-5a06542b3",
     instagram: "#!",
   },
 ];
