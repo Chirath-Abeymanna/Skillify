@@ -15,14 +15,14 @@ const ReviewForm: React.FC = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto p-4 sm:p-8">
       <h3 className="text-blue text-lg font-normal tracking-widest text-center">
         LEAVE A REVIEW
       </h3>
-      <h2 className="text-4xl sm:text-5xl font-bold my-6 text-center">
+      <h2 className="text-3xl sm:text-4xl font-bold my-4 sm:my-6 text-center">
         We Value Your Feedback
       </h2>
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
         <div className="flex justify-center gap-1">
           {[...Array(5)].map((_, index) => {
             const ratingValue = index + 1;
@@ -43,7 +43,7 @@ const ReviewForm: React.FC = () => {
           })}
         </div>
         <textarea
-          className="w-full p-4 text-black rounded-xl bg-lightgrey focus:outline-none focus:ring-2 focus:ring-blue"
+          className="w-full p-2 sm:p-4 text-black rounded-xl bg-lightgrey focus:outline-none focus:ring-2 focus:ring-blue"
           placeholder="Write your review here..."
           value={comment}
           onChange={(e) => setComment(e.target.value)}
@@ -52,7 +52,7 @@ const ReviewForm: React.FC = () => {
         />
         <button
           type="submit"
-          className="w-full text-xl text-white font-semibold text-center rounded-xl bg-faqblue hover:bg-sky-800 py-3 transition-all"
+          className="w-full text-lg sm:text-xl text-white font-semibold text-center rounded-xl bg-faqblue hover:bg-sky-800 py-2 sm:py-3 transition-all"
         >
           Submit Review
         </button>
