@@ -4,10 +4,8 @@ import { useState } from "react";
 import React from "react";
 
 export default function PrivacyPolicy() {
-  const [cookiesAccepted, setCookiesAccepted] = useState(false);
-
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center jus p-6">
       <h1 className="text-3xl font-bold text-indigo-800">Privacy Policy</h1>
       <p className="text-gray-400 mb-6">Last updated: 3/10/2025</p>
 
@@ -62,9 +60,6 @@ export default function PrivacyPolicy() {
           </p>
         </Section>
       </div>
-
-      {/* Cookie Consent */}
-      {!cookiesAccepted && <Card setCookiesAccepted={setCookiesAccepted} />}
     </div>
   );
 }
@@ -80,35 +75,6 @@ function Section({ id, title, children }: SectionProps) {
     <div id={id} className="bg-white shadow-md rounded-lg p-6">
       <h2 className="text-lg font-bold text-sky-700">{title}</h2>
       <div className="text-gray-700 mt-2">{children}</div>
-    </div>
-  );
-}
-
-function Card({
-  setCookiesAccepted,
-}: {
-  setCookiesAccepted: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
-  return (
-    <div className="bottom-4 left-4 right-4 bg-gradient-to-r from-indigo-400 to-indigo-600 rounded-lg overflow-hidden shadow-xl max-w-sm p-4 sticky">
-      <p className="text-sm mb-4 text-white">
-        This website uses cookies to enhance user experience and to analyze
-        performance and traffic on our website.
-      </p>
-      <div className="flex justify-end space-x-4">
-        <button
-          className="duration-300 bg-black/0 hover:bg-black/25 text-white font-bold py-2 px-4 rounded"
-          onClick={() => setCookiesAccepted(true)}
-        >
-          Accept
-        </button>
-        <button
-          className="duration-300 bg-black/0 hover:bg-black/25 text-white font-bold py-2 px-4 rounded"
-          onClick={() => setCookiesAccepted(true)}
-        >
-          Decline
-        </button>
-      </div>
     </div>
   );
 }
