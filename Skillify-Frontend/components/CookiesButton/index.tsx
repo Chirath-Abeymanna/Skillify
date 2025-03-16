@@ -8,7 +8,7 @@ const CookiesButton: React.FC = () => {
     setCookiesAccepted: React.Dispatch<React.SetStateAction<boolean>>;
   }) {
     return (
-      <div className="bottom-4 left-4 right-4 bg-gradient-to-r from-blue-400 to-blue-600 rounded-lg overflow-hidden shadow-xl max-w-sm p-4 sticky">
+      <div className="bottom-4 left-4 right-4 bg-gradient-to-r from-blue-400 to-blue-600 rounded-lg overflow-hidden shadow-xl max-w-sm p-4 sticky z-[9999]">
         <p className="text-sm mb-4 text-white">
           This website uses cookies to enhance user experience and to analyze
           performance and traffic on our website.
