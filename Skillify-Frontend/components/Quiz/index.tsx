@@ -3,8 +3,11 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 
-interface QuizProps {
-  milestone: string;
+interface Milestone {
+  milestoneName: string;
+  milestoneDescription: string;
+  searchQuery: string;
+  milestoneLink?: string;
 }
 
 interface Question {
@@ -13,7 +16,7 @@ interface Question {
   correctAnswer: number;
 }
 
-const Quiz: React.FC<QuizProps> = ({ milestone }) => {
+const Quiz: React.FC<{ milestone: Milestone | null }> = ({ milestone }) => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [userAnswers, setUserAnswers] = useState<number[]>([]);
@@ -26,7 +29,7 @@ const Quiz: React.FC<QuizProps> = ({ milestone }) => {
     const fetchQuestions = async () => {
       try {
         const response = await axios.post("/api/verifyMilestone", {
-          milestone,
+          milestone: milestone?.milestoneName,
         });
         setQuestions(response.data.questions);
         setUserAnswers(new Array(response.data.questions.length).fill(-1));
@@ -54,10 +57,12 @@ const Quiz: React.FC<QuizProps> = ({ milestone }) => {
     return <div>Loading...</div>;
   }
 
+  if (!milestone) return null;
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 py-10 px-4">
       <h1 className="text-2xl font-semibold mb-6 text-gray-700 text-center">
-        Quiz for Milestone: {decodeURIComponent(milestone)}
+        Quiz for Milestone: {decodeURIComponent(milestone.milestoneName)}
       </h1>
       <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md">
         {questions.length > 0 ? (
