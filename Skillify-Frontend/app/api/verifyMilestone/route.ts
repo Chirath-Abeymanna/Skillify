@@ -2,8 +2,21 @@ import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY, // Ensure this is set in .env
+  apiKey: process.env.OPENAI_API_KEY,
 });
+
+const fallbackQuestions = [
+  {
+    question: "What is a milestone?",
+    answers: ["A goal", "A rock", "A measurement", "A tool"],
+    correctAnswer: 0,
+  },
+  {
+    question: "Why are milestones important?",
+    answers: ["They track progress", "They slow down work", "They replace deadlines", "They are unnecessary"],
+    correctAnswer: 0,
+  },
+];
 
 export async function POST(req: NextRequest) {
   try {
@@ -18,7 +31,7 @@ export async function POST(req: NextRequest) {
 
     console.log("Generating quiz for milestone:", milestone);
 
-    const prompt = `Generate 5 multiple-choice questions for the milestone: "${milestone}". Provide the response in a strict JSON array format, following this structure:
+    const prompt = `Generate 5 multiple-choice questions related to "${milestone}". Format the response as JSON with this structure:
 
     [
       {
@@ -34,22 +47,22 @@ export async function POST(req: NextRequest) {
       temperature: 0.7,
     });
 
-    if (!response.choices || response.choices.length === 0) {
-      throw new Error("OpenAI returned an empty response");
+    let questions;
+    try {
+      questions = JSON.parse(response.choices[0].message?.content || "[]");
+      if (!Array.isArray(questions) || questions.length === 0) {
+        throw new Error("Invalid AI response format");
+      }
+    } catch (err) {
+      console.error("Error parsing AI response, using fallback questions:", err);
+      questions = fallbackQuestions;
     }
-
-    const messageContent = response.choices[0].message?.content?.trim();
-    if (!messageContent) {
-      throw new Error("Invalid response from OpenAI");
-    }
-
-    const questions = JSON.parse(messageContent);
 
     return NextResponse.json({ questions });
   } catch (error) {
     console.error("Error generating questions:", error);
     return NextResponse.json(
-      { error: "Failed to generate questions", details: error.message },
+      { error: "Failed to generate questions", fallbackUsed: true },
       { status: 500 }
     );
   }
