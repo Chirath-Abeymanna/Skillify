@@ -31,6 +31,8 @@ const ProfileSection = () => {
   let userAvatar: string;
   const { data: session, status } = useSession();
 
+  console.log("user", session?.user);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
