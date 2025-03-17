@@ -13,7 +13,7 @@ const generatePath = (milestones: number, width: number, height: number) => {
   let pathD = `M ${width / 2} ${height} `; // Start from bottom center
   let positions: { x: number; y: number }[] = [{ x: width / 2, y: height }];
 
-  const curveWidth = width * 0.08; // *** Reduced width of curves ***
+  const curveWidth = width * 0.2; // *** Reduced width of curves ***
 
   for (let i = 1; i < milestones; i++) {
     const isLeft = i % 2 === 1;
@@ -23,8 +23,8 @@ const generatePath = (milestones: number, width: number, height: number) => {
     // Control points positioned **above** the next milestone to ensure upward curves
     const cpX1 = positions[i - 1].x;
     const cpX2 = x;
-    const cpY1 = positions[i - 1].y - (height / milestones) * 0.8; // More curve control
-    const cpY2 = y + (height / milestones) * 0.8;
+    const cpY1 = positions[i - 1].y - (height / milestones) * 1; // More curve control
+    const cpY2 = y + (height / milestones) * 1;
 
     positions.push({ x, y });
 
@@ -82,7 +82,7 @@ const Roadmap: React.FC<{
         <path
           d={pathD}
           stroke={colors.roadColor}
-          strokeWidth="100"
+          strokeWidth="120"
           fill="none"
           strokeLinecap="round"
         />
