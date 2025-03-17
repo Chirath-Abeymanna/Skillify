@@ -2,38 +2,49 @@ import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY, // Ensure you have this in your .env file
 });
-
-const cache = new Map();
 
 export async function POST(req: NextRequest) {
   try {
     const { milestone } = await req.json();
 
+    console.log("Milestone:", milestone);
+
     if (!milestone) {
-      return NextResponse.json({ error: "Milestone is required." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Milestone is required." },
+        { status: 400 }
+      );
     }
 
-    if (cache.has(milestone)) {
-      console.log(`Returning cached quiz for milestone: "${milestone}"`);
-      return NextResponse.json({ questions: cache.get(milestone) });
-    }
-
-    console.log(`Fetching new quiz for milestone: "${milestone}"`);
+    const prompt = `Generate 5 multiple-choice questions based on the milestone: ${milestone}. Each question should have 4 answers, and one of them should be correct. Provide the response as an array of objects with the following properties:
+    - question: The question text.
+    - answers: An array of 4 answer options.
+    - correctAnswer: The index of the correct answer (0-3).`;
 
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: `Generate 5 multiple-choice questions for "${milestone}" in JSON format.` }],
+      messages: [{ role: "system", content: prompt }],
       temperature: 0.7,
     });
 
-    const questions = JSON.parse(response.choices[0].message?.content || "[]");
-    cache.set(milestone, questions);
+    const messageContent = response.choices[0]?.message?.content?.trim();
+    if (!messageContent) {
+      return NextResponse.json(
+        { error: "Failed to get a valid response from OpenAI" },
+        { status: 500 }
+      );
+    }
+
+    const questions = JSON.parse(messageContent);
 
     return NextResponse.json({ questions });
   } catch (error) {
     console.error("Error generating questions:", error);
-    return NextResponse.json({ error: "Failed to generate questions" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to generate questions" },
+      { status: 500 }
+    );
   }
 }
