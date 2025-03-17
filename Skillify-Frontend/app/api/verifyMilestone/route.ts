@@ -47,4 +47,8 @@ export async function POST(req: NextRequest) {
       { status: 500 }
     );
   }
+
+  <div className="bg-reviewGlass my-20 p-8 rounded-3xl shadow-lg backdrop-blur-md bg-opacity-40 max-w-4xl mx-auto">
+      <ReviewForm />
+    </div>
 }
