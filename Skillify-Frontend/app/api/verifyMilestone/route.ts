@@ -5,19 +5,6 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const fallbackQuestions = [
-  {
-    question: "What is a milestone?",
-    answers: ["A goal", "A rock", "A measurement", "A tool"],
-    correctAnswer: 0,
-  },
-  {
-    question: "Why are milestones important?",
-    answers: ["They track progress", "They slow down work", "They replace deadlines", "They are unnecessary"],
-    correctAnswer: 0,
-  },
-];
-
 export async function POST(req: NextRequest) {
   try {
     const { milestone } = await req.json();
@@ -29,9 +16,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    console.log("Generating quiz for milestone:", milestone);
+    console.log(`Fetching questions for milestone: "${milestone}"`);
 
-    const prompt = `Generate 5 multiple-choice questions related to "${milestone}". Format the response as JSON with this structure:
+    const prompt = `Generate 5 multiple-choice questions related to "${milestone}". Return only a JSON array with this format:
 
     [
       {
@@ -47,22 +34,19 @@ export async function POST(req: NextRequest) {
       temperature: 0.7,
     });
 
-    let questions;
-    try {
-      questions = JSON.parse(response.choices[0].message?.content || "[]");
-      if (!Array.isArray(questions) || questions.length === 0) {
-        throw new Error("Invalid AI response format");
-      }
-    } catch (err) {
-      console.error("Error parsing AI response, using fallback questions:", err);
-      questions = fallbackQuestions;
+    console.log("OpenAI raw response:", response);
+
+    if (!response.choices || response.choices.length === 0) {
+      throw new Error("API returned empty choices. Possible rate limit exceeded.");
     }
+
+    const questions = JSON.parse(response.choices[0].message?.content || "[]");
 
     return NextResponse.json({ questions });
   } catch (error) {
     console.error("Error generating questions:", error);
     return NextResponse.json(
-      { error: "Failed to generate questions", fallbackUsed: true },
+      { error: "Failed to generate questions", details: error.message },
       { status: 500 }
     );
   }
