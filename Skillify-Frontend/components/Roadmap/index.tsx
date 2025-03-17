@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import Quiz from "../Quiz"; // Import the Quiz component
 
 interface Milestone {
   milestoneName: string;
@@ -45,7 +44,8 @@ const Roadmap: React.FC<{
   const [screenWidth, setScreenWidth] = useState(0);
   const [screenHeight, setScreenHeight] = useState(0);
   const [activeMilestone, setActiveMilestone] = useState<number | null>(null); // State to track active milestone
-  const router = useRouter();
+  const [showQuiz, setShowQuiz] = useState(false); // State to track if the quiz should be shown
+  const [quizMilestone, setQuizMilestone] = useState<Milestone | null>(null); // State to store the milestone for the quiz
 
   // Access window only after the component mounts on the client side
   useEffect(() => {
@@ -73,95 +73,102 @@ const Roadmap: React.FC<{
       className="relative w-full min-h-screen flex items-end justify-center overflow-auto"
       style={{ backgroundColor: colors.backgroundColor }}
     >
-      <svg
-        className="relative w-full"
-        viewBox={`0 0 ${screenWidth} ${screenHeight + 200}`}
-        fill="none"
-      >
-        {/* Road Path */}
-        <path
-          d={pathD}
-          stroke={colors.roadColor}
-          strokeWidth="120"
+      {!showQuiz ? (
+        <svg
+          className="relative w-full"
+          viewBox={`0 0 ${screenWidth} ${screenHeight + 200}`}
           fill="none"
-          strokeLinecap="round"
-        />
+        >
+          {/* Road Path */}
+          <path
+            d={pathD}
+            stroke={colors.roadColor}
+            strokeWidth="120"
+            fill="none"
+            strokeLinecap="round"
+          />
 
-        {/* Dashed Center Line */}
-        <path
-          d={pathD}
-          stroke="white"
-          strokeWidth="10"
-          strokeDasharray="20, 20"
-          fill="none"
-        />
+          {/* Dashed Center Line */}
+          <path
+            d={pathD}
+            stroke="white"
+            strokeWidth="10"
+            strokeDasharray="20, 20"
+            fill="none"
+          />
 
-        {/* Milestone Points */}
-        {roadmap &&
-          roadmap.map((milestone, index) => (
-            <g
-              key={index}
-              onMouseEnter={() => setActiveMilestone(index)} // Show tooltip on hover
-              onMouseLeave={() => setActiveMilestone(null)} // Hide tooltip when mouse leaves
-              onClick={() => setActiveMilestone(index)} // Show tooltip on click (for mobile users)
-            >
-              <circle
-                cx={positions[index].x}
-                cy={positions[index].y}
-                r="25"
-                fill={colors.milestoneColor}
-                style={{ transition: "all 0.3s", cursor: "pointer" }}
-              />
-              <text
-                x={positions[index].x + (index % 2 === 0 ? 60 : 80)} // Adjusted text placement
-                y={positions[index].y + 5}
-                fontSize="16"
-                fill="black"
-                fontWeight="bold"
+          {/* Milestone Points */}
+          {roadmap &&
+            roadmap.map((milestone, index) => (
+              <g
+                key={index}
+                onMouseEnter={() => setActiveMilestone(index)} // Show tooltip on hover
+                onMouseLeave={() => setActiveMilestone(null)} // Hide tooltip when mouse leaves
+                onClick={() => setActiveMilestone(index)} // Show tooltip on click (for mobile users)
               >
-                {milestone.milestoneName}
-              </text>
-
-              {/* Tooltip for showing milestone details */}
-              {activeMilestone === index && (
-                <foreignObject
-                  x={positions[index].x + 15}
-                  y={positions[index].y - 80}
-                  width="300"
-                  height="300"
+                <circle
+                  cx={positions[index].x}
+                  cy={positions[index].y}
+                  r="25"
+                  fill={colors.milestoneColor}
+                  style={{ transition: "all 0.3s", cursor: "pointer" }}
+                />
+                <text
+                  x={positions[index].x + (index % 2 === 0 ? 60 : 80)} // Adjusted text placement
+                  y={positions[index].y + 5}
+                  fontSize="16"
+                  fill="black"
+                  fontWeight="bold"
                 >
-                  <div
-                    className="bg-white p-2 border rounded shadow-lg text-black text-sm"
-                    style={{ position: "absolute", zIndex: 10 }}
+                  {milestone.milestoneName}
+                </text>
+
+                {/* Tooltip for showing milestone details */}
+                {activeMilestone === index && (
+                  <foreignObject
+                    x={positions[index].x + 15}
+                    y={positions[index].y - 80}
+                    width="300"
+                    height="300"
                   >
-                    <p className="font-bold pb-3">{milestone.milestoneName}</p>
-                    <p className="text-sm text-gray-400 pb-3">
-                      {milestone.milestoneDescription}
-                    </p>
-                    {milestone.milestoneLink && (
-                      <a
-                        href={milestone.milestoneLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 underline"
-                      >
-                        Course Link
-                      </a>
-                    )}
-                    <button
-                      onClick={() =>
-                        router.push(`/Quiz/${milestone.milestoneName}`)
-                      }
-                      className="mt-2 bg-blue-500 text-white font-semibold py-1 px-2 rounded hover:bg-blue-700"
+                    <div
+                      className="bg-white p-2 border rounded shadow-lg text-black text-sm"
+                      style={{ position: "absolute", zIndex: 10 }}
                     >
-                      Take Quiz
-                    </button>
-                  </div>
-                </foreignObject>
-              )}
-            </g>
-          ))}
-      </svg>
+                      <p className="font-bold pb-3">
+                        {milestone.milestoneName}
+                      </p>
+                      <p className="text-sm text-gray-400 pb-3">
+                        {milestone.milestoneDescription}
+                      </p>
+                      {milestone.milestoneLink && (
+                        <a
+                          href={milestone.milestoneLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500 underline"
+                        >
+                          Course Link
+                        </a>
+                      )}
+                      <button
+                        onClick={() => {
+                          setQuizMilestone(milestone);
+                          setShowQuiz(true);
+                        }}
+                        className="mt-2 bg-blue-500 text-white font-semibold py-1 px-2 rounded hover:bg-blue-700"
+                      >
+                        Take Quiz
+                      </button>
+                    </div>
+                  </foreignObject>
+                )}
+              </g>
+            ))}
+        </svg>
+      ) : (
+        <Quiz milestone={quizMilestone} />
+      )}
     </div>
   );
 };
