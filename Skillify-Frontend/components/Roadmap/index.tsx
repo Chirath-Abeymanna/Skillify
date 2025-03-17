@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface Milestone {
   milestoneName: string;
@@ -44,6 +45,7 @@ const Roadmap: React.FC<{
   const [screenWidth, setScreenWidth] = useState(0);
   const [screenHeight, setScreenHeight] = useState(0);
   const [activeMilestone, setActiveMilestone] = useState<number | null>(null); // State to track active milestone
+  const router = useRouter();
 
   // Access window only after the component mounts on the client side
   useEffect(() => {
@@ -146,6 +148,14 @@ const Roadmap: React.FC<{
                         Course Link
                       </a>
                     )}
+                    <button
+                      onClick={() =>
+                        router.push(`/Quiz/${milestone.milestoneName}`)
+                      }
+                      className="mt-2 bg-blue-500 text-white font-semibold py-1 px-2 rounded hover:bg-blue-700"
+                    >
+                      Take Quiz
+                    </button>
                   </div>
                 </foreignObject>
               )}
