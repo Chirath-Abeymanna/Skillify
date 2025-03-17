@@ -19,7 +19,7 @@ interface DataType {
 const postData: DataType[] = [
     {
         time: "5 min",
-        heading: 'Skillify: Empower Your Career',
+        heading: 'Dynamic Roadmaps by Skillify',
         heading2: 'With Our Dynamic Roadmaps according to user preferences!',
         name: "Published on Skillify Blog",
         date: 'December 18, 2024',
@@ -37,7 +37,7 @@ const postData: DataType[] = [
     },
     {
         time: "5 min",
-        heading: 'Consultations at Skillify',
+        heading: 'Salary Scope by Skillify',
         heading2: 'Get Expert Guidance for Career Growth!',
         name: "Published on Skillify Blog",
         date: 'December 18, 2024',
@@ -55,12 +55,12 @@ const postData: DataType[] = [
     },
     {
         time: "5 min",
-        heading: 'Dynamic Roadmaps by Skillify',
+        heading: 'Consultations at Skillify',
         heading2: 'Tailor Your Learning Path with Skillify!',
         name: "Published on Skillify Blog",
         date: 'December 18, 2024',
-        imgSrc: '/images/blogs/blog5.png',
-        url:'/blogs',
+        imgSrc: '/images/blogs/blog5.jpg',
+        url:'/blogs/5',
     }
 ]
 
@@ -96,17 +96,17 @@ const Card = ({ item }: { item: DataType }) => {
 };
 
 const BlogSection = () => {
-    const controls = useAnimation(); // ✅ Initialize animation controls
-    const ref = useRef<HTMLDivElement>(null); // ✅ Define ref using useRef hook
+    const controls = useAnimation(); // Initialize animation controls
+    const ref = useRef<HTMLDivElement>(null); // Define ref using useRef hook
 
     useEffect(() => {
-        let isMounted = true; // ✅ Ensure component is mounted
+        let isMounted = true; // Ensure component is mounted
 
         const loopAnimation = async () => {
             while (isMounted) {
                 await controls.start({
                     x: "-50%",
-                    transition: { duration: 10, ease: "linear" }
+                    transition: { duration: 20, ease: "linear" }
                 });
             }
         };

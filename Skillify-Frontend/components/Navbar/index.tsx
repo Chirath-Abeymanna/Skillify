@@ -1,7 +1,6 @@
 "use client";
 import Navbar from "./Navbar";
 import React, { useEffect } from "react";
-import { useSession } from "next-auth/react";
 
 const Navbarin: React.FC = () => {
   useEffect(() => {
@@ -33,9 +32,8 @@ const Navbarin: React.FC = () => {
     // Update scroll position for first time
     storeScroll();
   }, []);
-  const { data: session, status } = useSession();
   return (
-    <div className="z-50">
+    <div className="z-50 mb-14 lg:mb-0">
       <Navbar />
     </div>
   );

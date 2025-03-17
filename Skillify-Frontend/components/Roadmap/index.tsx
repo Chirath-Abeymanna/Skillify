@@ -1,68 +1,157 @@
-"use client";
-import React, { useEffect, useRef } from "react";
-import * as d3 from "d3";
+import React, { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
-const Roadmap: React.FC = () => {
-  const svgRef = useRef<SVGSVGElement | null>(null);
+interface Milestone {
+  milestoneName: string;
+  milestoneDescription: string;
+  searchQuery: string;
+  milestoneLink?: string;
+}
 
+const generatePath = (milestones: number, width: number, height: number) => {
+  let pathD = `M ${width / 2} ${height} `; // Start from bottom center
+  let positions: { x: number; y: number }[] = [{ x: width / 2, y: height }];
+
+  const curveWidth = width * 0.08; // *** Reduced width of curves ***
+
+  for (let i = 1; i < milestones; i++) {
+    const isLeft = i % 2 === 1;
+    const x = isLeft ? width / 2 - curveWidth : width / 2 + curveWidth; // Less horizontal distance
+    const y = height - i * (height / milestones) * 1.1; // Move milestones upwards evenly
+
+    // Control points positioned **above** the next milestone to ensure upward curves
+    const cpX1 = positions[i - 1].x;
+    const cpX2 = x;
+    const cpY1 = positions[i - 1].y - (height / milestones) * 0.8; // More curve control
+    const cpY2 = y + (height / milestones) * 0.8;
+
+    positions.push({ x, y });
+
+    pathD += `C ${cpX1} ${cpY1}, ${cpX2} ${cpY2}, ${x} ${y} `;
+  }
+
+  return { pathD, positions };
+};
+
+const Roadmap: React.FC<{
+  roadmap: Milestone[];
+  colors: {
+    backgroundColor: string;
+    milestoneColor: string;
+    roadColor: string;
+  };
+}> = ({ roadmap, colors }) => {
+  const [screenWidth, setScreenWidth] = useState(0);
+  const [screenHeight, setScreenHeight] = useState(0);
+  const [activeMilestone, setActiveMilestone] = useState<number | null>(null); // State to track active milestone
+
+  // Access window only after the component mounts on the client side
   useEffect(() => {
-    const svg = d3.select(svgRef.current);
-    svg.selectAll("*").remove();
+    setScreenWidth(window.innerWidth);
+    setScreenHeight(window.innerHeight);
+  }, []); // Empty dependency array to run this only once after mount
 
-    // Get window dimensions
+  // Ensure the screenWidth and screenHeight are available
+  if (
+    screenWidth === 0 ||
+    screenHeight === 0 ||
+    !roadmap ||
+    roadmap.length === 0
+  )
+    return null;
 
-    const width = window.innerWidth;
-    const height = 1000;
-
-    const roadPath =
-      "M13.2,528.1l-30.4-30.4L60,420.4c19.6-19.6,45.6-30.4,73.3-30.4c0.2,0,0.5,0,0.7,0c28,0.2,54.1,11.3,73.6,31.4c8,8.3,18.8,12.9,30.4,12.9c0.1,0,0.2,0,0.3,0c11.4,0,22.1-4.4,30.2-12.5c16.3-16.3,16.6-43.2,0.6-59.9l-24-25c-31.6-31.8-31.6-83.5,0.2-115.2c15.6-15.6,36.2-24.1,58.2-23.9c22,0.1,42.6,8.9,57.9,24.7c27,27.7,62.2,63.9,91.2,93.6c21.6,22.2,57.4,22.8,79.8,1.3l1.5-1.4c11.7-11.2,18.2-26.3,18.4-42.3c0.2-15.9-6-30.9-17.3-42.2L507.6,204c-15.6-15.6-24.2-36.3-24.2-58.3c0-22,8.6-42.7,24.1-58.3L510,85c15.7-15.7,36.4-24.3,58.3-24.4c0.1,0,0.2,0,0.3,0c21.8,0,42.4,8.5,57.8,24l1.5,1.5c11.9,11.9,27.7,18.4,44.4,18.4c0,0,0,0,0,0c16.8,0,32.6-6.5,44.4-18.4L811-8l30.4,30.4l-94.1,94.1c-20,20-46.6,31-74.8,31c0,0,0,0,0,0c-28.3,0-54.9-11-74.9-31l-1.5-1.5c-7.3-7.3-17-11.4-27.4-11.4c0,0-0.1,0-0.1,0c-10.5,0-20.5,4.2-28.1,11.8l-2.5,2.5c-7.4,7.4-11.5,17.3-11.5,27.9c0,10.5,4.1,20.4,11.6,27.9l27.5,27.4c19.6,19.5,30.2,45.5,29.9,73.1c-0.3,27.7-11.5,53.6-31.6,73l-1.5,1.4c-19.1,18.3-44.2,28.1-70.6,27.7c-26.5-0.4-51.2-11.1-69.7-30.1c-29-29.8-64.2-65.9-91.2-93.6c-7.3-7.5-17-11.6-27.4-11.7c-10.4,0-20.2,3.9-27.6,11.3c-7.3,7.3-11.3,17-11.3,27.3c0,10.3,4,20,11.3,27.3l0.3,0.3l24.2,25.2c15.6,16.3,24.1,37.7,23.9,60.3c-0.2,22.6-9.2,43.8-25.1,59.8c-16.2,16.2-37.7,25.1-60.6,25.1c-0.2,0-0.4,0-0.6,0c-23.1-0.2-44.8-9.4-60.9-26c-11.4-11.7-26.7-18.3-43.1-18.4c-0.1,0-0.3,0-0.4,0c-16.2,0-31.5,6.3-42.9,17.8L13.2,528.1z";
-
-    // Append road background (make it wider)
-    svg
-      .append("path")
-      .attr("d", roadPath)
-      .attr("fill", "black")
-      .attr("stroke", "black") // Keep stroke color for visibility
-      .attr("stroke-width", "15")
-      .attr("stroke-linecap", "round");
-
-    // Define gradient
-    svg
-      .append("defs")
-      .append("linearGradient")
-      .attr("id", "gradient")
-      .attr("x1", "0%")
-      .attr("y1", "0%")
-      .attr("x2", "100%")
-      .attr("y2", "0%")
-      .selectAll("stop")
-      .data([
-        { offset: "0%", color: "#8E7AFF" },
-        { offset: "100%", color: "#9E94FF" },
-      ])
-      .enter()
-      .append("stop")
-      .attr("offset", (d) => d.offset)
-      .attr("stop-color", (d) => d.color);
-
-    // Append middle white dashed line
-    svg
-      .append("path")
-      .attr("d", roadPath)
-      .attr("stroke", "white")
-      .attr("stroke-width", "10")
-      .attr("fill", "none")
-      .attr("stroke-dasharray", "15,20"); // Dashed effect
-  }, []);
+  const { pathD, positions } = generatePath(
+    roadmap.length,
+    screenWidth,
+    screenHeight + 150
+  );
 
   return (
-    <div className="flex justify-center items-center overflow-auto h-screen w-full">
+    <div
+      className="relative w-full min-h-screen flex items-end justify-center overflow-auto"
+      style={{ backgroundColor: colors.backgroundColor }}
+    >
       <svg
-        ref={svgRef}
-        width="100%"
-        height={1000}
-        className="relative top-20"
-      ></svg>
+        className="relative w-full"
+        viewBox={`0 0 ${screenWidth} ${screenHeight + 200}`}
+        fill="none"
+      >
+        {/* Road Path */}
+        <path
+          d={pathD}
+          stroke={colors.roadColor}
+          strokeWidth="100"
+          fill="none"
+          strokeLinecap="round"
+        />
+
+        {/* Dashed Center Line */}
+        <path
+          d={pathD}
+          stroke="white"
+          strokeWidth="10"
+          strokeDasharray="20, 20"
+          fill="none"
+        />
+
+        {/* Milestone Points */}
+        {roadmap &&
+          roadmap.map((milestone, index) => (
+            <g
+              key={index}
+              onMouseEnter={() => setActiveMilestone(index)} // Show tooltip on hover
+              onMouseLeave={() => setActiveMilestone(null)} // Hide tooltip when mouse leaves
+              onClick={() => setActiveMilestone(index)} // Show tooltip on click (for mobile users)
+            >
+              <circle
+                cx={positions[index].x}
+                cy={positions[index].y}
+                r="25"
+                fill={colors.milestoneColor}
+                style={{ transition: "all 0.3s", cursor: "pointer" }}
+              />
+              <text
+                x={positions[index].x + (index % 2 === 0 ? 60 : 80)} // Adjusted text placement
+                y={positions[index].y + 5}
+                fontSize="16"
+                fill="black"
+                fontWeight="bold"
+              >
+                {milestone.milestoneName}
+              </text>
+
+              {/* Tooltip for showing milestone details */}
+              {activeMilestone === index && (
+                <foreignObject
+                  x={positions[index].x + 15}
+                  y={positions[index].y - 80}
+                  width="300"
+                  height="300"
+                >
+                  <div
+                    className="bg-white p-2 border rounded shadow-lg text-black text-sm"
+                    style={{ position: "absolute", zIndex: 10 }}
+                  >
+                    <p className="font-bold pb-3">{milestone.milestoneName}</p>
+                    <p className="text-sm text-gray-400 pb-3">
+                      {milestone.milestoneDescription}
+                    </p>
+                    {milestone.milestoneLink && (
+                      <a
+                        href={milestone.milestoneLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 underline"
+                      >
+                        Course Link
+                      </a>
+                    )}
+                  </div>
+                </foreignObject>
+              )}
+            </g>
+          ))}
+      </svg>
     </div>
   );
 };
