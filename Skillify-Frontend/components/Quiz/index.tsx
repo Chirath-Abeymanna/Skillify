@@ -18,6 +18,7 @@ const Quiz: React.FC<QuizProps> = ({ milestone }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [userAnswers, setUserAnswers] = useState<number[]>([]);
   const [showResults, setShowResults] = useState<boolean>(false);
+  const [timeLeft, setTimeLeft] = useState<number>(60); // Timer in seconds
   const router = useRouter();
   const searchParams = useSearchParams();
   const roadmapId = searchParams.get("roadmapId");
@@ -48,6 +49,15 @@ const Quiz: React.FC<QuizProps> = ({ milestone }) => {
     };
   }, [milestone]);
 
+  useEffect(() => {
+    if (timeLeft > 0 && !showResults) {
+      const timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
+      return () => clearInterval(timer);
+    } else if (timeLeft === 0) {
+      handleSubmit();
+    }
+  }, [timeLeft, showResults]);
+
   const handleAnswerChange = useCallback(
     (questionIndex: number, answerIndex: number) => {
       setUserAnswers((prev) => {
@@ -63,9 +73,6 @@ const Quiz: React.FC<QuizProps> = ({ milestone }) => {
     setShowResults(true);
   };
 
-  const answeredCount = userAnswers.filter((answer) => answer !== -1).length;
-  const allQuestionsAnswered = answeredCount === questions.length;
-
   if (loading) {
     return <div className="text-center text-lg">Loading...</div>;
   }
@@ -76,11 +83,14 @@ const Quiz: React.FC<QuizProps> = ({ milestone }) => {
         Quiz for Milestone: {decodeURIComponent(milestone)}
       </h1>
       <div className="w-full max-w-2xl bg-white p-6 rounded-lg shadow-md">
-        <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
-          <div
-            className="bg-blue-500 h-4 rounded-full transition-all"
-            style={{ width: `${(answeredCount / questions.length) * 100}%` }}
-          ></div>
+        <div className="flex justify-between items-center mb-4">
+          <span className="text-gray-700">Time Left: {timeLeft}s</span>
+          <div className="w-1/3 bg-gray-300 h-4 rounded-full">
+            <div
+              className="bg-red-500 h-4 rounded-full transition-all"
+              style={{ width: `${(timeLeft / 60) * 100}%` }}
+            ></div>
+          </div>
         </div>
         {questions.length > 0 ? (
           <form
@@ -115,12 +125,7 @@ const Quiz: React.FC<QuizProps> = ({ milestone }) => {
             {!showResults && (
               <button
                 type="submit"
-                className={`mt-6 font-semibold py-2 px-4 rounded transition-all ${
-                  allQuestionsAnswered
-                    ? "bg-blue-500 hover:bg-blue-700 text-white"
-                    : "bg-gray-400 cursor-not-allowed"
-                }`}
-                disabled={!allQuestionsAnswered}
+                className="mt-6 bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-700"
               >
                 Submit
               </button>
