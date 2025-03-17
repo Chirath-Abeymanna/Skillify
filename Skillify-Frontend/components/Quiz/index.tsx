@@ -15,6 +15,7 @@ const Quiz: React.FC<QuizProps> = ({ milestone }) => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [userAnswers, setUserAnswers] = useState<number[]>([]);
+  const [showResults, setShowResults] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -40,6 +41,10 @@ const Quiz: React.FC<QuizProps> = ({ milestone }) => {
     setUserAnswers(newUserAnswers);
   };
 
+  const handleSubmit = () => {
+    setShowResults(true);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -48,7 +53,12 @@ const Quiz: React.FC<QuizProps> = ({ milestone }) => {
     <div>
       <h1>Quiz for Milestone: {decodeURIComponent(milestone)}</h1>
       {questions.length > 0 ? (
-        <form>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
+        >
           {questions.map((q, qIndex) => (
             <div key={qIndex}>
               <p>{q.question}</p>
@@ -60,12 +70,14 @@ const Quiz: React.FC<QuizProps> = ({ milestone }) => {
                     value={aIndex}
                     checked={userAnswers[qIndex] === aIndex}
                     onChange={() => handleAnswerChange(qIndex, aIndex)}
+                    disabled={showResults}
                   />
                   {answer}
                 </label>
               ))}
             </div>
           ))}
+          {!showResults && <button type="submit">Submit</button>}
         </form>
       ) : (
         <p>No questions available.</p>
