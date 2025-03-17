@@ -167,7 +167,7 @@ const Roadmap: React.FC<{
             ))}
         </svg>
       ) : (
-        <Quiz milestone={quizMilestone} />
+        <Quiz milestone={quizMilestone as any} />
       )}
     </div>
   );
