@@ -38,7 +38,7 @@ const Join = () => {
                 type="submit"
                 className="joinButton w-full sm:w-0 text-xl text-white font-semibold text-center rounded-xl sm:rounded-full bg-sky-400 hover:bg-sky-600"
               >
-                Send!
+                Send
               </button>
             </div>
           </div>

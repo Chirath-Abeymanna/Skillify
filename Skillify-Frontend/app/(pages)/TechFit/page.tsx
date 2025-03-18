@@ -1,13 +1,7 @@
-import React from "react";
+"use client";
+import { useState } from "react";
+import techStacks from "@/Data/TechStacks.json";
 
-const TechFit = () => {
-  return (
-    <div>
-      <h1>Welcome to TechFit</h1>
-      <p>Explore the latest in tech fitness.</p>
-      {/* Add more content and features here */}
-    </div>
-  );
-};
-
-export default TechFit;
+export default function TechStackMatcher(): JSX.Element {
+  return <div>Tech Stack Matcher</div>;
+}
