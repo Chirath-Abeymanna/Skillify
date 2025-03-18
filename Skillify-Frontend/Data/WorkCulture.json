@@ -1,0 +1,153 @@
+[
+    {
+      "company_culture": "Fast-paced Startup",
+      "job_roles": [
+        "Software Engineer",
+        "Product Manager",
+        "UX/UI Designer",
+        "Marketing Specialist",
+        "DevOps Engineer",
+        "Data Scientist",
+        "Sales Executive",
+        "Community Manager",
+        "Customer Support Specialist",
+        "Business Development Manager"
+      ]
+    },
+    {
+      "company_culture": "Structured Corporate",
+      "job_roles": [
+        "Finance Analyst",
+        "HR Manager",
+        "Project Manager",
+        "Software Developer",
+        "Operations Manager",
+        "Compliance Officer",
+        "Legal Counsel",
+        "Accountant",
+        "Procurement Manager",
+        "Corporate Trainer"
+      ]
+    },
+    {
+      "company_culture": "Remote-first",
+      "job_roles": [
+        "Customer Support",
+        "Software Engineer",
+        "Product Manager",
+        "Digital Marketer",
+        "Data Scientist",
+        "Content Creator",
+        "SEO Specialist",
+        "Graphic Designer",
+        "Remote Sales Representative",
+        "Community Manager"
+      ]
+    },
+    {
+      "company_culture": "Collaborative Team",
+      "job_roles": [
+        "Project Manager",
+        "UX/UI Designer",
+        "Front-end Developer",
+        "Content Writer",
+        "Business Analyst",
+        "Quality Assurance Tester",
+        "Software Engineer",
+        "Product Designer",
+        "Data Analyst",
+        "Scrum Master"
+      ]
+    },
+    {
+      "company_culture": "Traditional Office",
+      "job_roles": [
+        "Marketing Manager",
+        "Sales Executive",
+        "Operations Coordinator",
+        "Financial Planner",
+        "Administrative Assistant",
+        "Office Manager",
+        "HR Specialist",
+        "Executive Assistant",
+        "Customer Service Representative",
+        "Business Consultant"
+      ]
+    },
+    {
+      "company_culture": "Innovative Tech Hub",
+      "job_roles": [
+        "Cloud Engineer",
+        "Software Architect",
+        "Data Engineer",
+        "AI Researcher",
+        "Blockchain Developer",
+        "Machine Learning Engineer",
+        "DevOps Specialist",
+        "Cybersecurity Analyst",
+        "UI/UX Researcher",
+        "Technical Product Manager"
+      ]
+    },
+    {
+      "company_culture": "Family-oriented",
+      "job_roles": [
+        "Customer Service Representative",
+        "HR Coordinator",
+        "Event Coordinator",
+        "Marketing Assistant",
+        "Operations Assistant",
+        "Community Relations Manager",
+        "Office Support Specialist",
+        "Customer Success Manager",
+        "Business Development Representative",
+        "Admin Support"
+      ]
+    },
+    {
+      "company_culture": "Mission-driven Non-profit",
+      "job_roles": [
+        "Fundraising Manager",
+        "Grant Writer",
+        "Nonprofit Program Manager",
+        "Volunteer Coordinator",
+        "Community Outreach Specialist",
+        "Policy Analyst",
+        "Social Media Manager",
+        "Marketing Specialist",
+        "Partnership Manager",
+        "Executive Director"
+      ]
+    },
+    {
+      "company_culture": "Creative Agency",
+      "job_roles": [
+        "Creative Director",
+        "Graphic Designer",
+        "Copywriter",
+        "Marketing Strategist",
+        "Project Manager",
+        "Social Media Specialist",
+        "Content Creator",
+        "Art Director",
+        "SEO Specialist",
+        "Brand Manager"
+      ]
+    },
+    {
+      "company_culture": "Global Corporate",
+      "job_roles": [
+        "Regional Sales Manager",
+        "Corporate Finance Analyst",
+        "Global HR Director",
+        "Business Intelligence Analyst",
+        "Legal Counsel",
+        "Global Marketing Manager",
+        "Operations Director",
+        "Project Coordinator",
+        "Supply Chain Manager",
+        "IT Infrastructure Manager"
+      ]
+    }
+  ]
+  
