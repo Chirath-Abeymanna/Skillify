@@ -89,8 +89,8 @@ export default function WorkStyleMatcher(): JSX.Element {
                 <option value="" aria-placeholder="Select a work style">
                   Choose work style
                 </option>
-                {WORK_CULTURES.map((culture) => (
-                  <option key={culture} value={culture}>
+                {WORK_CULTURES.map((culture, idx) => (
+                  <option key={idx} value={culture}>
                     {culture}
                   </option>
                 ))}
