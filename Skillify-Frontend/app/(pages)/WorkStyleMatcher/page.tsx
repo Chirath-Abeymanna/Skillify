@@ -23,6 +23,10 @@ export default function WorkStyleMatcher(): JSX.Element {
       );
       return;
     }
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { message: "Form submitted successfully!", type: "success" },
+    ]);
   };
 
   return (
