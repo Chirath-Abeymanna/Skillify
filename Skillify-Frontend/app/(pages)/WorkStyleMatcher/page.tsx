@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import workCultures from "@/Data/WorkCulture.json";
+import MessageBox from "@/components/MessageBox";
 
 const WORK_CULTURES: string[] = workCultures.map(
   (culture) => culture.company_culture
@@ -26,6 +27,11 @@ export default function WorkStyleMatcher(): JSX.Element {
 
   return (
     <div className="relative min-h-screen w-full text-gray-900 font-sans overflow-hidden">
+      {/* Message Box */}
+      {messages.map((msg, index) => (
+        <MessageBox key={index} message={msg.message} type={msg.type} />
+      ))}
+      
       <div className="relative z-10">
         <header className="flex flex-col items-center lg:flex-row lg:items-center pl-4 lg:pl-16 gap-4 pt-6 pb-6">
           <h1 className="text-4xl lg:text-6xl font-extrabold text-blue-500 drop-shadow-md">
