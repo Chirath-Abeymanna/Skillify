@@ -54,7 +54,11 @@ export default function WorkStyleMatcher(): JSX.Element {
 
       {/* Heading Section */}
       <div className="text-center py-10 bg-blue-500 text-white">
-        <h1 className="text-4xl lg:text-5xl font-extrabold drop-shadow-md" role="heading" aria-level={1}>
+        <h1
+          className="text-4xl lg:text-5xl font-extrabold drop-shadow-md"
+          role="heading"
+          aria-level={1}
+        >
           Work Style Matcher
         </h1>
         <p className="mt-4 text-lg" aria-live="polite">
@@ -85,6 +89,8 @@ export default function WorkStyleMatcher(): JSX.Element {
                 aria-required="true"
                 onChange={(e) => setSelectedWorkStyle(e.target.value)}
                 className="w-full p-4 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 bg-gray-50 transition duration-300 hover:border-blue-400"
+                aria-invalid={selectedWorkStyle === "" ? "true" : "false"}
+                required
               >
                 <option value="" aria-placeholder="Select a work style">
                   Choose work style
@@ -95,12 +101,20 @@ export default function WorkStyleMatcher(): JSX.Element {
                   </option>
                 ))}
               </select>
+              <span
+                role="alert"
+                className="text-sm text-red-500 mt-1"
+                aria-live="assertive"
+              >
+                {selectedWorkStyle === "" && "Please select a work style"}
+              </span>
             </div>
 
             <button
               type="submit"
               className="w-full bg-blue-500 text-white font-semibold rounded-xl px-6 py-3 text-lg shadow-md transform transition duration-300 ease-out hover:bg-blue-600 hover:scale-105 hover:shadow-lg focus:outline-none"
               aria-live="assertive"
+              aria-disabled={selectedWorkStyle === "" ? "true" : "false"}
             >
               Show Available Job Roles
             </button>
@@ -114,17 +128,19 @@ export default function WorkStyleMatcher(): JSX.Element {
             role="region"
             aria-labelledby="available-job-roles"
           >
-            <h2 id="available-job-roles" className="text-2xl font-bold text-gray-800 drop-shadow-sm">
+            <h2
+              id="available-job-roles"
+              className="text-2xl font-bold text-gray-800 drop-shadow-sm"
+            >
               Available Job Roles:
             </h2>
             <div className="mt-4 max-h-[300px] overflow-y-auto space-y-4 p-6 bg-white shadow-xl rounded-2xl border border-gray-200">
-              <ul>
+              <ul role="list">
                 {jobRoles.map((role, idx) => (
                   <li
                     key={idx}
                     className="text-lg font-medium text-[#3c3c3d] p-3 rounded-lg bg-[#e5e6e7] border-2 shadow-md hover:bg-gray-200 transition duration-300"
                     role="listitem"
-                    aria-live="polite"
                   >
                     {role}
                   </li>
