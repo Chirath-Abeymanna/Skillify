@@ -30,7 +30,7 @@ const Drawer = ({ children, isOpen, setIsOpen }: DrawerProps) => {
     >
       <section
         className={
-          "w-340px max-w-lg left-0 absolute bg-white h-full shadow-xl delay-400 duration-500 ease-in-out transition-all transform " +
+          " mb-6 max-w-lg left-0 absolute bg-white h-full shadow-xl delay-400 duration-500 ease-in-out transition-all transform " +
           (isOpen ? "translate-x-0" : "-translate-x-full")
         }
       >
@@ -38,7 +38,7 @@ const Drawer = ({ children, isOpen, setIsOpen }: DrawerProps) => {
           className="relative w-340px max-w-lg pb-10 flex flex-col space-y-6 h-full drawer-content"
           onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
         >
-          <header className="px-4 py-4 flex items-center">
+          <header className="px-4 py-4 flex items-center ">
             <div className="flex flex-shrink-0 items-center border-right">
               <Link href="/" className="text-2xl font-semibold text-black">
                 SKILLIFY

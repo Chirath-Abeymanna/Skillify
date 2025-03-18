@@ -3,17 +3,20 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ProfileSection from "./ProfileSection";
+import { signOut, useSession } from "next-auth/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 const navigation = [
   { name: "Home", href: "/" },
-  { name: "Services", href: "#", dropdown: true }, // No href to prevent navigation
+  { name: "Services", href: "#", dropdown: true },
   { name: "FAQ", href: "/#faq-section" },
   { name: "Blogs", href: "/blogs" },
   { name: "Contact Us", href: "/#joinUs-section" },
 ];
 
 const services = [
-  { name: "Career Map", href: "/Roadmap" },
+  { name: "Career Map", href: "/CareerMap" },
   { name: "Job Seeker", href: "/JobSeeker" },
   { name: "Salary Scope", href: "/SalaryPredictor" },
   { name: "Degree Navigator", href: "/DegreeMatcher" },
@@ -27,6 +30,7 @@ interface DataProps {
 const Drawerdata = ({ setIsOpen }: DataProps) => {
   const pathname = usePathname();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { data: session, status } = useSession();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -46,7 +50,7 @@ const Drawerdata = ({ setIsOpen }: DataProps) => {
       <div className="">
         <ProfileSection />
       </div>
-      <div className="flex-1 py-16">
+      <div className="flex-1 mt-8">
         <div className="sm:block">
           <div className="flex flex-col space-y-6 px-5 pt-2 pb-3">
             {navigation.map((item) =>
@@ -97,6 +101,18 @@ const Drawerdata = ({ setIsOpen }: DataProps) => {
                   {item.name}
                 </Link>
               )
+            )}
+
+            {status === "authenticated" && session && (
+              <button
+                onClick={() => {
+                  signOut({ callbackUrl: "/" });
+                }}
+                className="flex justify-center w-[80%] text-center px-4 py-2 bg-red-500  text-white hover:bg-red-700 rounded-lg ml-5 space-x-5"
+              >
+                <FontAwesomeIcon icon={faRightFromBracket} className="mt-1" />
+                <p>Log Out</p>
+              </button>
             )}
           </div>
         </div>

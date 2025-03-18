@@ -4,16 +4,14 @@ const Join = () => {
       <div className="mx-auto max-w-2xl lg:max-w-7xl sm:py-4 lg:px-8">
         <div className="text-center">
           <h3 className="text-blue text-lg font-normal tracking-widest">
-            JOIN US
+            CONTACT US
           </h3>
           <h2 className="text-4xl sm:text-6xl font-bold my-6 leading-10">
             {" "}
-            Enhance your skills <br /> to the new level.
+            Get in touch with <br /> Skillify
           </h2>
           <p className="text-lightblack text-base font-normal">
-            Empower your career and personal growth with tailored skill-building
-            programs. <br /> Skillify offers expert guidance, resources, and
-            hands-on learning to help you reach your full potential.
+            Have any questions or want to join our skill-building programs? <br /> Contact us now!
           </p>
         </div>
 
@@ -38,9 +36,9 @@ const Join = () => {
             <div className="sm:mr-3">
               <button
                 type="submit"
-                className="joinButton w-full sm:w-0 text-xl text-white font-semibold text-center rounded-xl sm:rounded-full bg-blue hover:bg-btnblue"
+                className="joinButton w-full sm:w-0 text-xl text-white font-semibold text-center rounded-xl sm:rounded-full bg-sky-400 hover:bg-sky-600"
               >
-                Join!
+                Send!
               </button>
             </div>
           </div>

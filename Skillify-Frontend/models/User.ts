@@ -1,28 +1,29 @@
-import { Schema, model, Document, models } from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 import bcrypt from "bcryptjs";
 
-const UserSchema = new Schema({
-  lastName: {
-    type: String,
-  },
+interface IUser extends Document {
+  //Added the review and star No:
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  avatar: string;
+  provider: string;
+  reviews: string[];
+  starNo: number;
+  roadmaps: mongoose.Types.ObjectId[];
+}
 
-  firstName: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    unique: true,
-    required: true,
-  },
-  password: {
-    type: String,
-    default: null,
-  },
-  avatar: {
-    type: String,
-    default: "default",
-  },
+const UserSchema: Schema = new Schema({
+  firstName: { type: String },
+  lastName: { type: String },
+  email: { type: String, required: true, unique: true },
+  password: { type: String },
+  avatar: { type: String, default: "default" },
+  provider: { type: String, default: "" },
+  reviews: { type: [String], default: [] },
+  starNo: { type: Number, default: 0 },
+  roadmaps: [{ type: mongoose.Schema.Types.ObjectId, ref: "Roadmap" }],
 });
 
 UserSchema.pre("save", async function (next) {
@@ -34,6 +35,5 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
-const User = models.User || model("User", UserSchema);
-
+const User = mongoose.models.User || mongoose.model<IUser>("User", UserSchema);
 export default User;

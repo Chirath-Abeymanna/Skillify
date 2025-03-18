@@ -5,7 +5,6 @@ const LoadingScreen = () => {
   return (
     <div className="absolute top-0 left-0 flex items-center justify-center h-screen z-[999999] w-full bg-white overflow-hidden">
       <svg
-        xmlns="http://www.w3.org/2000/svg"
         height="200px"
         width="200px"
         viewBox="0 0 200 200"
