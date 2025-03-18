@@ -102,7 +102,7 @@ const Card = ({ item }: { item: DataType }) => {
 
 const BlogSection = () => {
     return (
-        <div className="bg-lightgrey py-20 overflow-hidden" id="blog-section">
+        <div className="bg-lightgrey py-20 min-h-max overflow-hidden" id="blog-section">
             <div className="mx-auto max-w-7xl sm:py-4 lg:px-8">
                 <div className="text-center">
                     <h3 className="text-blue text-lg font-normal tracking-widest">
@@ -112,8 +112,8 @@ const BlogSection = () => {
                         Our latest updates.
                     </h3>
                 </div>
-                <div className="relative w-full py-8">
-                    <div className="flex space-x-6 overflow-x-auto scroll-smooth scrollbar-hide custom-scrollbar">
+                <div className="relative w-full min-h-max py-16 ">
+                    <div className="flex space-x-6 overflow-x-auto scroll-smooth overflow-y-hidden ">
                         {postData.map((item, i) => (
                             <Card key={i} item={item} />
                         ))}
