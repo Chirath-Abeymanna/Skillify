@@ -9,6 +9,7 @@ const WORK_CULTURES: string[] = workCultures.map(
 
 export default function WorkStyleMatcher(): JSX.Element {
   const [selectedWorkStyle, setSelectedWorkStyle] = useState<string>("");
+  const [jobRoles, setJobRoles] = useState<string[]>([]);
   const [messages, setMessages] = useState<
     { message: string; type: "success" | "info" | "warning" | "error" }[]
   >([]);
@@ -23,6 +24,11 @@ export default function WorkStyleMatcher(): JSX.Element {
       );
       return;
     }
+    
+    const selectedCulture = workCultures.find(
+      (culture) => culture.company_culture === selectedWorkStyle
+    );
+    setJobRoles(selectedCulture ? selectedCulture.job_roles : []);
     setMessages((prevMessages) => [
       ...prevMessages,
       { message: "Form submitted successfully!", type: "success" },
@@ -75,6 +81,27 @@ export default function WorkStyleMatcher(): JSX.Element {
             </button>
           </form>
         </div>
+
+        {/* Job Roles List */}
+        {jobRoles.length > 0 && (
+          <div className="text-center max-w-[800px] mx-auto mt-8">
+            <h2 className="text-2xl font-bold text-gray-800 drop-shadow-sm">
+              Available Job Roles:
+            </h2>
+            <div className="mt-4 max-h-[300px] overflow-y-auto space-y-4 p-6 bg-white shadow-xl rounded-2xl border border-gray-200">
+              <ul>
+                {jobRoles.map((role, idx) => (
+                  <li
+                    key={idx}
+                    className="text-lg font-medium text-[#3c3c3d] p-3 rounded-lg bg-[#e5e6e7] border-2 shadow-md hover:bg-gray-200 transition duration-300"
+                  >
+                    {role}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
