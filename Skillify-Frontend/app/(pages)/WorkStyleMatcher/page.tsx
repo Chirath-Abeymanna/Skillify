@@ -87,7 +87,7 @@ export default function WorkStyleMatcher(): JSX.Element {
 
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white font-semibold rounded-xl px-6 py-3 text-lg shadow-md transform hover:scale-105 hover:bg-blue-600 transition duration-300"
+              className="w-full bg-blue-500 text-white font-semibold rounded-xl px-6 py-3 text-lg shadow-md transform transition duration-300 ease-out hover:bg-blue-600 hover:scale-105 hover:shadow-lg focus:outline-none"
             >
               Show Available Job Roles
             </button>
