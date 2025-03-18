@@ -11,9 +11,7 @@ const Join = () => {
             Get in touch with <br /> Skillify
           </h2>
           <p className="text-lightblack text-base font-normal">
-            Empower your career and personal growth with tailored skill-building
-            programs. <br /> Skillify offers expert guidance, resources, and
-            hands-on learning to help you reach your full potential.
+            Have any questions or want to join our skill-building programs? <br /> Contact us now!
           </p>
         </div>
 

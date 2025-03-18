@@ -64,6 +64,7 @@ export default function BlogPage() {
         image: "/images/blogs/blog5.jpg",
         category: "Consultations",
       },
+
     ]);
   }, []);
 
