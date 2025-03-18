@@ -1,6 +1,5 @@
 "use client";
-import { useState } from "react";
-import Image from "next/image"; // Importing Next.js Image component for optimization
+import { useState, useEffect } from "react";
 import workCultures from "@/Data/WorkCulture.json";
 import MessageBox from "@/components/MessageBox";
 
@@ -15,6 +14,21 @@ export default function WorkStyleMatcher(): JSX.Element {
     { message: string; type: "success" | "info" | "warning" | "error" }[]
   >([]);
 
+  // Extract job roles when selectedWorkStyle changes
+  useEffect(() => {
+    if (!selectedWorkStyle) return; // Skip if no work style is selected
+
+    const selectedCulture = workCultures.find(
+      (culture) => culture.company_culture === selectedWorkStyle
+    );
+    
+    setJobRoles(selectedCulture ? selectedCulture.job_roles : []);
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { message: "Work Style selected successfully!", type: "success" },
+    ]);
+  }, [selectedWorkStyle]);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedWorkStyle) {
@@ -23,27 +37,11 @@ export default function WorkStyleMatcher(): JSX.Element {
           ? prevMessages
           : [...prevMessages, { message: "Select a Work Style first", type: "warning" }]
       );
-      return;
     }
-
-    const selectedCulture = workCultures.find(
-      (culture) => culture.company_culture === selectedWorkStyle
-    );
-    setJobRoles(selectedCulture ? selectedCulture.job_roles : []);
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { message: "Form submitted successfully!", type: "success" },
-    ]);
   };
 
   return (
-    <div
-      className="relative min-h-screen w-full text-gray-900 font-sans overflow-hidden"
-      style={{
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
+    <div className="relative min-h-screen w-full text-gray-900 font-sans overflow-hidden">
       {/* Message Box */}
       {messages.map((msg, index) => (
         <MessageBox key={index} message={msg.message} type={msg.type} />
@@ -58,18 +56,6 @@ export default function WorkStyleMatcher(): JSX.Element {
           Choose your preferred work style and discover the best job roles that align with it. 
           Take the first step towards finding your ideal work environment!
         </p>
-      </div>
-
-      {/* Image Optimization with Next.js Image Component */}
-      <div className="absolute top-0 left-0 w-full h-full">
-        <Image
-          src="/path/to/your/image.jpg" // Replace with the path to your image
-          alt="Work Style Background"
-          layout="fill"
-          objectFit="cover"
-          priority // This ensures that the image is loaded first on initial load
-          quality={75} // Adjust quality for optimal loading and performance
-        />
       </div>
 
       <div className="relative z-10">
