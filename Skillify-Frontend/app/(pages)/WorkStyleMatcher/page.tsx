@@ -134,7 +134,7 @@ export default function WorkStyleMatcher(): JSX.Element {
             >
               Available Job Roles:
             </h2>
-            <div className="mt-4 max-h-[300px] overflow-y-auto space-y-4 p-6 bg-white shadow-xl rounded-2xl border border-gray-200">
+            <div className="mt-4 max-h-[300px] overflow-y-auto space-y-4 p-6 bg-white shadow-xl rounded-2xl border-2 border-gray-300">
               <ul role="list">
                 {jobRoles.map((role, idx) => (
                   <li
