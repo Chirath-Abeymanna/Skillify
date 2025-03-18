@@ -24,7 +24,7 @@ export default function WorkStyleMatcher(): JSX.Element {
       );
       return;
     }
-    
+
     const selectedCulture = workCultures.find(
       (culture) => culture.company_culture === selectedWorkStyle
     );
@@ -36,7 +36,14 @@ export default function WorkStyleMatcher(): JSX.Element {
   };
 
   return (
-    <div className="relative min-h-screen w-full text-gray-900 font-sans overflow-hidden">
+    <div
+      className="relative min-h-screen w-full text-gray-900 font-sans overflow-hidden"
+      style={{
+        backgroundImage: "url('/path/to/your/image.jpg')", // Replace with your image URL
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       {/* Message Box */}
       {messages.map((msg, index) => (
         <MessageBox key={index} message={msg.message} type={msg.type} />
