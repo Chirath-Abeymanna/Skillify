@@ -13,15 +13,29 @@ export default function WorkStyleMatcher(): JSX.Element {
   const [messages, setMessages] = useState<
     { message: string; type: "success" | "info" | "warning" | "error" }[]
   >([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const selectedCulture = workCultures.find(
-      (culture) => culture.company_culture === selectedWorkStyle
-    );
-    setJobRoles(selectedCulture ? selectedCulture.job_roles : []);
+    if (!selectedWorkStyle) return;
+    setLoading(true);
+    setTimeout(() => {
+      try {
+        const selectedCulture = workCultures.find(
+          (culture) => culture.company_culture === selectedWorkStyle
+        );
+        setJobRoles(selectedCulture ? selectedCulture.job_roles : []);
+      } catch (error) {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          { message: "Error fetching job roles", type: "error" },
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    }, 500);
   }, [selectedWorkStyle]);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedWorkStyle) {
       setMessages((prevMessages) =>
@@ -94,24 +108,30 @@ export default function WorkStyleMatcher(): JSX.Element {
           </form>
 
           {/* Job Roles List */}
-          {jobRoles.length > 0 && (
-            <div className="text-center max-w-[800px] mx-auto mt-8 lg:mt-0 lg:ml-8">
-              <h2 className="text-2xl font-bold text-gray-800 drop-shadow-sm">
-                Available Job Roles:
-              </h2>
-              <div className="mt-4 max-h-[300px] overflow-y-auto space-y-4 p-6 bg-white shadow-xl rounded-2xl border border-gray-200">
-                <ul>
-                  {jobRoles.map((role, idx) => (
-                    <li
-                      key={idx}
-                      className="text-lg font-medium text-[#3c3c3d] p-3 rounded-lg bg-[#e5e6e7] border-2 shadow-md"
-                    >
-                      {role}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          {loading ? (
+            <div className="text-center mt-8 text-lg font-semibold text-blue-600">
+              Loading job roles...
             </div>
+          ) : (
+            jobRoles.length > 0 && (
+              <div className="text-center max-w-[800px] mx-auto mt-8 lg:mt-0 lg:ml-8">
+                <h2 className="text-2xl font-bold text-gray-800 drop-shadow-sm">
+                  Available Job Roles:
+                </h2>
+                <div className="mt-4 max-h-[300px] overflow-y-auto space-y-4 p-6 bg-white shadow-xl rounded-2xl border border-gray-200">
+                  <ul>
+                    {jobRoles.map((role, idx) => (
+                      <li
+                        key={idx}
+                        className="text-lg font-medium text-[#3c3c3d] p-3 rounded-lg bg-[#e5e6e7] border-2 shadow-md hover:bg-gray-200 transition duration-300"
+                      >
+                        {role}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )
           )}
         </div>
       </div>
