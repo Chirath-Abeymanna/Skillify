@@ -48,14 +48,19 @@ export default function WorkStyleMatcher(): JSX.Element {
       {messages.map((msg, index) => (
         <MessageBox key={index} message={msg.message} type={msg.type} />
       ))}
-      
+
+      {/* Heading Section */}
+      <div className="text-center py-10 bg-blue-500 text-white">
+        <h1 className="text-4xl lg:text-5xl font-extrabold drop-shadow-md">
+          Work Style Matcher
+        </h1>
+        <p className="mt-4 text-lg">
+          Choose your preferred work style and discover the best job roles that align with it. 
+          Take the first step towards finding your ideal work environment!
+        </p>
+      </div>
+
       <div className="relative z-10">
-        <header className="flex flex-col items-center lg:flex-row lg:items-center pl-4 lg:pl-16 gap-4 pt-6 pb-6">
-          <h1 className="text-4xl lg:text-6xl font-extrabold text-blue-500 drop-shadow-md">
-            Work Style Matcher
-          </h1>
-        </header>
-        
         {/* Work Style Selection Form */}
         <div className="flex flex-col items-center lg:flex-row lg:justify-center">
           <form
