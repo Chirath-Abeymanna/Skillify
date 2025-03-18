@@ -90,7 +90,7 @@ const Card = ({ item }: { item: DataType }) => {
                 <Link href={item.url} passHref>
                     <button
                         type="button"
-                        className="rounded-lg bg-indigo-500 py-3 px-6 text-xs font-bold uppercase text-white shadow-md transition-all hover:shadow-lg focus:opacity-85 active:opacity-85 disabled:pointer-events-none disabled:opacity-50"
+                        className="rounded-full bg-blue-500 py-3 px-6 text-xs font-bold uppercase text-white shadow-md transition-all hover:shadow-lg focus:opacity-85 active:opacity-85 disabled:pointer-events-none disabled:opacity-50"
                     >
                         Read More
                     </button>
