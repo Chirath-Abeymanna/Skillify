@@ -63,13 +63,13 @@ export default function WorkStyleMatcher(): JSX.Element {
             className="relative flex flex-col items-center gap-6 w-full max-w-lg mx-auto p-8 bg-white shadow-2xl rounded-2xl border border-gray-200"
           >
             <div className="flex flex-col w-full">
-              <label className="text-lg font-semibold text-[#131313]">
+              <label className="text-lg font-semibold text-[#131313] mb-2">
                 Select Work Style:
               </label>
               <select
                 aria-label="Select Work Style"
                 onChange={(e) => setSelectedWorkStyle(e.target.value)}
-                className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 bg-gray-50"
+                className="w-full p-4 mt-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 bg-gray-50 transition duration-300 hover:border-blue-400"
               >
                 <option value="">Choose work style</option>
                 {WORK_CULTURES.map((culture) => (
@@ -82,7 +82,7 @@ export default function WorkStyleMatcher(): JSX.Element {
 
             <button
               type="submit"
-              className="w-full bg-blue-500 text-white font-semibold rounded-xl px-6 py-3 text-lg shadow-md transform hover:scale-105 transition duration-300"
+              className="w-full bg-blue-500 text-white font-semibold rounded-xl px-6 py-3 text-lg shadow-md transform hover:scale-105 hover:bg-blue-600 transition duration-300"
             >
               Show Available Job Roles
             </button>
