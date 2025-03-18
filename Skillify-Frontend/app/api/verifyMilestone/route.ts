@@ -21,7 +21,15 @@ export async function POST(req: NextRequest) {
     const prompt = `Generate 5 multiple-choice questions based on the milestone: ${milestone}. Each question should have 4 answers, and one of them should be correct. Provide the response as a JSON array of objects with the following properties:
     - question: The question text.
     - answers: An array of 4 answer options.
-    - correctAnswer: The index of the correct answer (0-3). Ensure the JSON is properly formatted.`;
+    - correctAnswer: The index of the correct answer (0-3). Ensure the JSON is properly formatted and follows this exact structure:
+    [
+      {
+        "question": "string",
+        "answers": ["string", "string", "string", "string"],
+        "correctAnswer": number
+      },
+      ...
+    ]`;
 
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
