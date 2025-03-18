@@ -32,11 +32,16 @@ export default function WorkStyleMatcher(): JSX.Element {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedWorkStyle) {
-      setMessages((prevMessages) =>
-        prevMessages.some((msg) => msg.message === "Select a Work Style first")
-          ? prevMessages
-          : [...prevMessages, { message: "Select a Work Style first", type: "warning" }]
-      );
+      setMessages((prevMessages) => {
+        // Check if the warning message already exists
+        if (prevMessages.some((msg) => msg.message === "Select a Work Style first")) {
+          return prevMessages;
+        }
+        return [
+          ...prevMessages,
+          { message: "Select a Work Style first", type: "warning" },
+        ];
+      });
     }
   };
 
