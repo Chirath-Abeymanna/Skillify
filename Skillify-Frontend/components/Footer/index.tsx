@@ -20,8 +20,8 @@ const products: ProductType[] = [
     link: [
       "Career Map",
       "Job Seeker",
-      "Salary Predictor",
-      "Degree Matcher",
+      "Salary Scope",
+      "Degree Navigator",
       "Consultations",
     ],
   },
@@ -75,7 +75,7 @@ const footer = () => {
           </div>
 
           {/* COLUMN-2/3 */}
-          <div className="space-y-5 col-span-8 md:col-span-4">
+          <div className="space-y-10 col-span-8 md:col-span-4">
             {products.map((product) => (
               <div
                 key={product.id}
@@ -84,21 +84,21 @@ const footer = () => {
                 <p className="text-white text-xl font-extrabold mb-9">
                   {product.section}
                 </p>
-                <ul className="flex flex-auto space-x-4 md:space-x-16 justify-between">
+                <ul className="flex flex-auto w-max space-x-14 md:space-x-16 justify-between ">
                   {product.link.map((link: string, index: number) => {
                     let href = "/"; // Default link
                     if (link === "Blogs") href = "/blogs"; // Link to Blogs page
                     if (link === "Reviews") href = "/Reviews"; // Link to Reviews page
-                    if (link === "Contact Us") href = "/ContactUs"; // Link to Contact page
+                    if (link === "Contact Us") href = "/#joinus-section"; // Link to Contact page
                     if (link === "Help Center") href = "/HelpCenter"; // Link to Help Center page
                     if (link === "Career Map") href = "/CareerMap"; // Link to Career Map page
                     if (link === "Job Seeker") href = "/JobSeeker"; // Link to Job Seeker page
-                    if (link === "Salary Predictor") href = "/SalaryPredictor"; // Link to Salary Predictor page
-                    if (link === "Degree Matcher") href = "/DegreeMatcher"; // Link to Degree Matcher page
+                    if (link === "Salary Scope") href = "/SalaryPredictor"; // Link to Salary Predictor page
+                    if (link === "Degree Navigator") href = "/DegreeMatcher"; // Link to Degree Matcher page
                     if (link === "Consultations") href = "/consultation"; // Link to Consultations page
 
                     return (
-                      <li key={index} className="mb-5">
+                      <li key={index} className="mb-5 space-x-6">
                         <Link
                           href={href}
                           className="text-white relative text-lg font-normal w-10 mb-6 space-links"
@@ -121,7 +121,7 @@ const footer = () => {
           <div className="mt-4 grid grid-cols-1 gap-y-15 gap-x-16 sm:grid-cols-2 xl:gap-x-8">
             <div>
               <h3 className="text-center md:text-start text-offwhite text-lg">
-                @2023 - All Rights Reserved by{" "}
+                @2025 - All Rights Reserved by{" "}
                 <Link href="https://adminmart.com/" target="_blank">
                   Skillify
                 </Link>

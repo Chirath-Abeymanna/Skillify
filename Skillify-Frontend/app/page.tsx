@@ -10,6 +10,7 @@ import FAQ from "../components/FAQ/index";
 import Testimonials from "../components/Testimonials/index";
 import Articles from "../components/Articles/index";
 import Joinus from "../components/Joinus/index";
+import CookiesButton from "@/components/CookiesButton";
 import { SessionProvider } from "next-auth/react";
 
 export default function Home() {
@@ -27,6 +28,7 @@ export default function Home() {
         <Testimonials />
         <Articles />
         <Joinus />
+        <CookiesButton />
       </SessionProvider>
     </main>
   );

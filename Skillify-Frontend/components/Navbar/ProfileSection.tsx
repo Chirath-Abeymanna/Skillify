@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import NextAuth from "next-auth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 declare module "next-auth" {
   interface Session {
@@ -29,6 +30,8 @@ const ProfileSection = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   let userAvatar: string;
   const { data: session, status } = useSession();
+
+  console.log("user", session?.user);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -82,9 +85,10 @@ const ProfileSection = () => {
                   onClick={() => {
                     signOut({ callbackUrl: "/" });
                   }}
-                  className="block w-[90%] text-center px-4 py-2 bg-red-500  text-white hover:bg-red-700 rounded-md ml-2 "
+                  className="flex justify-center w-[90%] text-center px-4 py-2 bg-red-500  text-white hover:bg-red-700 rounded-md ml-2  space-x-5"
                 >
-                  Log Out
+                  <FontAwesomeIcon icon={faRightFromBracket} className="mt-1" />
+                  <p>Log Out</p>
                 </button>
               </motion.div>
             )}

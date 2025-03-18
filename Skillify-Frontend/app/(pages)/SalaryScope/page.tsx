@@ -96,7 +96,7 @@ export default function Home() {
 
             <button
               onClick={predictSalary}
-              className="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600 transition"
+              className="w-full mt-4 bg-btnblue text-white py-2 rounded-lg font-semibold hover:bg-blue-600 transition"
             >
               🔮 Predict Salary
             </button>
