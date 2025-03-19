@@ -64,6 +64,15 @@ export default function BlogPage() {
         image: "/images/blogs/blog5.jpg",
         category: "Consultations",
       },
+      {
+        id: 7,
+        title: "TechFit",
+        publishedDate: "01/03/2025",
+        content:
+          "💻 Ready to find your perfect tech career? TechFit is here to match your skills and interests with the right IT roles!\n \nThe tech industry is vast, and choosing the right path can be challenging. TechFit analyzes your strengths, preferences, and goals to recommend IT careers that suit you best. Whether you're passionate about software development, data science, cybersecurity, or UI/UX design, TechFit provides tailored suggestions to help you thrive.\n \nWith personalized career insights, skill-building resources, and industry trends, TechFit ensures you're on the right track to achieving your tech dreams. Discover your ideal IT career today and unlock your potential with TechFit!",
+        image: "/images/blogs/blog8.svg",
+        category: "TechFit",
+      },
     ]);
   }, []);
 
