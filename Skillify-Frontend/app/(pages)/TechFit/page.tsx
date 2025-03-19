@@ -21,7 +21,7 @@ export default function TechStackMatcher(): JSX.Element {
   
 }
 
-<><select
+<><><select
   onChange={(e) => setSelectedTechStack(e.target.value)}
   className="border p-2 rounded-lg"
 >
@@ -35,6 +35,9 @@ export default function TechStackMatcher(): JSX.Element {
     {jobRoles.map((role, idx) => (
       <li key={idx} className="p-2 border-b">{role}</li>
     ))}
-  </ul></>
+  </ul></><div className="bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-lg">
+    <h1 className="text-2xl font-bold text-blue-500">Tech Stack Matcher</h1>
+  </div></>
+
 
 
