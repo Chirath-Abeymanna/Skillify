@@ -12,7 +12,7 @@ const generatePath = (milestones: number, width: number, height: number) => {
   let pathD = `M ${width / 2} ${height} `; // Start from bottom center
   let positions: { x: number; y: number }[] = [{ x: width / 2, y: height }];
 
-  const curveWidth = width * 0.2; // *** Reduced width of curves ***
+  const curveWidth = width * 0.25; // *** Reduced width of curves ***
 
   for (let i = 1; i < milestones; i++) {
     const isLeft = i % 2 === 1;
@@ -167,7 +167,10 @@ const Roadmap: React.FC<{
             ))}
         </svg>
       ) : (
-        <Quiz milestone={quizMilestone as any} />
+        <Quiz
+          milestone={quizMilestone as any}
+          onQuizComplete={() => setShowQuiz(false)}
+        />
       )}
     </div>
   );
