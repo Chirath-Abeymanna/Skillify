@@ -61,6 +61,16 @@ const postData: DataType[] = [
         imgSrc: "/images/blogs/blog5.svg",
         url: "/blogs/5",
     },
+    {
+        time: "5 min",
+        heading: "Skillify’s Work Style Matcher",
+        heading2: "Find the perfect job with Work Style Matcher!",
+        name: "Published on Skillify Blog",
+        date: "December 18, 2024",
+        imgSrc: "/images/blogs/blog7.svg",
+        url: "/blogs",
+    },
+    
 ];
 
 const Card = ({ item }: { item: DataType }) => {
