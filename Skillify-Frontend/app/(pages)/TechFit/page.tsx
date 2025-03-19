@@ -21,7 +21,7 @@ export default function TechStackMatcher(): JSX.Element {
   
 }
 
-<><><select
+<><><><select
   onChange={(e) => setSelectedTechStack(e.target.value)}
   className="border p-2 rounded-lg"
 >
@@ -37,6 +37,8 @@ export default function TechStackMatcher(): JSX.Element {
     ))}
   </ul></><div className="bg-gray-100 p-6 rounded-lg shadow-lg w-full max-w-lg">
     <h1 className="text-2xl font-bold text-blue-500">Tech Stack Matcher</h1>
+  </div></><div className="absolute inset-0">
+    <img src="/images/DeegreeMatcher/bluebg2.jpg" className="w-full h-full object-cover" />
   </div></>
 
 
