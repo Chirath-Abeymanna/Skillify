@@ -1,6 +1,12 @@
 "use client";
 import { useState } from "react";
 import techStacks from "@/Data/TechStacks.json";
+import MessageBox from "@/components/MessageBox";
+
+const [messages, setMessages] = useState<
+  { message: string; type: "success" | "info" | "warning" | "error" }[]
+>([]);
+
 
 const [selectedTechStack, setSelectedTechStack] = useState<string>("");
 const [jobRoles, setJobRoles] = useState<string[]>([]);
