@@ -41,7 +41,7 @@ export default function TechStackMatcher(): JSX.Element {
   
 }
 
-<><><><select
+<><><><><select
   onChange={(e) => setSelectedTechStack(e.target.value)}
   className="border p-2 rounded-lg"
 >
@@ -59,7 +59,10 @@ export default function TechStackMatcher(): JSX.Element {
     <h1 className="text-2xl font-bold text-blue-500">Tech Stack Matcher</h1>
   </div></><div className="absolute inset-0">
     <img src="/images/DeegreeMatcher/bluebg2.jpg" className="w-full h-full object-cover" />
-  </div></>
+  </div></><button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md transition-transform transform hover:scale-105">
+    Show Available Job Roles
+  </button></>
+
 
 
 
