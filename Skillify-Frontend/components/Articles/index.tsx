@@ -22,7 +22,7 @@ const postData: DataType[] = [
         heading2: "With Our Dynamic Roadmaps according to user preferences!",
         name: "Published on Skillify Blog",
         date: "December 18, 2024",
-        imgSrc: "/images/blogs/blog1.jpg",
+        imgSrc: "/images/blogs/blog1.svg",
         url: "/blogs",
     },
     {
@@ -31,7 +31,7 @@ const postData: DataType[] = [
         heading2: "Scan CVs and Scrape LinkedIn Profiles!",
         name: "Published on Skillify Blog",
         date: "December 18, 2024",
-        imgSrc: "/images/blogs/blog2.jpg",
+        imgSrc: "/images/blogs/blog2.svg",
         url: "/blogs",
     },
     {
@@ -40,7 +40,7 @@ const postData: DataType[] = [
         heading2: "Get Expert Guidance for Career Growth!",
         name: "Published on Skillify Blog",
         date: "December 18, 2024",
-        imgSrc: "/images/blogs/blog3.png",
+        imgSrc: "/images/blogs/blog3.svg",
         url: "/blogs",
     },
     {
@@ -49,7 +49,7 @@ const postData: DataType[] = [
         heading2: "Find the Perfect Degree for Your Career!",
         name: "Published on Skillify Blog",
         date: "December 18, 2024",
-        imgSrc: "/images/blogs/blog4.png",
+        imgSrc: "/images/blogs/blog4.svg",
         url: "/blogs",
     },
     {
@@ -58,7 +58,7 @@ const postData: DataType[] = [
         heading2: "Tailor Your Learning Path with Skillify!",
         name: "Published on Skillify Blog",
         date: "December 18, 2024",
-        imgSrc: "/images/blogs/blog5.jpg",
+        imgSrc: "/images/blogs/blog5.svg",
         url: "/blogs/5",
     },
 ];
@@ -71,7 +71,7 @@ const Card = ({ item }: { item: DataType }) => {
             whileTap={{ scale: 0.95 }}
             
         >
-            <div className="relative h-56 overflow-hidden rounded-t-xl bg-gradient-to-r from-indigo-500 to-indigo-600">
+            <div className="relative h-56 overflow-hidden rounded-t-xl ">
                 <Image
                     src={item.imgSrc}
                     alt={item.heading}
