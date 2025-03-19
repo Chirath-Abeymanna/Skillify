@@ -69,8 +69,8 @@ export default function BlogPage() {
         title: "Work Style Matcher",
         publishedDate: "01/03/2025",
         content:
-          "🔍 ",
-        image: "/images/blogs/blog6.svg",
+          "🔍 Not sure which work environment suits you best? Our Work Style Matcher helps you find the perfect fit!\n \nEvery job has a unique work culture, and finding the right fit is essential for job satisfaction and productivity. Our Work Style Matcher assesses your preferences, strengths, and work habits to recommend job roles that align with your personality.\n \nWhether you thrive in a fast-paced environment, prefer remote work, or enjoy collaborative projects, our tool helps you discover the ideal work setting. Make informed career decisions by understanding your work style and finding opportunities that match your professional preferences! ",
+        image: "/images/blogs/blog7.svg",
         category: "Interview Prep",
       },
     ]); 
