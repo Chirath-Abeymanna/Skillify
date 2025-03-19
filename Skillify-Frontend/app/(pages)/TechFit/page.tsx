@@ -11,4 +11,17 @@ export default function TechStackMatcher(): JSX.Element {
       <h1 className="text-4xl font-bold text-center">Tech Stack Matcher</h1>  
     </div>
   );
+    <select
+    onChange={(e) => setSelectedTechStack(e.target.value)}
+    className="border p-2 rounded-lg"
+    >
+      <option value="">Choose tech stack</option>
+      {techStacks.map((stack) => (
+        <option key={stack.tech_stack} value={stack.tech_stack}>
+          {stack.tech_stack}
+        </option>
+      ))}
+    </select>
+
+
 }
