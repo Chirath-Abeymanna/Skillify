@@ -5,6 +5,8 @@ import MessageBox from "@/components/MessageBox";
 
 const DEGREE_CATEGORIES: string[] = ["Bio", "Mathematics", "Commerce", "Art"];
 
+//dsvsdofje
+
 export default function DegreeMatcher(): JSX.Element {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [recommendedPrograms, setRecommendedPrograms] = useState<string[]>([]);
