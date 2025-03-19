@@ -90,7 +90,7 @@ const Card = ({ item }: { item: DataType }) => {
                 <Link href={item.url} passHref>
                     <button
                         type="button"
-                        className="rounded-lg bg-indigo-500 py-3 px-6 text-xs font-bold uppercase text-white shadow-md transition-all hover:shadow-lg focus:opacity-85 active:opacity-85 disabled:pointer-events-none disabled:opacity-50"
+                        className="rounded-full bg-blue-500 py-3 px-6 text-xs font-bold uppercase text-white shadow-md transition-all hover:shadow-lg focus:opacity-85 active:opacity-85 disabled:pointer-events-none disabled:opacity-50"
                     >
                         Read More
                     </button>
@@ -102,7 +102,7 @@ const Card = ({ item }: { item: DataType }) => {
 
 const BlogSection = () => {
     return (
-        <div className="bg-lightgrey py-20 overflow-hidden" id="blog-section">
+        <div className="bg-lightgrey py-20 min-h-max overflow-hidden" id="blog-section">
             <div className="mx-auto max-w-7xl sm:py-4 lg:px-8">
                 <div className="text-center">
                     <h3 className="text-blue text-lg font-normal tracking-widest">
@@ -112,8 +112,8 @@ const BlogSection = () => {
                         Our latest updates.
                     </h3>
                 </div>
-                <div className="relative w-full py-8">
-                    <div className="flex space-x-6 overflow-x-auto scroll-smooth scrollbar-hide custom-scrollbar">
+                <div className="relative w-full min-h-max py-16 ">
+                    <div className="flex space-x-6 overflow-x-auto scroll-smooth overflow-y-hidden ">
                         {postData.map((item, i) => (
                             <Card key={i} item={item} />
                         ))}
