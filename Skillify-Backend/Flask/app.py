@@ -32,6 +32,10 @@ le_education = data["le_education"]
 def index():
     return render_template('index.html')
 
+@app.route('/health', methods=['GET'])
+def health():
+    return jsonify({'status': 'healthy'}), 200
+
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
@@ -89,5 +93,5 @@ def parse_resume():
     return jsonify({"error": "Invalid file type. Please upload a PDF."}), 400
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))  # Use Railway's PORT
-    app.run(host="0.0.0.0", port=port, debug=False)  # Disable debug in production
+    port = int(os.environ.get("PORT", 5000))  # Railway's dynamic port
+    app.run(host="0.0.0.0", port=port, debug=False)
