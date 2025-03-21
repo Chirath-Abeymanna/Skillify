@@ -5,3 +5,4 @@ numpy
 pyyaml
 flask-cors
 scikit-learn
+gunicorn
