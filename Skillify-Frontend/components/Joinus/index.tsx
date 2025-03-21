@@ -33,7 +33,9 @@ const Join = () => {
 
     try {
       await emailjs.send(serviceId, templateId, templateParams, userId);
-      setMessage("Thank you for joining! A confirmation email has been sent.");
+      setMessage(
+        "Thank you for Contacting skillify! We will get back to you soon."
+      );
       setFormData({ name: "", email: "", message: "" });
     } catch (error) {
       console.error("Failed to send email:", error);
@@ -44,7 +46,12 @@ const Join = () => {
   return (
     <div className="bg-joinus my-32" id="joinus-section">
       <div className="mx-auto max-w-2xl lg:max-w-7xl sm:py-4 lg:px-8">
-        <div className="text-center">
+        <div className="relative text-center">
+          <img
+            src="images/joinus/horn.svg"
+            alt=""
+            className="hidden lg:block absolute top-0 right-5"
+          />
           <h3 className="text-blue text-lg font-normal tracking-widest">
             CONTACT US
           </h3>
@@ -58,11 +65,11 @@ const Join = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="mx-auto max-w-4xl pt-5">
-          <div className="sm:flex items-center mx-5 p-5 sm:p-0 rounded-xl justify-between bg-lightgrey sm:rounded-full">
+          <div className="block lg:flex items-center mx-5 p-5 sm:p-0 rounded-xl justify-between lg:bg-lightgrey sm:rounded-full focus:bg-lightgrey">
             <input
               type="text"
               name="name"
-              className="my-4 py-4 sm:pl-6 lg:text-xl text-black sm:rounded-full bg-lightgrey pl-1 focus:outline-none bg-emailbg focus:text-black"
+              className="relative my-4 py-8 lg:py-4 px-24 sm:pl-6 lg:text-xl  text-black rounded-full bg-lightgrey pl-1 focus:outline-none bg-emailbg focus:text-black"
               placeholder="Your name"
               value={formData.name}
               onChange={handleChange}
@@ -71,7 +78,7 @@ const Join = () => {
             <input
               type="email"
               name="email"
-              className="my-4 py-4 sm:pl-6 lg:text-xl text-black sm:border-l border-linegrey bg-lightgrey focus:outline-none bg-emailbg focus:text-black"
+              className="relative my-4 py-8 lg:py-4 px-16 lg:right-32 rounded-full lg:rounded-none sm:pl-6 lg:text-xl text-black sm:border-l border-linegrey bg-lightgrey focus:outline-none focus:text-black"
               placeholder="Your email"
               value={formData.email}
               onChange={handleChange}
@@ -88,7 +95,7 @@ const Join = () => {
           />
           <button
             type="submit"
-            className="joinButton w-full sm:w-0 text-xl text-white font-semibold text-center rounded-xl sm:rounded-full bg-blue-400 hover:bg-blue-700 sm:mr-3"
+            className="joinButton ml-auto w-full sm:w-0 text-xl text-white font-semibold text-center rounded-xl sm:rounded-full bg-blue-400 hover:bg-blue-700 sm:mr-3"
           >
             Send
           </button>
