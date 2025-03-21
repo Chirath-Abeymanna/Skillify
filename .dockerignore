@@ -1,0 +1,9 @@
+# Ignore node_modules inside Skillify-Frontend
+Skillify-Frontend/node_modules
+.git
+.gitignore
+Dockerfile
+docker-compose.yml
+*.log
+.env
+__pycache__/
