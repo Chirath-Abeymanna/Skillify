@@ -4,32 +4,20 @@ FROM python:3.9-slim-buster
 # Set working directory
 WORKDIR /app
 
-# Set Python environment variables
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    FLASK_APP=app.py \
-    FLASK_ENV=production \
-    FLASK_DEBUG=0
+# Copy requirements first for better caching
+COPY Skillify-Backend/Flask/requirements.txt .
 
-# Install system dependencies and pip (ensure pip is installed)
+# Install system dependencies and Python packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     python3-dev \
     curl \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && pip install --no-cache-dir -r requirements.txt \
+    && pip install gunicorn
 
-# Install pip if not available
-RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3
-
-# Install Python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Install Gunicorn for production deployment
-RUN pip install gunicorn
-
-# Copy application code
-COPY . .
+# Copy the Flask application code
+COPY Skillify-Backend/Flask /app
 
 # Create non-root user
 RUN adduser --disabled-password --gecos '' appuser
