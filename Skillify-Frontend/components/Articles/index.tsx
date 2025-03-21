@@ -63,6 +63,15 @@ const postData: DataType[] = [
     },
     {
         time: "5 min",
+        heading: "Skillify’s Work Style Matcher",
+        heading2: "Find the perfect job with Work Style Matcher!",
+        name: "Published on Skillify Blog",
+        date: "December 18, 2024",
+        imgSrc: "/images/blogs/blog7.svg",
+        url: "/blogs",
+    },
+        {
+          time: "5 min",
         heading: 'Tech Fit by Skillify',
         heading2: 'Find Your Perfect Tech Career with Skillify!',
         name: "Published on Skillify Blog",
