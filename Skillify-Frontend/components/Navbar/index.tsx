@@ -33,7 +33,9 @@ const Navbarin: React.FC = () => {
     storeScroll();
   }, []);
   return (
-    <div className="z-50 mb-14 lg:mb-0">
+    <div className="w-full mb-20">
+      {" "}
+      {/* Spacer for fixed navbar */}
       <Navbar />
     </div>
   );

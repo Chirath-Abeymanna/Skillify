@@ -31,8 +31,6 @@ const ProfileSection = () => {
   let userAvatar: string;
   const { data: session, status } = useSession();
 
-  console.log("user", session?.user);
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -52,6 +50,7 @@ const ProfileSection = () => {
 
   if (status === "authenticated" && session) {
     userAvatar = "/images/avatars/" + session.user.avatar + ".svg";
+    console.log(userAvatar);
     return (
       <div className="relative flex flex-col items-center sm:items-center sm:space-x-10 sm:justify-center lg:left-24 lg:space-x-10 lg:w-[17vw] lg:justify-between">
         <div className="flex flex-col lg:flex-row lg:space-x-10 items-center sm:items-center">

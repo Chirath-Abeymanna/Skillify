@@ -48,7 +48,7 @@ export default function WorkStyleMatcher(): JSX.Element {
       {/* Background Image */}
       <div className="absolute inset-0 -z-5">
         <img
-          src="/images/DeegreeMatcher/bluebg1.jpg"
+          src="/images/DeegreeMatcher/bgblue.jpg"
           alt="New Decorative SVG"
           className="w-full h-full object-cover"
         />
@@ -58,7 +58,7 @@ export default function WorkStyleMatcher(): JSX.Element {
         {/* Heading Section */}
         <header className="flex flex-col items-center lg:flex-row lg:items-center pl-4 lg:pl-16 gap-4 pt-6 pb-6">
           <img
-            src="/images/DeegreeMatcher/bluebg1.jpg"
+            src="/images/aboutus/imgsix.svg"
             alt="Work Style Icon"
             className="w-24 h-24 lg:w-32 lg:h-32"
           />

@@ -20,6 +20,8 @@ const services = [
   { name: "Job Seeker", href: "/JobSeeker" },
   { name: "Salary Scope", href: "/SalaryPredictor" },
   { name: "Degree Navigator", href: "/DegreeMatcher" },
+  { name: "Tech Fitter", href: "/TechFit" },
+  { name: "Work Style Match", href: "/WorkStyleMatcher" },
   { name: "Consultation", href: "/consultation" },
 ];
 
