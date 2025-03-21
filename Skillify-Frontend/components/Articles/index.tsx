@@ -57,11 +57,20 @@ const postData: DataType[] = [
         heading: "Consultations at Skillify",
         heading2: "Tailor Your Learning Path with Skillify!",
         name: "Published on Skillify Blog",
-        date: "December 18, 2024",
-        imgSrc: "/images/blogs/blog5.svg",
-        url: "/blogs/5",
+        date: 'December 18, 2024',
+        imgSrc: '/images/blogs/blog5.jpg',
+        url:'/blogs/5',
     },
-];
+    {
+        time: "5 min",
+        heading: 'Tech Fit by Skillify',
+        heading2: 'Find Your Perfect Tech Career with Skillify!',
+        name: "Published on Skillify Blog",
+        date: 'December 18, 2024',
+        imgSrc: '/images/blogs/blog8.svg',
+        url:'/blogs/8',
+    }
+]
 
 const Card = ({ item }: { item: DataType }) => {
     return (
