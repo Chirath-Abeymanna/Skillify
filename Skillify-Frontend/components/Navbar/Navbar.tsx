@@ -16,12 +16,12 @@ const Navbar = () => {
   const isActive = (path: string) => pathname === path;
 
   return (
-    <nav className="navbar z-[9999] w-[100vw]">
-      <div className="mx-auto max-w-7xl md:p-4 lg">
-        <div className="relative flex h-12 sm:h-20 items-center">
-          <div className="flex flex-1 items-center sm:justify-between ">
+    <nav className="navbar w-[100vw] fixed top-0 left-0 right-0 z-[9999] bg-white shadow-md">
+      <div className="mx-auto max-w-7xl px-4 md:px-6 lg:px-8">
+        <div className="relative flex h-20 sm:h-20 items-center justify-between">
+          <div className="flex flex-1 items-center sm:justify-between">
             {/* LOGO */}
-            <div className="relative lg:right-12 flex flex-shrink-0 items-center justify-start border-right ">
+            <div className="relative lg:right-12 flex flex-shrink-0 items-center justify-start after:content-[''] after:h-12 after:w-[1px] after:bg-gray-200 after:ml-4 after:hidden lg:after:block">
               <Link
                 href="/"
                 className="w-[150px] lg:w-[230px] relative font-semibold text-black"
@@ -36,7 +36,7 @@ const Navbar = () => {
             </div>
 
             {/* LINKS */}
-            <div className="hidden lg:flex items-center border-right">
+            <div className="hidden lg:flex items-center after:content-[''] after:h-12 after:w-[1px] after:bg-gray-200 after:ml-4">
               <div className="flex justify-center space-x-10">
                 <Link
                   href={"/#banner-section"}

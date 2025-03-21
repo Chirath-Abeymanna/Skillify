@@ -21,7 +21,7 @@ const developers = [
     name: "Renal Perera",
     role: "Full stack Developer & QA Engineer",
     image: "images/team/Renal.jpg",
-    linkedIn: "#!",
+    linkedIn: "https://www.linkedin.com/in/renal-perera-b880ba295",
     instagram: "#!",
   },
   {
