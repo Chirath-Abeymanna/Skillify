@@ -87,6 +87,18 @@ const Navbar = () => {
                         Degree Navigator
                       </Link>
                       <Link
+                        href="/TechFit"
+                        className="block text-black py-1 px-2 hover:bg-gray-100"
+                      >
+                        Tech Fitter
+                      </Link>
+                      <Link
+                        href="/WorkStyleMatcher"
+                        className="block text-black py-1 px-2 hover:bg-gray-100"
+                      >
+                        WorkStyle Match
+                      </Link>
+                      <Link
                         href="/consultation"
                         className="block text-black py-1 px-2 hover:bg-gray-100"
                       >

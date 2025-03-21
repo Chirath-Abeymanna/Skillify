@@ -33,8 +33,8 @@ const Navbarin: React.FC = () => {
     storeScroll();
   }, []);
   return (
-    <div className="w-full ">
-      <div className="h-14 sm:h-32 mb-24 lg:mb-0"></div>{" "}
+    <div className="w-full mb-20">
+      {" "}
       {/* Spacer for fixed navbar */}
       <Navbar />
     </div>
