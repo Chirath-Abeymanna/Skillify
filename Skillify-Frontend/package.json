@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
@@ -30,6 +31,7 @@
     "axios": "^1.8.2",
     "bcryptjs": "^3.0.2",
     "d3": "^7.9.0",
+    "emailjs-com": "^3.2.0",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
     "eventsource-parser": "^0.1.0",
@@ -42,6 +44,8 @@
     "mongoose": "^7.3.1",
     "next": "^15.2.1",
     "next-auth": "^4.24.11",
+    "openai": "^4.87.3",
+    "pdf-parse": "^1.1.1",
     "postcss": "^8.4.49",
     "prism": "^1.0.0",
     "react": "18.2.0",
@@ -62,6 +66,7 @@
   "devDependencies": {
     "@types/d3": "^7.4.3",
     "@types/mongoose": "^5.11.96",
+    "@types/pdf-parse": "^1.1.4",
     "@types/react-fontawesome": "^1.6.8",
     "@types/react-slick": "^0.23.10",
     "@types/three": "^0.174.0",
