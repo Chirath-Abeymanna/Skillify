@@ -119,6 +119,15 @@ const CareerMapPage: React.FC = () => {
     }
   };
 
+  const handleRoadmapUpdate = (updatedMilestones: any[]) => {
+    if (selectedRoadmap) {
+      setSelectedRoadmap({
+        ...selectedRoadmap,
+        milestones: updatedMilestones,
+      });
+    }
+  };
+
   if (!session) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white font-Poppins">
@@ -229,6 +238,7 @@ const CareerMapPage: React.FC = () => {
             selectedRoadmap ? selectedRoadmap.milestones : roadmap.milestones
           }
           colors={colors}
+          onRoadmapUpdate={handleRoadmapUpdate}
         />
       )}{" "}
       {/* Pass roadmap data */}
