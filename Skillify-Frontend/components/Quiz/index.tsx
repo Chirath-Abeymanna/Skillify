@@ -18,7 +18,10 @@ interface Question {
   correctAnswer: number;
 }
 
-const Quiz: React.FC<{ milestone: Milestone | null }> = ({ milestone }) => {
+const Quiz: React.FC<{
+  milestone: Milestone | null;
+  onQuizComplete: () => void;
+}> = ({ milestone, onQuizComplete }) => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [userAnswers, setUserAnswers] = useState<number[]>([]);
@@ -85,6 +88,7 @@ const Quiz: React.FC<{ milestone: Milestone | null }> = ({ milestone }) => {
       }
     }
     setShowRoadmap(true);
+    onQuizComplete(); // Notify parent component to switch back to roadmap
   };
 
   if (loading) {

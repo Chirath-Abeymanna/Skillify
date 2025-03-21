@@ -1,0 +1,174 @@
+[
+    {
+      "tech_stack": "Python",
+      "job_roles": [
+        "Data Scientist", "Machine Learning Engineer", "Backend Developer", "Automation Engineer", 
+        "AI Engineer", "Data Engineer", "Software Engineer", "Cybersecurity Analyst", "Research Scientist", 
+        "Bioinformatics Scientist", "Cloud Engineer", "Financial Analyst"
+      ]
+    },
+    {
+      "tech_stack": "JavaScript",
+      "job_roles": [
+        "Frontend Developer", "Full-Stack Developer", "React Developer", "Node.js Developer", 
+        "UI/UX Engineer", "Software Engineer", "Web Developer", "Game Developer", "Mobile App Developer", 
+        "E-commerce Developer", "Blockchain Developer"
+      ]
+    },
+    {
+      "tech_stack": "Java",
+      "job_roles": [
+        "Backend Developer", "Android Developer", "Software Engineer", "Enterprise Application Developer", 
+        "Cloud Engineer", "Big Data Engineer", "DevOps Engineer", "Microservices Developer", 
+        "AI Engineer", "Security Engineer"
+      ]
+    },
+    {
+      "tech_stack": "C++",
+      "job_roles": [
+        "Game Developer", "Embedded Systems Engineer", "Quantitative Analyst", "Software Engineer", 
+        "Systems Engineer", "High-Frequency Trading Developer", "Cybersecurity Engineer", "Robotics Engineer", 
+        "Graphics Programmer", "Simulation Engineer"
+      ]
+    },
+    {
+      "tech_stack": "C#",
+      "job_roles": [
+        "Game Developer", "Software Engineer", "Unity Developer", "Backend Developer", 
+        "AR/VR Developer", "Enterprise Software Developer", "Cloud Application Developer", 
+        "Simulation Developer", "Financial Software Developer"
+      ]
+    },
+    {
+      "tech_stack": "Ruby",
+      "job_roles": [
+        "Full-Stack Developer", "Ruby on Rails Developer", "Backend Engineer", "Web Developer", 
+        "API Developer", "Software Engineer", "DevOps Engineer", "E-commerce Developer"
+      ]
+    },
+    {
+      "tech_stack": "PHP",
+      "job_roles": [
+        "Web Developer", "Backend Developer", "WordPress Developer", "E-commerce Developer", 
+        "Laravel Developer", "Software Engineer", "CMS Developer", "Full-Stack Developer"
+      ]
+    },
+    {
+      "tech_stack": "Swift",
+      "job_roles": [
+        "iOS Developer", "Mobile App Developer", "Software Engineer", "ARKit Developer", 
+        "Game Developer", "Fintech Developer"
+      ]
+    },
+    {
+      "tech_stack": "Kotlin",
+      "job_roles": [
+        "Android Developer", "Mobile App Developer", "Backend Developer", "Software Engineer", 
+        "Cross-Platform Developer"
+      ]
+    },
+    {
+      "tech_stack": "SQL",
+      "job_roles": [
+        "Database Administrator", "Data Analyst", "Backend Developer", "Data Engineer", 
+        "Business Intelligence Analyst", "ETL Developer", "Big Data Engineer", "Cloud Database Administrator"
+      ]
+    },
+    {
+      "tech_stack": "Go",
+      "job_roles": [
+        "Backend Developer", "Cloud Engineer", "DevOps Engineer", "Software Engineer", "Blockchain Developer", 
+        "Microservices Developer", "Site Reliability Engineer"
+      ]
+    },
+    {
+      "tech_stack": "TypeScript",
+      "job_roles": [
+        "Frontend Developer", "Full-Stack Developer", "React Developer", "Angular Developer", "Web Developer", 
+        "Mobile App Developer", "Software Engineer"
+      ]
+    },
+    {
+      "tech_stack": "Rust",
+      "job_roles": [
+        "Systems Engineer", "Blockchain Developer", "Embedded Systems Engineer", "Software Engineer", "Security Engineer", 
+        "Game Developer", "Cloud Infrastructure Engineer"
+      ]
+    },
+    {
+      "tech_stack": "Django",
+      "job_roles": [
+        "Backend Developer", "Full-Stack Developer", "Python Developer", "Web Developer", "Software Engineer", 
+        "Data Engineer", "Automation Engineer"
+      ]
+    },
+    {
+      "tech_stack": "Flask",
+      "job_roles": [
+        "Backend Developer", "Python Developer", "API Developer", "Web Developer", "Data Engineer"
+      ]
+    },
+    {
+      "tech_stack": "Spring Boot",
+      "job_roles": [
+        "Java Developer", "Backend Developer", "Microservices Developer", "Cloud Engineer", 
+        "Enterprise Software Developer"
+      ]
+    },
+    {
+      "tech_stack": "React.js",
+      "job_roles": [
+        "Frontend Developer", "Full-Stack Developer", "Web Developer", "UI/UX Developer", 
+        "E-commerce Developer", "Mobile App Developer"
+      ]
+    },
+    {
+      "tech_stack": "Vue.js",
+      "job_roles": [
+        "Frontend Developer", "Full-Stack Developer", "Web Developer", "UI Engineer"
+      ]
+    },
+    {
+      "tech_stack": "Angular",
+      "job_roles": [
+        "Frontend Developer", "Full-Stack Developer", "Software Engineer", "Web Developer", "Enterprise UI Developer"
+      ]
+    },
+    {
+      "tech_stack": "Node.js",
+      "job_roles": [
+        "Backend Developer", "Full-Stack Developer", "API Developer", "Software Engineer", "Serverless Developer"
+      ]
+    },
+    {
+      "tech_stack": "TensorFlow",
+      "job_roles": [
+        "Machine Learning Engineer", "AI Researcher", "Data Scientist", "Deep Learning Engineer", "Computer Vision Engineer"
+      ]
+    },
+    {
+      "tech_stack": "PyTorch",
+      "job_roles": [
+        "Machine Learning Engineer", "AI Researcher", "Data Scientist", "Computer Vision Engineer", "NLP Engineer"
+      ]
+    },
+    {
+      "tech_stack": "Docker",
+      "job_roles": [
+        "DevOps Engineer", "Cloud Engineer", "Software Engineer", "Infrastructure Engineer", "Platform Engineer"
+      ]
+    },
+    {
+      "tech_stack": "Kubernetes",
+      "job_roles": [
+        "DevOps Engineer", "Cloud Engineer", "Site Reliability Engineer", "Software Engineer", "Infrastructure Engineer"
+      ]
+    },
+    {
+      "tech_stack": "AWS",
+      "job_roles": [
+        "Cloud Engineer", "DevOps Engineer", "Solutions Architect", "Software Engineer", "Infrastructure Engineer", "AI Cloud Engineer"
+      ]
+    }
+  ]
+  
