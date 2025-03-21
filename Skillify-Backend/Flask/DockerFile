@@ -1,0 +1,18 @@
+# Use Python 3.12 image
+FROM python:3.12-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install dependencies
+COPY Skillify-Backend/Flask/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the backend code
+COPY Skillify-Backend/Flask .
+
+# Expose the port Flask will run on
+EXPOSE 5000
+
+# Command to start the Flask app with gunicorn
+CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:5000"]
