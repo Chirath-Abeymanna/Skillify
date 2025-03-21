@@ -1,21 +1,27 @@
-import os, sys
+import os
+import sys
 from flask import Flask, request, render_template, jsonify
 from pypdf import PdfReader
-import json
-from resumeparser import extract_career_paths
-from job_scrapper import search_google_jobs
-from flask_cors import CORS
 import pickle
 import numpy as np
+from flask_cors import CORS
+from resumeparser import extract_career_paths
+from job_scrapper import search_google_jobs
 
 sys.path.insert(0, os.path.abspath(os.getcwd()))
 
-UPLOAD_PATH = r"__DATA__"
+UPLOAD_PATH = os.path.join(os.getcwd(), "uploads")
+os.makedirs(UPLOAD_PATH, exist_ok=True)  # Ensure the upload folder exists
+
 app = Flask(__name__, template_folder="templates")
 CORS(app)
 
 # Load model and encoders
-with open('saved_steps.pkl', 'rb') as file:
+MODEL_PATH = os.path.join(os.getcwd(), 'saved_steps.pkl')
+if not os.path.exists(MODEL_PATH):
+    raise FileNotFoundError("Error: saved_steps.pkl not found. Ensure the file is present.")
+
+with open(MODEL_PATH, 'rb') as file:
     data = pickle.load(file)
 
 regressor = data["model"]
@@ -49,9 +55,6 @@ def predict():
 
 @app.route('/Resume', methods=['POST'])
 def parse_resume():
-    """
-    API endpoint that processes a CV, extracts career paths, finds available jobs, and returns the results.
-    """
     if 'pdf_doc' not in request.files:
         return jsonify({"error": "No file part"}), 400
     
@@ -61,17 +64,14 @@ def parse_resume():
         return jsonify({"error": "No selected file"}), 400
     
     if file and file.filename.endswith('.pdf'):
-        # Save the file temporarily
         file_path = os.path.join(UPLOAD_PATH, file.filename)
         file.save(file_path)
         
-        # Extract text from the PDF
         reader = PdfReader(file_path)
         resume_data = "\n".join([page.extract_text() for page in reader.pages if page.extract_text()])
 
         # Step 1: Extract Career Paths
         career_paths = extract_career_paths(resume_data)
-        print(career_paths)
 
         if "error" in career_paths:
             return jsonify(career_paths), 500
@@ -81,7 +81,6 @@ def parse_resume():
         for career in career_paths["career_paths"]:
             job_results[career["career_path"]] = search_google_jobs(career["search_query"])
 
-        # Step 3: Return the Final Output
         return jsonify({
             "career_paths": career_paths["career_paths"],
             "job_results": job_results
@@ -90,4 +89,5 @@ def parse_resume():
     return jsonify({"error": "Invalid file type. Please upload a PDF."}), 400
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Use Railway's PORT
+    app.run(host="0.0.0.0", port=port, debug=False)  # Disable debug in production
