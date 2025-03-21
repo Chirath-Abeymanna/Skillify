@@ -6,12 +6,14 @@ import Roadmap from "../../../components/Roadmap";
 
 const CareerMapPage: React.FC = () => {
   const { data: session } = useSession();
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
   const [showRoadmap, setShowRoadmap] = useState(false);
   const [showCreateUI, setShowCreateUI] = useState(false);
   const [careerGoals, setCareerGoals] = useState("");
   const [skills, setSkills] = useState("");
   const [userRoadmaps, setUserRoadmaps] = useState<any[]>([]);
   const [selectedRoadmap, setSelectedRoadmap] = useState<any>(null);
+
   interface Milestone {
     milestoneName: string;
     description: string;
@@ -55,10 +57,14 @@ const CareerMapPage: React.FC = () => {
     if (session?.user?.email) {
       fetch(`/api/getUserRoadmaps?email=${session.user.email}`)
         .then((res) => res.json())
-        .then((data) => setUserRoadmaps(data.roadmaps || []))
-        .catch((error) =>
-          console.error("Error fetching user roadmaps:", error)
-        );
+        .then((data) => {
+          setUserRoadmaps(data.roadmaps || []);
+          setIsLoading(false); // Set loading to false after fetching
+        })
+        .catch((error) => {
+          console.error("Error fetching user roadmaps:", error);
+          setIsLoading(false); // Set loading to false even if there's an error
+        });
     }
   }, [session]);
 
@@ -113,6 +119,15 @@ const CareerMapPage: React.FC = () => {
     }
   };
 
+  const handleRoadmapUpdate = (updatedMilestones: any[]) => {
+    if (selectedRoadmap) {
+      setSelectedRoadmap({
+        ...selectedRoadmap,
+        milestones: updatedMilestones,
+      });
+    }
+  };
+
   if (!session) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white font-Poppins">
@@ -121,9 +136,17 @@ const CareerMapPage: React.FC = () => {
     );
   }
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white font-Poppins">
+        <p className="text-lg">Loading your career map...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-white font-Poppins">
-      {(userRoadmaps?.length === 0 && !showRoadmap) || showCreateUI ? (
+      {userRoadmaps?.length === 0 && !showRoadmap && !showCreateUI ? (
         <>
           <div className="w-full lg:w-2/3 flex flex-col p-4 lg:p-10">
             <div className="mt-3 w-full justify-center text-lg">
@@ -215,6 +238,7 @@ const CareerMapPage: React.FC = () => {
             selectedRoadmap ? selectedRoadmap.milestones : roadmap.milestones
           }
           colors={colors}
+          onRoadmapUpdate={handleRoadmapUpdate}
         />
       )}{" "}
       {/* Pass roadmap data */}

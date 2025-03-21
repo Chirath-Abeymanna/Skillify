@@ -61,18 +61,44 @@ const Quiz: React.FC<{
     setUserAnswers(newUserAnswers);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setShowResults(true);
+
+    const correctAnswers = questions.filter(
+      (q, idx) => userAnswers[idx] === q.correctAnswer
+    ).length;
+    const passThreshold = Math.ceil(questions.length * 0.7);
+    const passed = correctAnswers >= passThreshold;
+
+    if (passed && milestone) {
+      try {
+        const response = await axios.post("/api/updateMilestoneStatus", {
+          milestoneName: milestone.milestoneName,
+          roadmapId: milestone.roadmap,
+          completed: true,
+        });
+
+        if (response.data.allMilestones) {
+          // Update the parent component
+          onQuizComplete();
+        }
+      } catch (error) {
+        console.error("Error updating milestone status:", error);
+      }
+    }
   };
 
   const handleBackToRoadmap = async () => {
     if (milestone) {
       try {
+        // Update with roadmapId
         await axios.post("/api/updateMilestoneStatus", {
           milestoneName: milestone.milestoneName,
+          roadmapId: milestone.roadmap,
           completed: true,
         });
 
+        // Fetch updated roadmap data
         const response = await axios.get(
           `/api/getRoadmap?roadmapId=${milestone.roadmap}`
         );

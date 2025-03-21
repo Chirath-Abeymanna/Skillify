@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Quiz from "../Quiz"; // Import the Quiz component
 
 interface Milestone {
@@ -6,6 +7,9 @@ interface Milestone {
   milestoneDescription: string;
   searchQuery: string;
   milestoneLink?: string;
+  completed?: boolean; // Added completed property
+  accessible?: boolean; // Added accessible property
+  roadmap: string; // Added roadmap property
 }
 
 const generatePath = (milestones: number, width: number, height: number) => {
@@ -40,12 +44,25 @@ const Roadmap: React.FC<{
     milestoneColor: string;
     roadColor: string;
   };
-}> = ({ roadmap, colors }) => {
+  onRoadmapUpdate?: (updatedRoadmap: any) => void;
+}> = ({ roadmap, colors, onRoadmapUpdate }) => {
   const [screenWidth, setScreenWidth] = useState(0);
   const [screenHeight, setScreenHeight] = useState(0);
   const [activeMilestone, setActiveMilestone] = useState<number | null>(null); // State to track active milestone
   const [showQuiz, setShowQuiz] = useState(false); // State to track if the quiz should be shown
   const [quizMilestone, setQuizMilestone] = useState<Milestone | null>(null); // State to store the milestone for the quiz
+
+  const isMilestoneAccessible = (index: number): boolean => {
+    const milestone = roadmap[index];
+    if (!milestone) return false;
+
+    // First milestone is always accessible
+    if (index === 0) return true;
+
+    // Check if the previous milestone is completed
+    const previousMilestone = roadmap[index - 1];
+    return Boolean(previousMilestone?.completed);
+  };
 
   // Access window only after the component mounts on the client side
   useEffect(() => {
@@ -67,6 +84,27 @@ const Roadmap: React.FC<{
     screenWidth,
     screenHeight + 150
   );
+
+  const handleQuizComplete = async () => {
+    setShowQuiz(false);
+
+    if (quizMilestone) {
+      try {
+        // Fetch the updated roadmap data
+        const response = await axios.get(
+          `/api/getRoadmap?roadmapId=${quizMilestone.roadmap}`
+        );
+        const updatedRoadmap = response.data;
+
+        // Update the local state
+        if (onRoadmapUpdate) {
+          onRoadmapUpdate(updatedRoadmap.milestones);
+        }
+      } catch (error) {
+        console.error("Error fetching updated roadmap:", error);
+      }
+    }
+  };
 
   return (
     <div
@@ -102,29 +140,44 @@ const Roadmap: React.FC<{
             roadmap.map((milestone, index) => (
               <g
                 key={index}
-                onMouseEnter={() => setActiveMilestone(index)} // Show tooltip on hover
-                onMouseLeave={() => setActiveMilestone(null)} // Hide tooltip when mouse leaves
-                onClick={() => setActiveMilestone(index)} // Show tooltip on click (for mobile users)
+                onMouseEnter={() =>
+                  isMilestoneAccessible(index) && setActiveMilestone(index)
+                }
+                onMouseLeave={() => setActiveMilestone(null)}
+                onClick={() =>
+                  isMilestoneAccessible(index) && setActiveMilestone(index)
+                }
+                style={{
+                  cursor: isMilestoneAccessible(index)
+                    ? "pointer"
+                    : "not-allowed",
+                }}
               >
                 <circle
                   cx={positions[index].x}
                   cy={positions[index].y}
                   r="25"
-                  fill={colors.milestoneColor}
-                  style={{ transition: "all 0.3s", cursor: "pointer" }}
+                  fill={
+                    isMilestoneAccessible(index)
+                      ? colors.milestoneColor
+                      : "#gray"
+                  }
+                  opacity={isMilestoneAccessible(index) ? 1 : 0.5}
+                  style={{ transition: "all 0.3s" }}
                 />
                 <text
                   x={positions[index].x + (index % 2 === 0 ? 60 : 80)} // Adjusted text placement
                   y={positions[index].y + 5}
                   fontSize="16"
-                  fill="black"
+                  fill={isMilestoneAccessible(index) ? "black" : "gray"}
                   fontWeight="bold"
                 >
                   {milestone.milestoneName}
+                  {milestone.completed && " ✓"}
                 </text>
 
                 {/* Tooltip for showing milestone details */}
-                {activeMilestone === index && (
+                {activeMilestone === index && isMilestoneAccessible(index) && (
                   <foreignObject
                     x={positions[index].x + 15}
                     y={positions[index].y - 80}
@@ -169,7 +222,7 @@ const Roadmap: React.FC<{
       ) : (
         <Quiz
           milestone={quizMilestone as any}
-          onQuizComplete={() => setShowQuiz(false)}
+          onQuizComplete={handleQuizComplete}
         />
       )}
     </div>
