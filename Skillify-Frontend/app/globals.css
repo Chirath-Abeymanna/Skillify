@@ -35,6 +35,7 @@ html:not([data-scroll="0"]) .navbar {
   transition: 0.4s linear;
   padding: 0px !important;
   height: 6rem;
+  /*  */
   z-index: 50;
 }
 
