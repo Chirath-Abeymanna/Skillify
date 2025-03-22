@@ -69,7 +69,7 @@ const postData: DataType[] = [
         name: "Published on Skillify Blog",
         date: 'December 18, 2024',
         imgSrc: '/images/blogs/blog8.svg',
-        url:'/blogs/8',
+        url:'/blogs/8s',
     }
 ]
 

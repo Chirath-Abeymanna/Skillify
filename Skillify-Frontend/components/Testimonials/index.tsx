@@ -1,144 +1,88 @@
-"use client"
-import Slider from "react-slick";
-import React, { Component } from "react";
-import { StarIcon } from '@heroicons/react/24/solid';
+"use client";
+import React, { useEffect, useState } from "react";
+import { StarIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 
-// CAROUSEL DATA
-
-interface DataType {
-    profession: string;
-    comment: string;
-    imgSrc: string;
-    name: string;
+interface Review {
+  _id: string; // Add this to track unique reviews
+  userName: string;
+  profession: string;
+  comment: string;
+  rating: number;
 }
 
-const postData: DataType[] = [
-    {
-        name: "Robert Fox",
-        profession: 'Software Engineer',
-        comment: 'Skillify has been an invaluable tool for my career development. The dynamic roadmap keeps me on track with my learning and job goals!',
-        imgSrc: '/images/testimonial/user1.svg',
-    },
-    {
-        name: "Leslie Alexander",
-        profession: 'Marketing Specialist',
-        comment: 'The degree matching feature helped me find the perfect program to advance my career. Highly recommend Skillify for anyone looking to grow professionally.',
-        imgSrc: '/images/testimonial/user2.svg',
-    },
-    {
-        name: "Cody Fisher",
-        profession: 'Graphic Designer',
-        comment: 'The consultations I received were top-notch. Skillify’s personalized approach made a real difference in my career direction and skill development.',
-        imgSrc: '/images/testimonial/user3.svg',
-    },
-    {
-        name: "Emily Davis",
-        profession: 'Data Scientist',
-        comment: 'Skillify\'s job seeker service gave me the confidence to approach job opportunities with a tailored CV. The LinkedIn scraping feature helped me land my dream job!',
-        imgSrc: '/images/testimonial/user1.svg',
-    },
-    {
-        name: "Michael Carter",
-        profession: 'Product Manager',
-        comment: 'The dynamic roadmap is a game-changer. It helped me visualize my career growth and provided actionable steps to improve my skills for future roles.',
-        imgSrc: '/images/testimonial/user2.svg',
-    },
-    {
-        name: "Rachel Green",
-        profession: 'UI/UX Designer',
-        comment: 'I love how Skillify keeps me focused on the right learning paths. The degree matching feature was an eye-opener, helping me find the perfect program to enhance my expertise.',
-        imgSrc: '/images/testimonial/user3.svg',
-    },
-]
+const MultipleItems: React.FC = () => {
+  const [reviews, setReviews] = useState<Review[]>([]);
 
-// CAROUSEL SETTINGS
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await fetch("/api/reviews");
+        if (response.ok) {
+          const data = await response.json();
+          // Take only first 4 unique reviews
+          const uniqueReviews = Array.from(
+            new Set(data.reviews.map((r: Review) => r._id))
+          )
+            .map((id) => data.reviews.find((r: Review) => r._id === id))
+            .slice(0, 4);
+          setReviews(uniqueReviews);
+        }
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      }
+    };
 
+    fetchReviews();
+  }, []);
 
-export default class MultipleItems extends Component {
+  return (
+    <div className="bg-testimonial py-20" id="testimonial-section">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h3 className="text-4xl sm:text-6xl font-bold text-black">
+            See what others are saying
+          </h3>
+        </div>
 
-    render() {
-        const settings = {
-            dots: false,
-            infinite: true,
-            slidesToShow: 3,
-            // centerMode: true,
-            slidesToScroll: 2,
-            arrows: false,
-            autoplay: false,
-            speed: 500,
-            autoplaySpeed: 2000,
-            cssEase: "linear",
-            responsive: [
-                {
-                    breakpoint: 1200,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 1,
-                        infinite: true,
-                        dots: false
-                    }
-                },
-                {
-                    breakpoint: 800,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 1,
-                        infinite: true,
-                        dots: false
-                    }
-                },
-                {
-                    breakpoint: 450,
-                    settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1,
-                        infinite: true,
-                        dots: false
-                    }
-                }
-            ]
-        };
-
-
-        return (
-            <div className="bg-testimonial pt-40 pb-32 lg:py-32" id="testimonial-section">
-                <div className='mx-auto max-w-7xl sm:py-4 lg:px-8 '>
-
-                    <div className="text-center">
-                        <h3 className="text-4xl sm:text-6xl font-bold text-black my-3">See what others are saying.</h3>
-                        <h3 className="text-4xl sm:text-6xl font-bold text-black text-opacity-50 lg:mr-48 my-4">See what others are saying.</h3>
-                        <h3 className="text-4xl sm:text-6xl font-bold text-black text-opacity-25 lg:-mr-32 my-4">See what others are saying.</h3>
-                    </div>
-
-
-                    <Slider {...settings}>
-                        {postData.map((items, i) => (
-                            <div key={i} className="relative">
-                                <div className='bg-white test-sha m-3 p-10 my-20 rounded-3xl'>
-                                    <Image src={items.imgSrc} alt={items.imgSrc} width={71} height={71} className="inline-block m-auto absolute test-pos" />
-                                    <h4 className='text-base font-medium text-testColor my-4'>{items.comment}</h4>
-                                    <hr style={{ color: "lightgrey" }} />
-                                    <div className="flex justify-between">
-                                        <div>
-                                            <h3 className='text-base font-medium pt-4 pb-2'>{items.name}</h3>
-                                            <h3 className='text-xs font-medium  pb-2 opacity-50'>{items.profession}</h3>
-                                        </div>
-                                        <div className="flex">
-                                            <StarIcon width={20} className="star" />
-                                            <StarIcon width={20} className="star" />
-                                            <StarIcon width={20} className="star" />
-                                            <StarIcon width={20} className="star" />
-                                            <StarIcon width={20} className="star" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </Slider>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {reviews.map((review, i) => (
+            <div key={review._id} className="relative">
+              <div className="bg-white shadow-lg rounded-2xl p-6">
+                <Image
+                  src={`/images/testimonial/user${(i % 3) + 1}.svg`}
+                  alt="user"
+                  width={50}
+                  height={50}
+                  className="rounded-full mx-auto mb-4"
+                />
+                <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                  {review.comment}
+                </p>
+                <hr className="my-4" />
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h3 className="font-medium text-gray-900">
+                      {review.userName}
+                    </h3>
+                    <p className="text-sm text-gray-500">{review.profession}</p>
+                  </div>
+                  <div className="flex">
+                    {[...Array(review.rating)].map((_, index) => (
+                      <StarIcon
+                        key={index}
+                        className="h-5 w-5 text-yellow-400"
+                      />
+                    ))}
+                  </div>
                 </div>
+              </div>
             </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
 
-        );
-    }
-}
+export default MultipleItems;
