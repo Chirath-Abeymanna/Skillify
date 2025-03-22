@@ -6,4 +6,4 @@ numpy
 pyyaml
 flask-cors
 scikit-learn
-gunicorn
+gunicorn==20.1.0
