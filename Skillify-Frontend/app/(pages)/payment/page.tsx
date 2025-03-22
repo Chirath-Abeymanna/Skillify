@@ -206,8 +206,8 @@ export default function PaymentForm() {
             </div>
 
             <div className="flex justify-between mt-6">
-              <button type="button" className="px-8 py-2 border border-red-500 text-red-500 rounded-full">Cancel</button>
-              <button type="submit" className="px-14 py-2 border border-[#1949E9] bg-blue-500 text-[#1949E9] rounded-full">Pay</button>
+              <button type="button" className="px-8 py-2 border border-[#B82828] text-[#F40000] rounded-full">Cancel</button>
+              <button type="submit" className="px-14 py-2 border border-[#1949E9]  text-[#1949E9] rounded-full">Pay</button>
               <button type="submit" className="px-6 py-2 border border-[#1949E9] bg-[#002DF4] text-white rounded-full">Pay and Save</button>
             </div>
           </form>
