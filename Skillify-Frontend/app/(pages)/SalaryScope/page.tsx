@@ -54,7 +54,7 @@ export default function Home() {
           {/* Prediction Form */}
           <div className="bg-white/10 backdrop-blur-lg shadow-xl rounded-3xl p-6 md:p-10 w-full text-center border border-white/30">
             <h1 className="text-2xl md:text-3xl font-bold text-black mb-6">
-              💼 Predict Your Salary
+              💼 Predict Software Developer Salaries
             </h1>
 
             <div className="space-y-4">
