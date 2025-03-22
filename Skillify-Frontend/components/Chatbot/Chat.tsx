@@ -52,6 +52,7 @@ export const Chat: React.FC = () => {
   const [cookie, setCookie] = useCookies([COOKIE_NAME]);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const [shouldScroll, setShouldScroll] = useState(true);
 
   useEffect(() => {
     if (!cookie[COOKIE_NAME]) {
@@ -66,10 +67,7 @@ export const Chat: React.FC = () => {
   }, [messages, loading]);
   */
 
-  // Add this new function to handle manual scrolling
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  // Remove the scrollToBottom function since we won't use it
 
   // Modify the sendMessage function to scroll only when new messages are added
   const sendMessage = async (message: string) => {
@@ -81,9 +79,6 @@ export const Chat: React.FC = () => {
       { role: "user" as const, content: message },
     ];
     setMessages(newMessages);
-
-    // Scroll after user message
-    setTimeout(scrollToBottom, 100);
 
     const response = await fetch("/api/chat", {
       method: "POST",
@@ -108,15 +103,22 @@ export const Chat: React.FC = () => {
 
     setMessages([...newMessages, { role: "assistant", content: lastMessage }]);
     setLoading(false);
+  };
 
-    // Scroll after assistant's response
-    setTimeout(scrollToBottom, 100);
+  // Add scroll event listener to detect user scroll
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+    const isAtBottom = scrollHeight - scrollTop === clientHeight;
+    setShouldScroll(isAtBottom);
   };
 
   return (
     <div className="relative w-full h-full flex flex-col bg-transparent">
       {/* Chat Messages Container */}
-      <div className="flex-1 overflow-y-auto px-5 py-4 mb-16">
+      <div
+        className="flex-1 overflow-y-auto px-5 py-4 mb-16"
+        onScroll={handleScroll}
+      >
         <div className="space-y-6">
           {messages.map(({ content, role }, index) => (
             <div
