@@ -13,7 +13,7 @@
     "@heroicons/react": "^2.0.18",
     "@prisma/client": "^6.4.1",
     "@react-spring/web": "^9.7.5",
-    "@react-three/drei": "^8.20.2",
+    "@react-three/drei": "^10.0.4",
     "@react-three/fiber": "^8.18.0",
     "@shadcn/ui": "^0.0.4",
     "@splinetool/react-spline": "^4.0.0",
@@ -30,6 +30,7 @@
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
     "eventsource-parser": "^0.1.0",
+    "express": "^4.21.2",
     "framer-motion": "^12.5.0",
     "google-auth-library": "^9.15.1",
     "gsap": "^3.12.7",
@@ -40,7 +41,7 @@
     "next": "^15.2.1",
     "next-auth": "^4.24.11",
     "postcss": "^8.4.49",
-    "prism": "^4.1.2",
+    "prism": "^1.0.0",
     "react": "18.2.0",
     "react-cookie": "^7.2.2",
     "react-dom": "18.2.0",
@@ -61,5 +62,13 @@
     "@types/react-slick": "^0.23.10",
     "@types/three": "^0.174.0",
     "shadcn-ui": "^0.9.4"
-  }
+  },
+  "main": "next.config.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
