@@ -62,7 +62,7 @@ jobs:
           cd Skillify-Frontend # Ensure we are in the frontend directory
           npm run test # Assuming you have a Jest test script for Next.js
 
-      - name: Build frontend
+      # - name: Build frontend
         env:
           AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
@@ -82,7 +82,7 @@ jobs:
         run: |
           cd Skillify-Frontend # Ensure we are in the frontend directory
           npm run build
-      #dgfg
+  
       # Add frontend deployment (optional)
       - name: Deploy frontend (e.g., to Vercel, Netlify, etc.)
         run: |
