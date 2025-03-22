@@ -45,10 +45,13 @@ export default function ResumeParser() {
     setIsProcessing(true); // Disable button
 
     try {
-      const response = await fetch("http://localhost:5000/Resume", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "https://skillify-flask-production.up.railway.app/Resume",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       const result = await response.json();
 
