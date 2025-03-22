@@ -21,29 +21,30 @@ html,
 body {
   margin: 0;
   font-family: "Urbanist", sans-serif;
-  overflow-x: hidden !important;
+  overflow-x: hidden;
 }
 
 html:not([data-scroll="0"]) .navbar {
   position: fixed;
-  overflow-x: hidden;
   top: 0;
-  width: 100vw;
+  left: 0;
+  right: 0;
   background-color: white !important;
   opacity: 1.9;
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
   transition: 0.4s linear;
   padding: 0px !important;
-  height: 10vh;
-  z-index: 9999;
+  height: 6rem;
+  /*  */
+  z-index: 50;
 }
 
 html:not([data-scroll="0"]) .navbar > div > div {
-  height: 4rem;
+  height: 6rem;
 }
 
 html:not([data-scroll="0"]) .border-right {
-  height: 4rem;
+  height: 6rem;
 }
 
 html {
@@ -52,9 +53,10 @@ html {
 }
 
 .navbar {
+  position: fixed;
+  width: 100%;
   border-bottom: 0.5px solid rgba(196, 196, 196, 0.75);
-  z-index: 9999;
-
+  z-index: 50;
   transition: 0.4s linear;
 }
 
@@ -245,7 +247,7 @@ html {
 .bg-joinus {
   background-image: url("/images/joinus/paint.svg");
   background-repeat: no-repeat, no-repeat;
-  background-position: 15% 2%;
+  background-position: 15% 5%;
 }
 
 .footer-icons {
