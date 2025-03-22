@@ -36,7 +36,7 @@ export default function Home() {
       </div>
 
       {/* Right Side - Salary Prediction */}
-      <div className="w-full md:w-1/2 min-h-[60vh] md:h-screen bg-gray-100 py-10 md:py-20 px-4 md:px-6 overflow-y-auto">
+      <div className="w-full md:w-1/2 min-h-[60vh] md:h-screen py-10 md:py-20 px-4 md:px-6 overflow-y-auto">
         <div className="max-w-xl mx-auto">
           {/* Stacked Text Effect */}
           <div className="text-center mb-10">
@@ -52,7 +52,7 @@ export default function Home() {
           </div>
 
           {/* Prediction Form */}
-          <div className="bg-white bg-opacity-20 backdrop-blur-lg shadow-xl rounded-3xl p-6 md:p-10 w-full text-center border border-white/30">
+          <div className="bg-white/10 backdrop-blur-lg shadow-xl rounded-3xl p-6 md:p-10 w-full text-center border border-white/30">
             <h1 className="text-2xl md:text-3xl font-bold text-black mb-6">
               💼 Predict Your Salary
             </h1>
