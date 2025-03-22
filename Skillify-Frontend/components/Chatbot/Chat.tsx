@@ -96,18 +96,11 @@ export const Chat: React.FC = () => {
   return (
     <div className="relative w-full h-screen flex flex-col bg-transparent">
       {/* Chat Container (Transparent and Fullscreen) */}
-      <div className="absolute inset-0 flex flex-col px-5 py-10 ">
+      <div className="absolute inset-0 flex flex-col px-5 py-10">
         {/* Message List */}
-        <div className="flex-1 overflow-y-auto flex flex-col-reverse space-y-6 pb-32">
-          {/* AI Loading Indicator at the Top */}
-          {loading && (
-            <div className="self-start">
-              <LoadingChatLine />
-            </div>
-          )}
-
-          {/* Render Messages from Bottom to Top */}
-          {[...messages].reverse().map(({ content, role }, index) => (
+        <div className="flex-1 overflow-y-auto space-y-6 pb-32">
+          {/* Render Messages in chronological order */}
+          {messages.map(({ content, role }, index) => (
             <div
               key={index}
               className={`max-w-md px-5 py-4 rounded-xl shadow-lg ${
@@ -123,7 +116,14 @@ export const Chat: React.FC = () => {
             </div>
           ))}
 
-          {/* Dummy div to maintain scroll behavior */}
+          {/* AI Loading Indicator at the Bottom */}
+          {loading && (
+            <div className="self-start">
+              <LoadingChatLine />
+            </div>
+          )}
+
+          {/* Dummy div for scroll reference */}
           <div ref={messagesEndRef} />
         </div>
       </div>
