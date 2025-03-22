@@ -8,12 +8,16 @@ import MessageBox from "@/components/MessageBox";
 import CheckoutPage from "@/components/CheckoutPage/CheckOutPage";
 import convertToSubcurrency from "@/app/lib/convertToSubcurrency";
 
+const stripePublicKey = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || 'your-default-stripe-public-key-here';
+const stripePromise = loadStripe(stripePublicKey);
+
+
 const paymentSchema = z.object({
   cardNumber: z
     .string()
     .min(16, "Card number must be 16 digits")
     .max(19, "Card number is too long")
-    .regex(/^\d{16,19}$/, "Card number must contain only digits"),
+    .regex(/^\d{16,19}$/, "Card number must contain only digits"), // Adjusted regex to validate digits properly
   expiryDate: z
     .string()
     .regex(/^(0[1-9]|1[0-2])\/(\d{2})$/, "Invalid expiry date (MM/YY)")
@@ -43,25 +47,22 @@ const paymentSchema = z.object({
     ),
 });
 
-if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
-  throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined");
-}
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
-
+  
 export default function PaymentForm() {
-  const [errors, setErrors] = useState<z.ZodFormattedError<{
-    cardNumber: string;
-    expiryDate: string;
-    cvv: string;
-    orderNumber: string;
-  }>>({
+  const [errors, setErrors] = useState<
+    z.ZodFormattedError<{
+      cardNumber: string;
+      expiryDate: string;
+      cvv: string;
+      orderNumber: string;
+    }>
+  >({
     _errors: [],
     cardNumber: { _errors: [] },
     expiryDate: { _errors: [] },
     cvv: { _errors: [] },
     orderNumber: { _errors: [] },
   });
-
   const [amount, setAmount] = useState(5.0);
   const [orderNumber] = useState("ORD123456789");
   const [cardNumber, setCardNumber] = useState("");
@@ -238,125 +239,116 @@ export default function PaymentForm() {
               <p className="text-lg font-semibold tracking-wider mt-3">
                 {cardNumber
                   ? cardNumber.replace(/\d{4}(?=\d)/g, "$& ")
-                  : "**** **** **** ****"}
+                  : "XXXX XXXX XXXX XXXX"}
               </p>
+              <div className="absolute bottom-4 left-6 flex justify-between w-full pr-6">
+                <div>
+                  <p className="text-xs text-gray-200">EXP Date</p>
+                  <p className="text-sm">
+                    {expiryDate
+                      ? expiryDate.replace(/(\d{2})(\d{2})/, "$1/$2")
+                      : "MM/YY"}
+                  </p>
+                </div>
+                <p className="text-xl font-bold absolute bottom-1 left-52">
+                  VISA
+                </p>
+              </div>
+            </div>
+            {/* Back of the Card */}
+            <div className="relative w-full max-w-sm h-40 bg-gradient-to-r from-[#1A1F71] to-[#0097F4] rounded-lg p-6 text-white shadow-lg">
+              <div className="absolute top-6 left-0 w-full h-8 bg-black"></div>
+              <div className="absolute bottom-6 right-6 text-right">
+                <p className="text-xs text-gray-200">CVV</p>
+                <div className="bg-gray-300 text-black px-4 py-1 rounded text-sm tracking-widest inline-block">
+                  {cvv || "*"}
+                </div>
+              </div>
+              <p className="absolute bottom-4 left-6 text-xl font-bold">VISA</p>
             </div>
           </div>
 
-          {/* Payment Form */}
-          <form onSubmit={validateForm} className="mt-6">
-            {/* Card Number */}
-            <div className="mb-6">
-              <label
-                htmlFor="cardNumber"
-                className="block text-sm font-medium text-[#283EB8]"
-              >
-                Card Number
-              </label>
+          <form onSubmit={validateForm} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium">Card Number</label>
               <input
                 type="text"
-                id="cardNumber"
                 name="cardNumber"
-                maxLength={19}
-                value={cardNumber}
+                placeholder="1234 5678 9012 3456"
+                className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#0036E8]"
+                maxLength={19} // Includes spaces
+                value={cardNumber} // Controlled component
                 onChange={handleCardNumberChange}
-                className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1949E9]"
-                placeholder="Enter your card number"
               />
-              {errors.cardNumber && errors.cardNumber._errors.length > 0 && (
-                <p className="text-xs text-red-600 mt-1">
+              {errors.cardNumber && (
+                <p className="text-red-500 text-sm">
                   {errors.cardNumber._errors[0]}
                 </p>
               )}
             </div>
 
-            {/* Expiry Date */}
-            <div className="mb-6">
-              <label
-                htmlFor="expiryDate"
-                className="block text-sm font-medium text-[#283EB8]"
-              >
-                Expiry Date (MM/YY)
-              </label>
-              <input
-                type="text"
-                id="expiryDate"
-                name="expiryDate"
-                maxLength={5}
-                value={expiryDate}
-                onChange={handleExpiryDateChange}
-                className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1949E9]"
-                placeholder="MM/YY"
-              />
-              {errors.expiryDate && errors.expiryDate._errors.length > 0 && (
-                <p className="text-xs text-red-600 mt-1">
-                  {errors.expiryDate._errors[0]}
-                </p>
-              )}
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium">
+                  Expiry Date (MM/YY)
+                </label>
+                <input
+                  type="text"
+                  name="expiryDate"
+                  placeholder="MM/YY"
+                  className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#0036E8]"
+                  value={expiryDate} // Controlled component
+                  onChange={handleExpiryDateChange}
+                />
+                {errors.expiryDate && (
+                  <p className="text-red-500 text-sm">
+                    {errors.expiryDate._errors[0]}
+                  </p>
+                )}
+              </div>
+              <div>
+                <label className="block text-sm font-medium">CVV</label>
+                <input
+                  type="text"
+                  name="cvv"
+                  placeholder="123"
+                  className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#0036E8]"
+                  maxLength={3}
+                  value={cvv} // Controlled component
+                  onChange={handleCvvChange}
+                />
+                {errors.cvv && (
+                  <p className="text-red-500 text-sm">
+                    {errors.cvv._errors[0]}
+                  </p>
+                )}
+              </div>
             </div>
 
-            {/* CVV */}
-            <div className="mb-6">
-              <label
-                htmlFor="cvv"
-                className="block text-sm font-medium text-[#283EB8]"
-              >
-                CVV
-              </label>
-              <input
-                type="text"
-                id="cvv"
-                name="cvv"
-                maxLength={3}
-                value={cvv}
-                onChange={handleCvvChange}
-                className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1949E9]"
-                placeholder="Enter CVV"
-              />
-              {errors.cvv && errors.cvv._errors.length > 0 && (
-                <p className="text-xs text-red-600 mt-1">
-                  {errors.cvv._errors[0]}
-                </p>
-              )}
-            </div>
+            <Elements
+                stripe={stripePromise}
+                options={{
+                mode: "payment",
+                amount: convertToSubcurrency(amount),
+                currency: "usd",
+                }}
+            >
+                <CheckoutPage amount={amount} />
+            </Elements>
 
-            {/* Order Number */}
-            <div className="mb-6">
-              <label
-                htmlFor="orderNumber"
-                className="block text-sm font-medium text-[#283EB8]"
-              >
-                Order Number
-              </label>
-              <input
-                type="text"
-                id="orderNumber"
-                name="orderNumber"
-                value={orderNumber}
-                readOnly
-                className="w-full mt-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1949E9]"
-              />
-            </div>
-
-            {/* Submit Button */}
-            <div className="mb-6">
-              <button
-                type="button"
-                onClick={handlePay}
-                className="w-full py-3 text-white font-semibold bg-blue-600 rounded-lg hover:bg-blue-700"
-              >
-                Pay Now
-              </button>
-            </div>
-
-            {/* Cancel Button */}
-            <div className="mb-6">
+            <div className="flex justify-between mt-6">
               <button
                 type="button"
                 onClick={handleCancel}
-                className="w-full py-3 text-white font-semibold bg-gray-600 rounded-lg hover:bg-gray-700"
+                className="px-8 py-2 border border-[#B82828] text-[#F40000] rounded-full"
               >
                 Cancel
+              </button>
+              <button
+                onClick={handlePay}
+                className="px-14 py-2 border border-[#1949E9] bg-[#002DF4] text-white rounded-full"
+              >
+                Pay
               </button>
             </div>
           </form>
