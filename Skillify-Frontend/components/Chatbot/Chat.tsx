@@ -19,7 +19,7 @@ const InputMessage: React.FC<{
   setInput: (value: string) => void;
   sendMessage: (message: string) => void;
 }> = ({ input, setInput, sendMessage }) => (
-  <div className="absolute bottom-8 left-1/2 w-full max-w-3xl -translate-x-1/2 flex items-center bg-white bg-opacity-90 p-4 rounded-lg shadow-lg">
+  <div className="flex items-center bg-white p-4 rounded-lg">
     <input
       type="text"
       className="flex-1 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -33,7 +33,13 @@ const InputMessage: React.FC<{
       }}
       onChange={(e) => setInput(e.target.value)}
     />
-    <Button className="ml-4 px-6 py-3" onClick={() => sendMessage(input)}>
+    <Button
+      className="ml-4 px-6 py-3"
+      onClick={() => {
+        sendMessage(input);
+        setInput("");
+      }}
+    >
       Send
     </Button>
   </div>
@@ -95,9 +101,8 @@ export const Chat: React.FC = () => {
 
   return (
     <div className="relative w-full h-full flex flex-col bg-transparent">
-      {/* Chat Container */}
-      <div className="flex-1 overflow-y-auto px-5 py-4">
-        {/* Message List */}
+      {/* Chat Messages Container */}
+      <div className="flex-1 overflow-y-auto px-5 py-4 mb-16">
         <div className="space-y-6">
           {messages.map(({ content, role }, index) => (
             <div
@@ -132,7 +137,7 @@ export const Chat: React.FC = () => {
       </div>
 
       {/* Input Box - Fixed at bottom */}
-      <div className="p-4 border-t border-gray-200 bg-white">
+      <div className="absolute bottom-0 left-0 right-0 border-t border-gray-200 bg-white">
         <InputMessage
           input={input}
           setInput={setInput}
