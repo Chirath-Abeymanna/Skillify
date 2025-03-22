@@ -28,7 +28,7 @@ function Home() {
       {/* Right Side - Spline Scene */}
       <div className="w-full md:w-1/2 h-[40vh] md:h-screen relative">
         <div className="absolute inset-0">
-          <Spline scene="https://prod.spline.design/HToH8MH93m9NGCBl/scene.splinecode" />
+          <Spline scene="https://prod.spline.design/iJU3DPvrgbwFEb8O/scene.splinecode" />{" "}
         </div>
       </div>
     </Page>
