@@ -133,10 +133,16 @@ export default function UserProfile() {
       const data = await response.json();
 
       if (response.ok) {
+        // Update the session
+        await fetch("/api/auth/session", { method: "POST" });
+
         setMessages([
           ...messages,
           { message: "Profile updated successfully!", type: "success" },
         ]);
+
+        // Refresh the page to show updated session data
+        router.refresh();
       } else {
         setMessages([
           ...messages,
