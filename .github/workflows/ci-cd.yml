@@ -83,7 +83,7 @@ jobs:
         run: |
           cd Skillify-Frontend # Ensure we are in the frontend directory
           npm run build
-
+      #dgfg
       # Add frontend deployment (optional)
       - name: Deploy frontend (e.g., to Vercel, Netlify, etc.)
         run: |
