@@ -19,10 +19,10 @@ const InputMessage: React.FC<{
   setInput: (value: string) => void;
   sendMessage: (message: string) => void;
 }> = ({ input, setInput, sendMessage }) => (
-  <div className="flex items-center bg-white p-4 rounded-lg">
+  <div className="flex items-center bg-white p-2 md:p-4 rounded-lg">
     <input
       type="text"
-      className="flex-1 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="flex-1 border border-gray-300 rounded-lg px-3 py-2 md:px-4 md:py-3 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
       value={input}
       placeholder="Type a message..."
       onKeyDown={(e) => {
@@ -34,7 +34,7 @@ const InputMessage: React.FC<{
       onChange={(e) => setInput(e.target.value)}
     />
     <Button
-      className="ml-4 px-6 py-3"
+      className="ml-2 md:ml-4 px-4 py-2 md:px-6 md:py-3 text-sm md:text-base"
       onClick={() => {
         sendMessage(input);
         setInput("");
@@ -111,9 +111,9 @@ export const Chat: React.FC = () => {
       {/* Chat Messages Container */}
       <div
         ref={chatContainerRef}
-        className="flex-1 overflow-y-auto px-5 py-4 mb-16"
+        className="flex-1 overflow-y-auto px-3 md:px-5 py-3 md:py-4 mb-14 md:mb-16"
       >
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
           {messages.map(({ content, role }, index) => (
             <div
               key={index}
@@ -122,16 +122,16 @@ export const Chat: React.FC = () => {
               }`}
             >
               <div
-                className={`max-w-[80%] px-5 py-4 rounded-xl shadow-lg ${
+                className={`max-w-[85%] md:max-w-[80%] px-3 py-2 md:px-5 md:py-4 rounded-xl shadow-lg text-sm md:text-base ${
                   role === "assistant"
                     ? "bg-gray-200 text-gray-900"
                     : "bg-blue-600 text-white"
                 }`}
               >
-                <span className="font-semibold">
+                <span className="font-semibold text-xs md:text-sm">
                   {role === "assistant" ? "Sally" : "You"}
                 </span>
-                <p className="mt-2 whitespace-pre-wrap">{content}</p>
+                <p className="mt-1 md:mt-2 whitespace-pre-wrap">{content}</p>
               </div>
             </div>
           ))}
