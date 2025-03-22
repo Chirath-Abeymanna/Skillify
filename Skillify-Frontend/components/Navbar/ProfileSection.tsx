@@ -11,6 +11,7 @@ import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 declare module "next-auth" {
   interface Session {
     user: {
+      id: string | null;
       firstName?: string | null;
       lastName?: string | null;
       name?: string | null;
