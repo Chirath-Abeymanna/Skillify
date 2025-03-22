@@ -94,46 +94,51 @@ export const Chat: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full h-screen flex flex-col bg-transparent">
-      {/* Chat Container (Transparent and Fullscreen) */}
-      <div className="absolute inset-0 flex flex-col px-5 py-10">
+    <div className="relative w-full h-full flex flex-col bg-transparent">
+      {/* Chat Container */}
+      <div className="flex-1 overflow-y-auto px-5 py-4">
         {/* Message List */}
-        <div className="flex-1 overflow-y-auto space-y-6 pb-32">
-          {/* Render Messages in chronological order */}
+        <div className="space-y-6">
           {messages.map(({ content, role }, index) => (
             <div
               key={index}
-              className={`max-w-md px-5 py-4 rounded-xl shadow-lg ${
-                role === "assistant"
-                  ? "bg-gray-200 text-gray-900 self-start"
-                  : "bg-gray-900 text-gray-200 self-end"
+              className={`flex ${
+                role === "assistant" ? "justify-start" : "justify-end"
               }`}
             >
-              <span className="font-semibold">
-                {role === "assistant" ? "Sally" : "You"}
-              </span>
-              <p className="mt-2">{content}</p>
+              <div
+                className={`max-w-[80%] px-5 py-4 rounded-xl shadow-lg ${
+                  role === "assistant"
+                    ? "bg-gray-200 text-gray-900"
+                    : "bg-blue-600 text-white"
+                }`}
+              >
+                <span className="font-semibold">
+                  {role === "assistant" ? "Sally" : "You"}
+                </span>
+                <p className="mt-2 whitespace-pre-wrap">{content}</p>
+              </div>
             </div>
           ))}
 
-          {/* AI Loading Indicator at the Bottom */}
           {loading && (
-            <div className="self-start">
+            <div className="flex justify-start">
               <LoadingChatLine />
             </div>
           )}
 
-          {/* Dummy div for scroll reference */}
           <div ref={messagesEndRef} />
         </div>
       </div>
 
-      {/* Input Box */}
-      <InputMessage
-        input={input}
-        setInput={setInput}
-        sendMessage={sendMessage}
-      />
+      {/* Input Box - Fixed at bottom */}
+      <div className="p-4 border-t border-gray-200 bg-white">
+        <InputMessage
+          input={input}
+          setInput={setInput}
+          sendMessage={sendMessage}
+        />
+      </div>
     </div>
   );
 };
