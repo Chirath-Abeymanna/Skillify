@@ -20,8 +20,8 @@ const products: ProductType[] = [
     link: [
       "Career Map",
       "Job Seeker",
-      "Salary Predictor",
-      "Degree Matcher",
+      "Salary Scope",
+      "Degree Navigator",
       "Consultations",
     ],
   },
@@ -29,7 +29,7 @@ const products: ProductType[] = [
 
 const footer = () => {
   return (
-    <div className="bg-black" id="first-section">
+    <div className="bg-black h-max" id="first-section">
       <div className="mx-auto max-w-2xl pt-5 pb-16 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
         <div className="mt-24 grid grid-cols-1 gap-y-10 gap-x-16 sm:grid-cols-2 lg:grid-cols-12 xl:gap-x-8">
           {/* COLUMN-1 */}
@@ -75,33 +75,36 @@ const footer = () => {
           </div>
 
           {/* COLUMN-2/3 */}
-          <div className="space-y-5 col-span-8 md:col-span-4">
+          <div className="flex lg:block lg:space-y-10 md:col-span-4">
             {products.map((product) => (
               <div
                 key={product.id}
-                className="flex flex-col space-x-10 relative justify-between"
+                className="flex flex-col space-x-14 relative justify-between"
               >
                 <p className="text-white text-xl font-extrabold mb-9">
                   {product.section}
                 </p>
-                <ul className="flex flex-auto space-x-4 md:space-x-16 justify-between">
+                <ul className="block lg:flex lg:flex-row w-max lg:space-x-14">
                   {product.link.map((link: string, index: number) => {
                     let href = "/"; // Default link
                     if (link === "Blogs") href = "/blogs"; // Link to Blogs page
                     if (link === "Reviews") href = "/Reviews"; // Link to Reviews page
-                    if (link === "Contact Us") href = "/ContactUs"; // Link to Contact page
+                    if (link === "Contact Us") href = "/#joinus-section"; // Link to Contact page
                     if (link === "Help Center") href = "/HelpCenter"; // Link to Help Center page
                     if (link === "Career Map") href = "/CareerMap"; // Link to Career Map page
                     if (link === "Job Seeker") href = "/JobSeeker"; // Link to Job Seeker page
-                    if (link === "Salary Predictor") href = "/SalaryPredictor"; // Link to Salary Predictor page
-                    if (link === "Degree Matcher") href = "/DegreeMatcher"; // Link to Degree Matcher page
+                    if (link === "Salary Scope") href = "/SalaryPredictor"; // Link to Salary Predictor page
+                    if (link === "Degree Navigator") href = "/DegreeMatcher"; // Link to Degree Matcher page
                     if (link === "Consultations") href = "/consultation"; // Link to Consultations page
 
                     return (
-                      <li key={index} className="mb-5">
+                      <li
+                        key={index}
+                        className="relative right-12 lg:right-0 mb-5 space-x-0 "
+                      >
                         <Link
                           href={href}
-                          className="text-white relative text-lg font-normal w-10 mb-6 space-links"
+                          className="text-white relative text-lg font-normal w-10 mb-6 "
                         >
                           {link}
                         </Link>
@@ -116,12 +119,12 @@ const footer = () => {
       </div>
 
       {/* All Rights Reserved */}
-      <div className="mx-auto max-w-2xl lg:max-w-7xl">
+      <div className="block mx-auto max-w-2xl lg:max-w-7xl">
         <div className="pt-5 pb-5 px-4 sm:px-6 lg:px-4 border-solid border-t border-footer">
           <div className="mt-4 grid grid-cols-1 gap-y-15 gap-x-16 sm:grid-cols-2 xl:gap-x-8">
             <div>
               <h3 className="text-center md:text-start text-offwhite text-lg">
-                @2023 - All Rights Reserved by{" "}
+                @2025 - All Rights Reserved by{" "}
                 <Link href="https://adminmart.com/" target="_blank">
                   Skillify
                 </Link>

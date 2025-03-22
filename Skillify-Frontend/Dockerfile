@@ -1,0 +1,32 @@
+# Use Node.js image
+FROM node:18 AS builder
+
+# Set working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application code
+COPY . .
+
+# Build the app
+RUN npm run build
+
+# Now use a lighter image to serve the production build
+FROM node:18 AS production
+
+# Set working directory
+WORKDIR /app
+
+# Copy only the built application and dependencies from the builder image
+COPY --from=builder /app ./
+
+# Expose the port Next.js will run on
+EXPOSE 3000
+
+# Command to start the Next.js application
+CMD ["npm", "run", "start"]

@@ -5,11 +5,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import NextAuth from "next-auth";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 declare module "next-auth" {
   interface Session {
     user: {
+      id: string | null;
       firstName?: string | null;
       lastName?: string | null;
       name?: string | null;
@@ -48,8 +50,7 @@ const ProfileSection = () => {
   session?.user.firstName;
 
   if (status === "authenticated" && session) {
-    console.log(session.user);
-    userAvatar = "/images/avatars/" + session.user.avatar + ".svg";
+    userAvatar = "/images/Avatars/" + session.user.avatar + ".svg";
     return (
       <div className="relative flex flex-col items-center sm:items-center sm:space-x-10 sm:justify-center lg:left-24 lg:space-x-10 lg:w-[17vw] lg:justify-between">
         <div className="flex flex-col lg:flex-row lg:space-x-10 items-center sm:items-center">
@@ -83,9 +84,10 @@ const ProfileSection = () => {
                   onClick={() => {
                     signOut({ callbackUrl: "/" });
                   }}
-                  className="block w-[90%] text-center px-4 py-2 bg-red-500  text-white hover:bg-red-700 rounded-md ml-2 "
+                  className="flex justify-center w-[90%] text-center px-4 py-2 bg-red-500  text-white hover:bg-red-700 rounded-md ml-2  space-x-5"
                 >
-                  Log Out
+                  <FontAwesomeIcon icon={faRightFromBracket} className="mt-1" />
+                  <p>Log Out</p>
                 </button>
               </motion.div>
             )}
@@ -94,7 +96,7 @@ const ProfileSection = () => {
             <img
               src={userAvatar}
               alt="avatar pic"
-              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full mb-4 lg:mb-4 cursor-pointer"
+              className=" rounded-full mb-4 lg:mb-4 cursor-pointer"
               onClick={() => router.push("/Profile")}
             />
           </div>
@@ -107,7 +109,6 @@ const ProfileSection = () => {
       </div>
     );
   } else {
-    console.log("No session found");
     return (
       <div className="relative w-max left-6 lg:left-16">
         <div className="flex justify-end space-x-3 lg:space-x-10 font-Inter">

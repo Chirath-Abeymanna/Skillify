@@ -1,11 +1,10 @@
-"use client"
-import React, { useRef, useEffect } from "react";
+"use client";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, useAnimation } from "framer-motion";
+import { motion } from "framer-motion";
 
 // CAROUSEL DATA
-
 interface DataType {
     time: string;
     heading: string;
@@ -19,48 +18,66 @@ interface DataType {
 const postData: DataType[] = [
     {
         time: "5 min",
-        heading: 'Skillify: Empower Your Career',
-        heading2: 'With Our Dynamic Roadmaps according to user preferences!',
+        heading: "Dynamic Roadmaps by Skillify",
+        heading2: "With Our Dynamic Roadmaps according to user preferences!",
         name: "Published on Skillify Blog",
-        date: 'December 18, 2024',
-        imgSrc: '/images/blogs/blog1.jpg',
-        url:'/blogs',
+        date: "December 18, 2024",
+        imgSrc: "/images/blogs/blog1.svg",
+        url: "/blogs",
     },
     {
         time: "5 min",
-        heading: 'Skillify’s Job Seeker Feature',
-        heading2: 'Scan CVs and Scrape LinkedIn Profiles!',
+        heading: "Skillify’s Job Seeker Feature",
+        heading2: "Scan CVs and Scrape LinkedIn Profiles!",
         name: "Published on Skillify Blog",
-        date: 'December 18, 2024',
-        imgSrc: '/images/blogs/blog2.jpg',
-        url:'/blogs',
+        date: "December 18, 2024",
+        imgSrc: "/images/blogs/blog2.svg",
+        url: "/blogs",
     },
     {
         time: "5 min",
-        heading: 'Consultations at Skillify',
-        heading2: 'Get Expert Guidance for Career Growth!',
+        heading: "Salary Scope by Skillify",
+        heading2: "Get Expert Guidance for Career Growth!",
         name: "Published on Skillify Blog",
-        date: 'December 18, 2024',
-        imgSrc: '/images/blogs/blog3.png',
-        url:'/blogs',
+        date: "December 18, 2024",
+        imgSrc: "/images/blogs/blog3.svg",
+        url: "/blogs",
     },
     {
         time: "5 min",
-        heading: 'Skillify’s Degree Matching',
-        heading2: 'Find the Perfect Degree for Your Career!',
+        heading: "Skillify’s Degree Matching",
+        heading2: "Find the Perfect Degree for Your Career!",
         name: "Published on Skillify Blog",
-        date: 'December 18, 2024',
-        imgSrc: '/images/blogs/blog4.png',
-        url:'/blogs',
+        date: "December 18, 2024",
+        imgSrc: "/images/blogs/blog4.svg",
+        url: "/blogs",
     },
     {
         time: "5 min",
-        heading: 'Dynamic Roadmaps by Skillify',
-        heading2: 'Tailor Your Learning Path with Skillify!',
+        heading: "Consultations at Skillify",
+        heading2: "Tailor Your Learning Path with Skillify!",
         name: "Published on Skillify Blog",
         date: 'December 18, 2024',
-        imgSrc: '/images/blogs/blog5.png',
-        url:'/blogs',
+        imgSrc: '/images/blogs/blog5.jpg',
+        url:'/blogs/5',
+    },
+    {
+        time: "5 min",
+        heading: "Skillify’s Work Style Matcher",
+        heading2: "Find the perfect job with Work Style Matcher!",
+        name: "Published on Skillify Blog",
+        date: "December 18, 2024",
+        imgSrc: "/images/blogs/blog7.svg",
+        url: "/blogs",
+    },
+        {
+          time: "5 min",
+        heading: 'Tech Fit by Skillify',
+        heading2: 'Find Your Perfect Tech Career with Skillify!',
+        name: "Published on Skillify Blog",
+        date: 'December 18, 2024',
+        imgSrc: '/images/blogs/blog8.svg',
+        url:'/blogs/8s',
     }
 ]
 
@@ -70,24 +87,30 @@ const Card = ({ item }: { item: DataType }) => {
             className="relative flex min-w-[300px] sm:min-w-[350px] md:min-w-[400px] flex-col rounded-xl bg-white shadow-md"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            
         >
-            <div className="relative h-56 overflow-hidden rounded-t-xl bg-gradient-to-r from-indigo-500 to-indigo-600">
-                <Image 
-                    src={item.imgSrc} 
-                    alt={item.heading} 
-                    layout="fill" 
-                    objectFit="cover" 
+            <div className="relative h-56 overflow-hidden rounded-t-xl ">
+                <Image
+                    src={item.imgSrc}
+                    alt={item.heading}
+                    layout="fill"
+                    objectFit="cover"
                     className="rounded-t-xl"
                 />
             </div>
             <div className="p-6">
-                <h5 className="mb-2 text-xl font-semibold text-blue-gray-900">{item.heading}</h5>
+                <h5 className="mb-2 text-xl font-semibold text-blue-gray-900">
+                    {item.heading}
+                </h5>
                 <p className="text-base font-light">{item.heading2}</p>
             </div>
             <div className="p-6 pt-0">
                 <Link href={item.url} passHref>
-                    <button type="button" className="rounded-lg bg-indigo-500 py-3 px-6 text-xs font-bold uppercase text-white shadow-md transition-all hover:shadow-lg focus:opacity-85 active:opacity-85 disabled:pointer-events-none disabled:opacity-50">
-                    Read More
+                    <button
+                        type="button"
+                        className="rounded-full bg-blue-500 py-3 px-6 text-xs font-bold uppercase text-white shadow-md transition-all hover:shadow-lg focus:opacity-85 active:opacity-85 disabled:pointer-events-none disabled:opacity-50"
+                    >
+                        Read More
                     </button>
                 </Link>
             </div>
@@ -96,49 +119,26 @@ const Card = ({ item }: { item: DataType }) => {
 };
 
 const BlogSection = () => {
-    const controls = useAnimation(); // Initialize animation controls
-    const ref = useRef<HTMLDivElement>(null); // Define ref using useRef hook
-
-    useEffect(() => {
-        let isMounted = true; // Ensure component is mounted
-
-        const loopAnimation = async () => {
-            while (isMounted) {
-                await controls.start({
-                    x: "-50%",
-                    transition: { duration: 10, ease: "linear" }
-                });
-            }
-        };
-
-        loopAnimation(); // ✅ Start animation after mounting
-
-        return () => {
-            isMounted = false; // ✅ Cleanup function to stop animation
-        };
-    }, [controls]);
-
     return (
-        <div className="bg-lightgrey py-20 overflow-hidden" id="blog-section">
-        <div className='mx-auto max-w-7xl sm:py-4 lg:px-8'>
-            <div className="text-center">
-                <h3 className="text-blue text-lg font-normal tracking-widest">ARTICLES</h3>
-                <h3 className="text-4xl sm:text-6xl font-bold">Our latest updates.</h3>
-            </div>
-            <div className="relative w-full py-8">
-                <motion.div 
-                    ref={ref}
-                    animate={controls}
-                    className="flex space-x-6"
-                >
-                    {postData.concat(postData).map((item, i) => (
-                        <Card key={i} item={item} />
-                    ))}
-                </motion.div>
+        <div className="bg-lightgrey py-20 min-h-max overflow-hidden" id="blog-section">
+            <div className="mx-auto max-w-7xl sm:py-4 lg:px-8">
+                <div className="text-center">
+                    <h3 className="text-blue text-lg font-normal tracking-widest">
+                        ARTICLES
+                    </h3>
+                    <h3 className="text-4xl sm:text-6xl font-bold">
+                        Our latest updates.
+                    </h3>
+                </div>
+                <div className="relative w-full min-h-max py-16 ">
+                    <div className="flex space-x-6 overflow-x-auto scroll-smooth overflow-y-hidden ">
+                        {postData.map((item, i) => (
+                            <Card key={i} item={item} />
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-
     );
 };
 

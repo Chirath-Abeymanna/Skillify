@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar/index";
 import Footer from "../components/Footer/index";
 import { SessionProvider } from "next-auth/react";
 import LoadingScreen from "@/components/Splash";
+import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({
   children,
@@ -69,6 +70,7 @@ export default function RootLayout({
             {children}
             <Footer />
           </div>
+          <Toaster position="bottom-right" />
         </SessionProvider>
       </body>
     </html>

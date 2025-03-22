@@ -1,0 +1,103 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  # Flask Backend Job
+  backend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+
+      - name: Install backend dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r Skillify-Backend/Flask/requirements.txt
+
+      # - name: Run backend tests (optional)
+      #   run: |
+      #     source venv/bin/activate
+      #     pytest Skillify-Backend/tests # Adjusted path for the test directory (uncomment this section if you have tests)
+
+      # Add backend deployment (optional)
+      - name: Deploy backend (e.g., to Heroku, AWS, etc.)
+        run: |
+          # Add your deployment steps here (e.g., pushing to Heroku, AWS, etc.)
+          echo "Deploying Flask backend"
+
+  # Next.js Frontend Job
+  frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18"
+
+      - name: Install frontend dependencies
+        run: |
+          cd Skillify-Frontend # Ensure we are in the frontend directory
+          npm install
+
+      - name: Run frontend tests
+        run: |
+          cd Skillify-Frontend # Ensure we are in the frontend directory
+          npm run test # Assuming you have a Jest test script for Next.js
+
+      # - name: Build frontend
+      # env:
+      #   AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+      #   GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      #   GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      #   LINKEDIN_CLIENT_ID: ${{ secrets.LINKEDIN_CLIENT_ID }}
+      #   LINKEDIN_CLIENT_SECRET: ${{ secrets.LINKEDIN_CLIENT_SECRET }}
+      #   MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      #   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      #   RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+      #   SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
+      #   AI_TEMP: ${{ secrets.AI_TEMP }}
+      #   AI_MAX_TOKENS: ${{ secrets.AI_MAX_TOKENS }}
+      #   OPENAI_API_ORG: ${{ secrets.OPENAI_API_ORG }}
+      #   NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+      #   NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+      #   JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      # run: |
+      #   cd Skillify-Frontend # Ensure we are in the frontend directory
+      #   npm run build
+
+      # Add frontend deployment (optional)
+      - name: Deploy frontend (e.g., to Vercel, Netlify, etc.)
+        run: |
+          # Add your frontend deployment steps here (e.g., pushing to Vercel, Netlify, etc.)
+          echo "Deploying Next.js frontend"
+
+  # Optional: Combine Backend and Frontend Deployment (if necessary)
+  deploy:
+    needs: [backend, frontend] # Wait for both jobs to complete
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy both backend and frontend (optional)
+        run: |
+          echo "Both frontend and backend are deployed"

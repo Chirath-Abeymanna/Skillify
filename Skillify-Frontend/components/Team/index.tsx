@@ -1,141 +1,95 @@
-"use client";
-import Slider from "react-slick";
-import React, { Component } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLinkedin } from "@fortawesome/free-brands-svg-icons";
 
-// CAROUSEL DATA
-
-interface DataType {
-  profession: string;
-  name: string;
-  imgSrc: string;
-}
-
-const postData: DataType[] = [
+const developers = [
   {
-    profession: "Co-founder",
     name: "Chamodya Chirath",
-    imgSrc: "/images/wework/avatar4.svg",
+    role: "Full stack Developer & Product Manager",
+    image: "/images/team/chirath.jpg",
+    linkedIn: "https://www.linkedin.com/in/chirath-abeymanna-990700292",
+    instagram: "#!",
   },
   {
-    profession: "Co-founder",
-    name: "Dev Ranasinghe",
-    imgSrc: "/images/wework/avatar.svg",
+    name: "Devmina Ranasinghe",
+    role: "Full stack Developer & AI/ML Engineer",
+    image: "images/team/Devmina.jpg",
+    linkedIn: "https://www.linkedin.com/in/dev-ranasinghe",
+    instagram: "#!",
   },
   {
-    profession: "Co-founder",
     name: "Renal Perera",
-    imgSrc: "/images/wework/avatar4.svg",
+    role: "Full stack Developer & QA Engineer",
+    image: "images/team/Renal.jpg",
+    linkedIn: "https://www.linkedin.com/in/renal-perera-b880ba295",
+    instagram: "#!",
   },
   {
-    profession: "Co-founder",
-    name: "Onel Silva",
-    imgSrc: "/images/wework/avatar3.svg",
-  },
-  {
-    profession: "Co-founder",
-    name: "Nadini Salisha",
-    imgSrc: "/images/wework/avatar.svg",
-  },
-  {
-    profession: "Co-founder",
     name: "Sehansa Dilsadi",
-    imgSrc: "/images/wework/avatar3.svg",
+    role: "Frontend Developer & UI/UX Designer",
+    image: "/images/team/sehansa.jpg",
+    linkedIn: "https://www.linkedin.com/in/sehansa-dilsadi-a42633334/",
+    instagram: "#!",
+  },
+  {
+    name: "Onel Silva",
+    role: "Full stack Developer & Database Administrator",
+    image: "/images/team/onel.jpg",
+    linkedIn: "https://www.linkedin.com/in/onel-silva-203031290",
+    instagram: "#!",
+  },
+  {
+    name: "Nadini Salisha",
+    role: "Frontend Developer & Technical Writer",
+    image: "images/team/nadini.jpg",
+    linkedIn: "http://www.linkedin.com/in/nadini-atugoda-5a06542b3",
+    instagram: "#!",
   },
 ];
 
-// CAROUSEL SETTINGS
+const ProfileCard = () => {
+  return (
+    <div
+      id="team"
+      className="mx-auto lg:w-max lg:px-32 bg-slate-100 rounded-xl  min-h-screen flex justify-center items-center mb-10"
+    >
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {developers.map((developer, index) => (
+          <div
+            key={index}
+            className="w-full max-w-[300px] shadow-2xl p-8 pb-14 m-4 rounded-xl text-gray-800 dark:text-gray-400 overflow-hidden group hover:shadow-2xl hover:shadow-sky-500/50 motion-safe:transition-all motion-safe:duration-700"
+          >
+            <figure className="relative w-40 h-40 m-0 mx-auto rounded-full outline outline-offset-4 outline-sky-500 before:content-[''] before:absolute before:block before:pointer-events-none before:rounded-full before:h-full before:w-full before:bg-sky-500 before:-z-[1] group-hover:before:scale-[2.5] motion-safe:before:transition-all motion-safe:transform-gpu motion-safe:before:duration-500 before:origin-center group-hover:outline-sky-400">
+              <img
+                className="rounded-[50%] w-[10rem] h-[10rem] block bg-sky-500 object-cover z-10 relative"
+                src={developer.image}
+                alt="Avatar"
+              />
+            </figure>
+            <header className="motion-safe:translate-y-4 group-hover:translate-y-0 motion-safe:transition-transform motion-safe:transform-gpu motion-safe:duration-500">
+              <h3 className="font-semibold text-2xl text-center text-sky-500 mt-6 group-hover:text-gray-50 dark:group-hover:text-gray-800 relative">
+                {developer.name}
+              </h3>
+              <p className="text-center group-hover:text-gray-50 dark:group-hover:text-gray-800 relative">
+                {developer.role}
+              </p>
+            </header>
 
-export default class MultipleItems extends Component {
-  render() {
-    const settings = {
-      dots: false,
-      infinite: true,
-      slidesToShow: 5,
-      // centerMode: true,
-      slidesToScroll: 1,
-      arrows: false,
-      autoplay: true,
-      speed: 4000,
-      autoplaySpeed: 2000,
-      cssEase: "linear",
-      responsive: [
-        {
-          breakpoint: 1200,
-          settings: {
-            slidesToShow: 3,
-            slidesToScroll: 1,
-            infinite: true,
-            dots: false,
-          },
-        },
-        {
-          breakpoint: 800,
-          settings: {
-            slidesToShow: 2,
-            slidesToScroll: 1,
-            infinite: true,
-            dots: false,
-          },
-        },
-        {
-          breakpoint: 450,
-          settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            infinite: true,
-            dots: false,
-          },
-        },
-      ],
-    };
-
-    return (
-      <div className="bg-wework py-32">
-        <div className="mx-auto max-w-2xl lg:max-w-7xl sm:py-4 lg:px-8 ">
-          <div className="text-center">
-            <h3 className="text-4xl sm:text-6xl font-bold text-black my-2">
-              We work in several verticals.
-            </h3>
-            <h3 className="text-4xl sm:text-4xl font-bold text-black opacity-50 lg:mr-48 my-2">
-              Innovating solutions tailored for diverse industries.
-            </h3>
-            <h3 className="text-4xl sm:text-3xl font-bold text-black opacity-25 lg:-mr-32 my-2">
-              Adapting to challenges with agility and expertise.
-            </h3>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 m-10 lg:mx-20 ">
-          {postData.map((item, index) => (
-            <div
-              key={index}
-              className="group pb-10 before:hover:scale-95 before:hover:w-96 before:hover:h-52 before:hover:rounded-b-2xl before:transition-all before:duration-500 before:content-[''] before:w-96 before:h-32 before:rounded-t-2xl before:bg-gradient-to-bl from-sky-200 via-[#9abff7] to-[#0463f3] before:absolute before:top-0 w-96 h-80 relative bg-slate-50 flex flex-col items-center justify-center gap-2 text-center rounded-2xl overflow-hidden hover:pointer"
-            >
-              <div className="w-32 h-32 bg-blue mt-8 rounded-full border-4 border-slate-50 z-10 group-hover:scale-150 group-hover:-translate-x-24 group-hover:-translate-y-20 transition-all duration-500">
-                <Image
-                  src={item.imgSrc}
-                  alt={item.name}
-                  width={128}
-                  height={128}
-                  className="rounded-full"
-                />
-              </div>
-              <div className="z-10 group-hover:-translate-y-10 transition-all duration-500">
-                <span className="text-2xl font-semibold ">{item.name}</span>
-                <p className="pt-2">{item.profession}</p>
-              </div>
-              <Link
-                className="mt-10 bg-blue px-4 py-1 text-slate-50 rounded-md z-10 hover:scale-125 transition-all duration-500 hover:bg-blue-500"
-                href="#"
+            <footer className="relative mt-14 w-max text-center mx-auto">
+              <a
+                target="_blank"
+                href={developer.linkedIn}
+                className="bg-sky-500 flex justify-center space-x-5 text-white py-2 px-6 rounded-full text-lg hover:bg-sky-600"
               >
-                Follow
-              </Link>
-            </div>
-          ))}
-        </div>
+                <FontAwesomeIcon icon={faLinkedin} className="w-5 mt-1 mr-5" />
+                LinkedIn
+              </a>
+            </footer>
+          </div>
+        ))}
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
+export default ProfileCard;

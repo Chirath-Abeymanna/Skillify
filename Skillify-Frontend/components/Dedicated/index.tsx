@@ -10,10 +10,10 @@ const Dedicated = () => {
           {" "}
           {/* Added spacing between columns */}
           {/* COLUMN-1 */}
-          <div className="h-[700px] w-[700px] flex items-center justify-center">
+          <div className="h-[700px] w-[700px] hidden lg:flex items-center justify-center">
             {" "}
             {/* Reduced Spline size */}
-            {/* <Spline scene="https://prod.spline.design/i-2zBouq-1c8R9gK/scene.splinecode" />{" "} */}
+            <Spline scene="https://prod.spline.design/BHVRdtIHIj9O9TlM/scene.splinecode" />
           </div>
           {/* COLUMN-2 */}
           <div className="relative flex flex-col justify-center h-full space-y-6">
