@@ -1,9 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 import * as z from "zod";
 import MessageBox from "@/components/MessageBox";
 import { set } from "mongoose";
+import CheckoutPage from "@/components/CheckoutPage/CheckOutPage";
+import convertToSubcurrency from "@/app/lib/convertToSubcurrency";
 
 const paymentSchema = z.object({
   cardNumber: z
@@ -40,6 +44,12 @@ const paymentSchema = z.object({
     ),
 });
 
+
+if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
+    throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined");
+  }
+  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
+  
 export default function PaymentForm() {
   const [errors, setErrors] = useState<
     z.ZodFormattedError<{
@@ -316,6 +326,17 @@ export default function PaymentForm() {
                 )}
               </div>
             </div>
+
+            <Elements
+                stripe={stripePromise}
+                options={{
+                mode: "payment",
+                amount: convertToSubcurrency(amount),
+                currency: "usd",
+                }}
+            >
+                <CheckoutPage amount={amount} />
+            </Elements>
 
             <div className="flex justify-between mt-6">
               <button
