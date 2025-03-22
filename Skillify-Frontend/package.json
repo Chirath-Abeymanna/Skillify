@@ -18,8 +18,8 @@
     "@heroicons/react": "^2.0.18",
     "@prisma/client": "^6.4.1",
     "@react-spring/web": "^9.7.5",
-    "@react-three/drei": "^9.0.0",
-    "@react-three/fiber": "^8.0.0",
+    "@react-three/drei": "^10.0.4",
+    "@react-three/fiber": "^8.18.0",
     "@shadcn/ui": "^0.0.4",
     "@splinetool/react-spline": "^4.0.0",
     "@stripe/react-stripe-js": "^3.1.1",
@@ -36,6 +36,7 @@
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
     "eventsource-parser": "^0.1.0",
+    "express": "^4.21.2",
     "framer-motion": "^12.5.0",
     "google-auth-library": "^9.15.1",
     "gsap": "^3.12.7",
@@ -74,6 +75,16 @@
     "@types/react-fontawesome": "^1.6.8",
     "@types/react-slick": "^0.23.10",
     "@types/three": "^0.174.0",
+    "shadcn-ui": "^0.9.4"
+  },
+  "main": "next.config.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
     "babel-jest": "^29.7.0",
     "concurrently": "^9.1.2",
     "identity-obj-proxy": "^3.0.0",
@@ -83,6 +94,5 @@
     "mongoose": "^8.12.2",
     "shadcn-ui": "^0.9.4",
     "ts-jest": "^29.2.6",
-    "ts-node": "^10.9.2"
-  }
+"ts-node": "^10.9.2"
 }
