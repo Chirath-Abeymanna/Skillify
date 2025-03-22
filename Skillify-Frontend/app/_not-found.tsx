@@ -1,3 +1,9 @@
+export async function getStaticProps() {
+  return {
+    notFound: true, // Marks this page as "not found" to prevent prerendering
+  };
+}
+
 const Custom404 = () => {
   return (
     <div className="min-h-screen flex items-center justify-center">
