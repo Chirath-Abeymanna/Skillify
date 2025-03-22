@@ -1,0 +1,84 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  # Flask Backend Job
+  backend:
+    runs-on: ubuntu-latest
+    working-directory: Skillify-Backend # Set the working directory to Skillify-Backend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+
+      - name: Install backend dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
+
+      # - name: Run backend tests
+      #   run: |
+      #     source venv/bin/activate
+      #     pytest  # or whatever test framework you're using for the Flask backend
+
+      - name: Deploy backend (optional, e.g., to Heroku, AWS, etc.)
+        run: |
+          # Add your deployment steps here (e.g., pushing to Heroku, AWS, etc.)
+          echo "Deploying Flask backend"
+
+  # Next.js Frontend Job
+  frontend:
+    runs-on: ubuntu-latest
+    working-directory: Skillify-Frontend # Set the working directory to Skillify-Frontend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18"
+
+      - name: Install frontend dependencies
+        run: npm install # Install dependencies for the frontend
+
+      - name: Run frontend tests
+        run: npm run test # Assuming you have a Jest test script for Next.js
+
+      - name: Build frontend
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+        run: npm run build # Build the Next.js app
+
+
+      # - name: Deploy frontend (optional, e.g., to Vercel, Netlify, etc.)
+      #   run: |
+      #     # Add your frontend deployment steps here
+      #     echo "Deploying Next.js frontend"
+
+  # Optional: Combine Backend and Frontend Deployment (if necessary)
+  # deploy:
+  #   needs: [backend, frontend]  # Wait for both jobs to complete
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
+
+  #     - name: Deploy both backend and frontend (optional)
+  #       run: |
+  #         echo "Both frontend and backend are deployed"

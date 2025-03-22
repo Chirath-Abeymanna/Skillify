@@ -243,10 +243,9 @@ html {
 }
 
 .bg-joinus {
-  background-image: url("/images/joinus/horn.svg"),
-    url("/images/joinus/paint.svg");
+  background-image: url("/images/joinus/paint.svg");
   background-repeat: no-repeat, no-repeat;
-  background-position: 84% 109%, 12% 18%;
+  background-position: 15% 2%;
 }
 
 .footer-icons {
