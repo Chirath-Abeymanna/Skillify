@@ -50,7 +50,6 @@ const ProfileSection = () => {
 
   if (status === "authenticated" && session) {
     userAvatar = "/images/Avatars/" + session.user.avatar + ".svg";
-    console.log(userAvatar);
     return (
       <div className="relative flex flex-col items-center sm:items-center sm:space-x-10 sm:justify-center lg:left-24 lg:space-x-10 lg:w-[17vw] lg:justify-between">
         <div className="flex flex-col lg:flex-row lg:space-x-10 items-center sm:items-center">
@@ -96,7 +95,7 @@ const ProfileSection = () => {
             <img
               src={userAvatar}
               alt="avatar pic"
-              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full mb-4 lg:mb-4 cursor-pointer"
+              className=" rounded-full mb-4 lg:mb-4 cursor-pointer"
               onClick={() => router.push("/Profile")}
             />
           </div>
