@@ -11,11 +11,14 @@ export default function Home() {
 
   const predictSalary = async () => {
     try {
-      const response = await axios.post("http://127.0.0.1:5000/predict", {
-        country,
-        education,
-        experience,
-      });
+      const response = await axios.post(
+        "https://skillify-flask-production.up.railway.app/predict",
+        {
+          country,
+          education,
+          experience,
+        }
+      );
       setSalary(response.data.salary);
     } catch (error) {
       console.error("Prediction error:", error);
