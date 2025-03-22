@@ -19,10 +19,10 @@ const InputMessage: React.FC<{
   setInput: (value: string) => void;
   sendMessage: (message: string) => void;
 }> = ({ input, setInput, sendMessage }) => (
-  <div className="absolute bottom-8 left-1/2 w-full max-w-3xl -translate-x-1/2 flex items-center bg-white bg-opacity-90 p-4 rounded-lg shadow-lg">
+  <div className="flex items-center bg-white p-2 md:p-4 rounded-lg">
     <input
       type="text"
-      className="flex-1 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="flex-1 border border-gray-300 rounded-lg px-3 py-2 md:px-4 md:py-3 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
       value={input}
       placeholder="Type a message..."
       onKeyDown={(e) => {
@@ -33,7 +33,13 @@ const InputMessage: React.FC<{
       }}
       onChange={(e) => setInput(e.target.value)}
     />
-    <Button className="ml-4 px-6 py-3" onClick={() => sendMessage(input)}>
+    <Button
+      className="ml-2 md:ml-4 px-4 py-2 md:px-6 md:py-3 text-sm md:text-base"
+      onClick={() => {
+        sendMessage(input);
+        setInput("");
+      }}
+    >
       Send
     </Button>
   </div>
@@ -46,6 +52,7 @@ export const Chat: React.FC = () => {
   const [cookie, setCookie] = useCookies([COOKIE_NAME]);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!cookie[COOKIE_NAME]) {
@@ -53,11 +60,17 @@ export const Chat: React.FC = () => {
     }
   }, [cookie, setCookie]);
 
+  // Add this useEffect to handle auto-scrolling
   useEffect(() => {
-    // Auto-scroll to bottom when new messages arrive
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, loading]);
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
 
+  // Remove the scrollToBottom function since we won't use it
+
+  // Modify the sendMessage function to scroll only when new messages are added
   const sendMessage = async (message: string) => {
     if (!message.trim()) return;
 
@@ -94,46 +107,53 @@ export const Chat: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full h-screen flex flex-col bg-transparent">
-      {/* Chat Container (Transparent and Fullscreen) */}
-      <div className="absolute inset-0 flex flex-col px-5 py-10 ">
-        {/* Message List */}
-        <div className="flex-1 overflow-y-auto flex flex-col-reverse space-y-6 pb-32">
-          {/* AI Loading Indicator at the Top */}
+    <div className="relative w-full h-full flex flex-col bg-transparent">
+      {/* Chat Messages Container */}
+      <div
+        ref={chatContainerRef}
+        className="flex-1 overflow-y-auto px-3 md:px-5 py-3 md:py-4 mb-14 md:mb-16"
+      >
+        <div className="space-y-4 md:space-y-6">
+          {messages.map(({ content, role }, index) => (
+            <div
+              key={index}
+              className={`flex ${
+                role === "assistant" ? "justify-start" : "justify-end"
+              }`}
+            >
+              <div
+                className={`max-w-[85%] md:max-w-[80%] px-3 py-2 md:px-5 md:py-4 rounded-xl shadow-lg text-sm md:text-base ${
+                  role === "assistant"
+                    ? "bg-gray-200 text-gray-900"
+                    : "bg-blue-600 text-white"
+                }`}
+              >
+                <span className="font-semibold text-xs md:text-sm">
+                  {role === "assistant" ? "Sally" : "You"}
+                </span>
+                <p className="mt-1 md:mt-2 whitespace-pre-wrap">{content}</p>
+              </div>
+            </div>
+          ))}
+
           {loading && (
-            <div className="self-start">
+            <div className="flex justify-start">
               <LoadingChatLine />
             </div>
           )}
 
-          {/* Render Messages from Bottom to Top */}
-          {[...messages].reverse().map(({ content, role }, index) => (
-            <div
-              key={index}
-              className={`max-w-md px-5 py-4 rounded-xl shadow-lg ${
-                role === "assistant"
-                  ? "bg-gray-200 text-gray-900 self-start"
-                  : "bg-gray-900 text-gray-200 self-end"
-              }`}
-            >
-              <span className="font-semibold">
-                {role === "assistant" ? "Sally" : "You"}
-              </span>
-              <p className="mt-2">{content}</p>
-            </div>
-          ))}
-
-          {/* Dummy div to maintain scroll behavior */}
           <div ref={messagesEndRef} />
         </div>
       </div>
 
-      {/* Input Box */}
-      <InputMessage
-        input={input}
-        setInput={setInput}
-        sendMessage={sendMessage}
-      />
+      {/* Input Box - Fixed at bottom */}
+      <div className="absolute bottom-0 left-0 right-0 border-t border-gray-200 bg-white">
+        <InputMessage
+          input={input}
+          setInput={setInput}
+          sendMessage={sendMessage}
+        />
+      </div>
     </div>
   );
 };
