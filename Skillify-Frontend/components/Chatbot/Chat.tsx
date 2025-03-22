@@ -52,7 +52,7 @@ export const Chat: React.FC = () => {
   const [cookie, setCookie] = useCookies([COOKIE_NAME]);
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-  const [shouldScroll, setShouldScroll] = useState(true);
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!cookie[COOKIE_NAME]) {
@@ -60,12 +60,13 @@ export const Chat: React.FC = () => {
     }
   }, [cookie, setCookie]);
 
-  // Remove or comment out the existing useEffect for scrolling
-  /*
+  // Add this useEffect to handle auto-scrolling
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, loading]);
-  */
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop =
+        chatContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   // Remove the scrollToBottom function since we won't use it
 
@@ -105,19 +106,12 @@ export const Chat: React.FC = () => {
     setLoading(false);
   };
 
-  // Add scroll event listener to detect user scroll
-  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
-    const isAtBottom = scrollHeight - scrollTop === clientHeight;
-    setShouldScroll(isAtBottom);
-  };
-
   return (
     <div className="relative w-full h-full flex flex-col bg-transparent">
       {/* Chat Messages Container */}
       <div
+        ref={chatContainerRef}
         className="flex-1 overflow-y-auto px-5 py-4 mb-16"
-        onScroll={handleScroll}
       >
         <div className="space-y-6">
           {messages.map(({ content, role }, index) => (
