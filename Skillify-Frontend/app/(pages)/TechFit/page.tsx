@@ -1,15 +1,13 @@
 "use client";
 import { useState } from "react";
-import data from "@/Data/Degrees.json";
+import techStacks from "@/Data/TechStacks.json";
 import MessageBox from "@/components/MessageBox";
 
-const DEGREE_CATEGORIES: string[] = ["Bio", "Mathematics", "Commerce", "Art"];
+const TECH_STACKS: string[] = techStacks.map((stack) => stack.tech_stack);
 
-//dsvsdofje
-
-export default function DegreeMatcher(): JSX.Element {
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [recommendedPrograms, setRecommendedPrograms] = useState<string[]>([]);
+export default function TechStackMatcher(): JSX.Element {
+  const [selectedTechStack, setSelectedTechStack] = useState<string>("");
+  const [jobRoles, setJobRoles] = useState<string[]>([]);
   const [messages, setMessages] = useState<
     { message: string; type: "success" | "info" | "warning" | "error" }[]
   >([]);
@@ -17,21 +15,24 @@ export default function DegreeMatcher(): JSX.Element {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      if (!selectedCategory) {
+      if (!selectedTechStack) {
         setMessages([
           ...messages,
-          { message: "Select a Degree Program first", type: "warning" },
+          { message: "Select a Tech Stack first", type: "warning" },
         ]);
         return;
       }
-      const filteredPrograms = data[selectedCategory as keyof typeof data] || [];
-      setRecommendedPrograms(filteredPrograms);
+      const selectedStack = techStacks.find(
+        (stack) => stack.tech_stack === selectedTechStack
+      );
+      const roles = selectedStack ? selectedStack.job_roles : [];
+      setJobRoles(roles);
     } catch (error) {
       setMessages([
         ...messages,
-        { message: "Error fetching degree programs:", type: "error" },
+        { message: "Error fetching job roles:", type: "error" },
       ]);
-      console.error("Error fetching degree programs:", error);
+      console.error("Error fetching job roles:", error);
     }
   };
 
@@ -45,7 +46,7 @@ export default function DegreeMatcher(): JSX.Element {
       {/* Background Image */}
       <div className="absolute inset-0 -z-5">
         <img
-          src="/images/DeegreeMatcher/download.svg"
+          src="/images/DeegreeMatcher/bluebg2.jpg"
           alt="New Decorative SVG"
           className="w-full h-full object-cover"
         />
@@ -55,22 +56,21 @@ export default function DegreeMatcher(): JSX.Element {
         {/* Heading Section */}
         <header className="flex flex-col items-center lg:flex-row lg:items-center pl-4 lg:pl-16 gap-4 pt-6 pb-6">
           <img
-            src="/images/DeegreeMatcher/imgThree.svg"
-            alt="Degree Icon"
+            src="/images/DeegreeMatcher/bluebg2.jpg"
+            alt="Tech Stack Icon"
             className="w-24 h-24 lg:w-32 lg:h-32"
           />
           <div className="text-center lg:text-left">
-            <h1 className="text-4xl lg:text-6xl font-extrabold text-orange-500 drop-shadow-md">
-              Degree Navigator
+            <h1 className="text-4xl lg:text-6xl font-extrabold text-blue-500 drop-shadow-md">
+              Tech Stack Matcher
             </h1>
             <p className="max-w-[600px] text-lg font-semibold text-[#424347] mt-6">
-              Unlock your potential, discover your strengths, and connect with
-              career opportunities.
+              Discover job roles that match your tech stack expertise.
             </p>
           </div>
         </header>
 
-        {/* Degree Selection Form */}
+        {/* Tech Stack Selection Form */}
         <div className="flex flex-col items-center lg:flex-row lg:justify-center">
           <form
             onSubmit={handleSubmit}
@@ -78,16 +78,16 @@ export default function DegreeMatcher(): JSX.Element {
           >
             <div className="flex flex-col w-full">
               <label className="text-lg font-semibold text-[#131313]">
-                Select Degree Category:
+                Select Tech Stack:
               </label>
               <select
-                onChange={(e) => setSelectedCategory(e.target.value)}
+                onChange={(e) => setSelectedTechStack(e.target.value)}
                 className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 shadow-sm bg-gray-50"
               >
-                <option value="">Choose category</option>
-                {DEGREE_CATEGORIES.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
+                <option value="">Choose tech stack</option>
+                {TECH_STACKS.map((stack) => (
+                  <option key={stack} value={stack}>
+                    {stack}
                   </option>
                 ))}
               </select>
@@ -95,26 +95,26 @@ export default function DegreeMatcher(): JSX.Element {
 
             <button
               type="submit"
-              className="w-full bg-orange-500 text-[#ffffff] border-orange-700 hover:bg-orange-600 font-semibold rounded-xl px-6 py-3 text-lg shadow-md transform hover:scale-105 transition duration-300 ease-in-out"
+              className="w-full bg-blue-500 text-[#ffffff] border-blue-700 hover:bg-blue-600 font-semibold rounded-xl px-6 py-3 text-lg shadow-md transform hover:scale-105 transition duration-300 ease-in-out"
             >
-              Show Available Degree Programs
+              Show Available Job Roles
             </button>
           </form>
 
-          {/* Recommended Programs List */}
-          {recommendedPrograms.length > 0 && (
+          {/* Job Roles List */}
+          {jobRoles.length > 0 && (
             <div className="text-center max-w-[800px] mx-auto mt-8 lg:mt-0 lg:ml-8">
               <h2 className="text-2xl font-bold text-gray-800 drop-shadow-sm">
-                Recommended Programs:
+                Available Job Roles:
               </h2>
               <div className="mt-4 max-h-[300px] overflow-y-auto space-y-4 p-6 bg-white shadow-xl rounded-2xl border border-gray-200">
                 <ul>
-                  {recommendedPrograms.map((prog, idx) => (
+                  {jobRoles.map((role, idx) => (
                     <li
                       key={idx}
                       className="text-lg font-medium text-[#3c3c3d] p-3 rounded-lg bg-[#e5e6e7] border-[#ffffff] border-2 shadow-md"
                     >
-                      {prog}
+                      {role}
                     </li>
                   ))}
                 </ul>
@@ -126,4 +126,3 @@ export default function DegreeMatcher(): JSX.Element {
     </div>
   );
 }
-
