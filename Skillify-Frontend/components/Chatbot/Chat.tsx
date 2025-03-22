@@ -59,11 +59,19 @@ export const Chat: React.FC = () => {
     }
   }, [cookie, setCookie]);
 
+  // Remove or comment out the existing useEffect for scrolling
+  /*
   useEffect(() => {
-    // Auto-scroll to bottom when new messages arrive
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
+  */
 
+  // Add this new function to handle manual scrolling
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // Modify the sendMessage function to scroll only when new messages are added
   const sendMessage = async (message: string) => {
     if (!message.trim()) return;
 
@@ -73,6 +81,9 @@ export const Chat: React.FC = () => {
       { role: "user" as const, content: message },
     ];
     setMessages(newMessages);
+
+    // Scroll after user message
+    setTimeout(scrollToBottom, 100);
 
     const response = await fetch("/api/chat", {
       method: "POST",
@@ -97,6 +108,9 @@ export const Chat: React.FC = () => {
 
     setMessages([...newMessages, { role: "assistant", content: lastMessage }]);
     setLoading(false);
+
+    // Scroll after assistant's response
+    setTimeout(scrollToBottom, 100);
   };
 
   return (
