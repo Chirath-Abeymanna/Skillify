@@ -82,7 +82,7 @@ const Roadmap: React.FC<{
   const { pathD, positions } = generatePath(
     roadmap.length,
     screenWidth,
-    screenHeight + 150
+    screenHeight + 50
   );
 
   const handleQuizComplete = async () => {
@@ -111,9 +111,12 @@ const Roadmap: React.FC<{
       className="relative w-full min-h-screen flex items-end justify-center overflow-auto"
       style={{ backgroundColor: colors.backgroundColor }}
     >
+      <div>
+        <img src="images/CareerMap/bg.svg" alt="" />
+      </div>
       {!showQuiz ? (
         <svg
-          className="relative w-full"
+          className="relative w-full py-10 "
           viewBox={`0 0 ${screenWidth} ${screenHeight + 200}`}
           fill="none"
         >
@@ -124,6 +127,7 @@ const Roadmap: React.FC<{
             strokeWidth="120"
             fill="none"
             strokeLinecap="round"
+            className="pb-10"
           />
 
           {/* Dashed Center Line */}
@@ -194,25 +198,27 @@ const Roadmap: React.FC<{
                       <p className="text-sm text-gray-400 pb-3">
                         {milestone.milestoneDescription}
                       </p>
-                      {milestone.milestoneLink && (
-                        <a
-                          href={milestone.milestoneLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-500 underline"
+                      <div className="flex justify-between">
+                        {milestone.milestoneLink && (
+                          <a
+                            href={milestone.milestoneLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 underline"
+                          >
+                            Course Link
+                          </a>
+                        )}
+                        <button
+                          onClick={() => {
+                            setQuizMilestone(milestone);
+                            setShowQuiz(true);
+                          }}
+                          className=" bg-blue-500 text-white font-semibold py-1 px-2 rounded hover:bg-blue-700"
                         >
-                          Course Link
-                        </a>
-                      )}
-                      <button
-                        onClick={() => {
-                          setQuizMilestone(milestone);
-                          setShowQuiz(true);
-                        }}
-                        className="mt-2 bg-blue-500 text-white font-semibold py-1 px-2 rounded hover:bg-blue-700"
-                      >
-                        Take Quiz
-                      </button>
+                          Take Quiz
+                        </button>
+                      </div>
                     </div>
                   </foreignObject>
                 )}
