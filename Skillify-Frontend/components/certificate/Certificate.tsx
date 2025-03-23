@@ -7,7 +7,7 @@ const Certificate = () => {
         {/* Logo */}
         <div className="absolute top-6 left-6 flex items-center space-x-2">
           <img
-            src="/logo.png"
+            src="/images/NavBar/logo_minimal.png"
             alt="Skillify Logo"
             className="w-10 h-10"
           />
