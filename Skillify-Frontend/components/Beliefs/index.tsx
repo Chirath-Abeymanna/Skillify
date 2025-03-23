@@ -14,12 +14,13 @@ const Beliefs = () => {
           </Link>
         </div>
 
-        <div className="relative bg-darkblue bg-beliefs p-6 sm:p-10 lg:p-12 rounded-3xl">
-          <div className="hidden lg:block absolute top-[70%] right-[-20px] w-full max-w-[45.5rem]">
+        {/* Career Map Card */}
+        <div className="relative bg-darkblue bg-beliefs p-6 sm:p-10 lg:p-12 rounded-3xl overflow-hidden">
+          <div className="hidden lg:block absolute top-[60%] right-[-10%] w-full max-w-[50rem] transform rotate-[-5deg]">
             <img
               src="/images/beliefs/swirls.svg"
               alt="roadmap"
-              className="w-full h-auto"
+              className="w-full h-auto object-contain"
             />
           </div>
           <div className="relative z-10">
@@ -39,13 +40,13 @@ const Beliefs = () => {
           </div>
         </div>
 
-        {/* COLUMN-2 */}
-        <div className="relative bg-green-100 p-6 sm:p-10 lg:p-12 rounded-3xl">
-          <div className="relative lg:absolute bottom-[-60px] left-1/2 transform -translate-x-1/2 lg:translate-x-0 lg:left-48 w-[200px] sm:w-[240px] lg:w-[320px]">
+        {/* Sally Card */}
+        <div className="relative bg-green-100 p-6 sm:p-10 lg:p-12 rounded-3xl overflow-hidden">
+          <div className="relative lg:absolute bottom-[-40px] left-1/2 transform -translate-x-1/2 lg:translate-x-0 lg:left-[60%] w-[200px] sm:w-[240px] lg:w-[280px] transition-all duration-300">
             <img
               src="/images/beliefs/Sally.svg"
               alt="Sally"
-              className="w-full h-auto"
+              className="w-full h-auto object-contain drop-shadow-xl"
             />
           </div>
           <div className="relative z-10">
