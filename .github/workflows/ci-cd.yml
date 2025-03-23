@@ -28,10 +28,14 @@ jobs:
           source venv/bin/activate
           pip install -r Skillify-Backend/Flask/requirements.txt
 
-      # - name: Run backend tests (optional)
-      #   run: |
-      #     source venv/bin/activate
-      #     pytest Skillify-Backend/tests # Adjusted path for the test directory (uncomment this section if you have tests)
+      - name: Run backend tests
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
+        run: |
+          source venv/bin/activate
+          cd Skillify-Backend/Flask
+          pytest test_app.py -v
 
       # Add backend deployment (optional)
       - name: Deploy backend (e.g., to Heroku, AWS, etc.)
