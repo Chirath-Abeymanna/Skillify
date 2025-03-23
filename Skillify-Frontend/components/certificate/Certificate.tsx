@@ -30,9 +30,9 @@ const Certificate = () => {
 
         {/* Description */}
         <p className="text-gray-700 mt-6">
-          We certify that this user has successfully generated <br />
-          a certificate using Skillify. If you like, you can <br />
-          generate your own certificates using Skillify.
+          We certify that this user has successfully completed a roadmap using Skillify, <br />
+          roadmap using Skillify,demonstrating  <br />
+          dedication and commitment to professional growth.
         </p>
 
         {/* Footer */}
