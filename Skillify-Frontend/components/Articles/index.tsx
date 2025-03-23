@@ -144,6 +144,4 @@ const BlogSection = () => {
   );
 };
 
-// chirath gay lord of the rings
-
 export default BlogSection;
