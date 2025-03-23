@@ -36,8 +36,8 @@ export default function Home() {
       </div>
 
       {/* Right Side - Salary Prediction */}
-      <div className="w-full md:w-1/2 min-h-[60vh] md:h-screen py-10 md:py-20 px-4 md:px-6 overflow-y-auto">
-        <div className="max-w-xl mx-auto">
+      <div className="w-full md:w-1/2 min-h-screen py-10 md:py-20 px-4 md:px-6 flex items-center justify-center">
+        <div className="w-full max-w-xl">
           {/* Stacked Text Effect */}
           <div className="text-center mb-10">
             <h3 className="text-4xl sm:text-5xl font-bold text-black">
