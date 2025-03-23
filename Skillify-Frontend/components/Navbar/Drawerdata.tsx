@@ -12,13 +12,14 @@ const navigation = [
   { name: "Services", href: "#", dropdown: true },
   { name: "FAQ", href: "/#faq-section" },
   { name: "Blogs", href: "/blogs" },
+  { name: "Help Center", href: "/HelpCenter" },
   { name: "Contact Us", href: "/#joinUs-section" },
 ];
 
 const services = [
   { name: "Career Map", href: "/CareerMap" },
   { name: "Job Seeker", href: "/JobSeeker" },
-  { name: "Salary Scope", href: "/SalaryPredictor" },
+  { name: "Salary Scope", href: "/SalaryScope" },
   { name: "Degree Navigator", href: "/DegreeMatcher" },
   { name: "Tech Fitter", href: "/TechFit" },
   { name: "Work Style Match", href: "/WorkStyleMatcher" },
