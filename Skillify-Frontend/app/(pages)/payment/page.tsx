@@ -223,7 +223,15 @@ export default function PaymentForm() {
               currency: "usd",
             }}
           >
-            <CheckoutPage amount={amount} />
+            <CheckoutPage 
+              amount={amount}
+              cardNumber={cardNumber}
+              expiryDate={expiryDate}
+              cvv={cvv}
+              setCardNumber={setCardNumber}
+              setExpiryDate={setExpiryDate}
+              setCvv={setCvv}
+            />
           </Elements>
 
           <div className="flex justify-between mt-6">

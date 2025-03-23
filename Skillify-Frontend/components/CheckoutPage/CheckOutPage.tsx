@@ -8,14 +8,29 @@ import {
 } from "@stripe/react-stripe-js";
 import convertToSubcurrency from "@/app/lib/convertToSubcurrency";
 
-const CheckoutPage = ({ amount }: { amount: number }) => {
+const CheckoutPage = ({
+  amount,
+  cardNumber,
+  expiryDate,
+  cvv,
+  setCardNumber,
+  setExpiryDate,
+  setCvv,
+}: {
+  amount: number;
+  cardNumber: string;
+  expiryDate: string;
+  cvv: string;
+  setCardNumber: (value: string) => void;
+  setExpiryDate: (value: string) => void;
+  setCvv: (value: string) => void;
+}) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState<string>();
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
-  const NEXTAUTH_URL =  process.env.NEXTAUTH_URL ;
-
+  const NEXTAUTH_URL = process.env.NEXTAUTH_URL;
 
   useEffect(() => {
     fetch("/api/create-payment-intent", {
@@ -38,13 +53,13 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
     }
 
     const { error: submitError } = await elements.submit();
-    
+
     if (submitError) {
       setErrorMessage(submitError.message);
       setLoading(false);
       return;
     }
-    console.log("url", NEXTAUTH_URL );
+    console.log("url", NEXTAUTH_URL);
     const { error } = await stripe.confirmPayment({
       elements,
       clientSecret,
