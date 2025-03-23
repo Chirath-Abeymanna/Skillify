@@ -1,9 +1,16 @@
+"use client";
+
 import React from "react";
+import { useSession, signOut, SessionProvider } from "next-auth/react";
+
 
 const Certificate = () => {
+  const { data: session, status } = useSession();
+  console.log(session?.user.name);
+  
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="w-[800px] h-[600px] bg-white border-4 border-blue-500 p-8 shadow-lg text-center relative">
+      <div className="w-[600px] h-[400px] bg-white border-4 border-blue-500 p-8 shadow-lg text-center relative">
         {/* Logo */}
         <div className="absolute top-6 left-6 flex items-center space-x-2">
           <img
@@ -19,7 +26,7 @@ const Certificate = () => {
         <p className="text-gray-600 mt-2">This certificate is proudly presented to</p>
 
         {/* Name Placeholder */}
-        <h2 className="text-4xl font-semibold text-blue-600 mt-6">Name Surname</h2>
+        <h2 className="text-4xl font-semibold text-blue-600 mt-6">{session?.user.name}</h2>
 
         {/* Description */}
         <p className="text-gray-700 mt-6">
