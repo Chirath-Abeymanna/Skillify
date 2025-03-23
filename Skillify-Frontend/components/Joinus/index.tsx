@@ -21,18 +21,34 @@ const Join = () => {
     e.preventDefault();
 
     const serviceId = "service_ogqnpwr";
-    const templateId = "template_ytq8vdj";
+    const userTemplateId = "template_ytq8vdj";
+    const skillifyTemplateId = "template_nn5bpxr";
     const userId = "X4dbXnwpsYUh6a4GD";
 
-    const templateParams = {
+    const userTemplateParams = {
       user_name: formData.name,
       user_email: formData.email,
       message: formData.message,
-      to_email: "info.skillify.inc@gmail.com", // Change this to Skillify's email
+    };
+
+    const skillifyTemplateParams = {
+      user_name: formData.name,
+      user_email: formData.email,
+      message: formData.message,
+      to_email: "info.skillify.inc@gmail.com", // Skillify's email
     };
 
     try {
-      await emailjs.send(serviceId, templateId, templateParams, userId);
+      // Send confirmation email to user
+      await emailjs.send(serviceId, userTemplateId, userTemplateParams, userId);
+      // Send notification email to Skillify
+      await emailjs.send(
+        serviceId,
+        skillifyTemplateId,
+        skillifyTemplateParams,
+        userId
+      );
+
       setMessage("Thank you for joining! A confirmation email has been sent.");
       setFormData({ name: "", email: "", message: "" });
     } catch (error) {
@@ -98,7 +114,7 @@ const Join = () => {
           </p>
         </form>
 
-        {message && <p className="text-center mt-4 text-blue-500">{message}</p>}
+        {message && <p className="text-center mt-4 text-blue-600">{message}</p>}
       </div>
     </div>
   );
