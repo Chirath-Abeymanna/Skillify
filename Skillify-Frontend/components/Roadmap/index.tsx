@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Quiz from "../Quiz"; // Import the Quiz component
 
 interface Milestone {
@@ -6,13 +7,16 @@ interface Milestone {
   milestoneDescription: string;
   searchQuery: string;
   milestoneLink?: string;
+  completed?: boolean; // Added completed property
+  accessible?: boolean; // Added accessible property
+  roadmap: string; // Added roadmap property
 }
 
 const generatePath = (milestones: number, width: number, height: number) => {
   let pathD = `M ${width / 2} ${height} `; // Start from bottom center
   let positions: { x: number; y: number }[] = [{ x: width / 2, y: height }];
 
-  const curveWidth = width * 0.2; // *** Reduced width of curves ***
+  const curveWidth = width * 0.25; // *** Reduced width of curves ***
 
   for (let i = 1; i < milestones; i++) {
     const isLeft = i % 2 === 1;
@@ -40,12 +44,25 @@ const Roadmap: React.FC<{
     milestoneColor: string;
     roadColor: string;
   };
-}> = ({ roadmap, colors }) => {
+  onRoadmapUpdate?: (updatedRoadmap: any) => void;
+}> = ({ roadmap, colors, onRoadmapUpdate }) => {
   const [screenWidth, setScreenWidth] = useState(0);
   const [screenHeight, setScreenHeight] = useState(0);
   const [activeMilestone, setActiveMilestone] = useState<number | null>(null); // State to track active milestone
   const [showQuiz, setShowQuiz] = useState(false); // State to track if the quiz should be shown
   const [quizMilestone, setQuizMilestone] = useState<Milestone | null>(null); // State to store the milestone for the quiz
+
+  const isMilestoneAccessible = (index: number): boolean => {
+    const milestone = roadmap[index];
+    if (!milestone) return false;
+
+    // First milestone is always accessible
+    if (index === 0) return true;
+
+    // Check if the previous milestone is completed
+    const previousMilestone = roadmap[index - 1];
+    return Boolean(previousMilestone?.completed);
+  };
 
   // Access window only after the component mounts on the client side
   useEffect(() => {
@@ -65,17 +82,41 @@ const Roadmap: React.FC<{
   const { pathD, positions } = generatePath(
     roadmap.length,
     screenWidth,
-    screenHeight + 150
+    screenHeight + 50
   );
+
+  const handleQuizComplete = async () => {
+    setShowQuiz(false);
+
+    if (quizMilestone) {
+      try {
+        // Fetch the updated roadmap data
+        const response = await axios.get(
+          `/api/getRoadmap?roadmapId=${quizMilestone.roadmap}`
+        );
+        const updatedRoadmap = response.data;
+
+        // Update the local state
+        if (onRoadmapUpdate) {
+          onRoadmapUpdate(updatedRoadmap.milestones);
+        }
+      } catch (error) {
+        console.error("Error fetching updated roadmap:", error);
+      }
+    }
+  };
 
   return (
     <div
       className="relative w-full min-h-screen flex items-end justify-center overflow-auto"
       style={{ backgroundColor: colors.backgroundColor }}
     >
+      <div>
+        <img src="images/CareerMap/bg.svg" alt="" />
+      </div>
       {!showQuiz ? (
         <svg
-          className="relative w-full"
+          className="relative w-full py-10 "
           viewBox={`0 0 ${screenWidth} ${screenHeight + 200}`}
           fill="none"
         >
@@ -86,6 +127,7 @@ const Roadmap: React.FC<{
             strokeWidth="120"
             fill="none"
             strokeLinecap="round"
+            className="pb-10"
           />
 
           {/* Dashed Center Line */}
@@ -102,29 +144,44 @@ const Roadmap: React.FC<{
             roadmap.map((milestone, index) => (
               <g
                 key={index}
-                onMouseEnter={() => setActiveMilestone(index)} // Show tooltip on hover
-                onMouseLeave={() => setActiveMilestone(null)} // Hide tooltip when mouse leaves
-                onClick={() => setActiveMilestone(index)} // Show tooltip on click (for mobile users)
+                onMouseEnter={() =>
+                  isMilestoneAccessible(index) && setActiveMilestone(index)
+                }
+                onMouseLeave={() => setActiveMilestone(null)}
+                onClick={() =>
+                  isMilestoneAccessible(index) && setActiveMilestone(index)
+                }
+                style={{
+                  cursor: isMilestoneAccessible(index)
+                    ? "pointer"
+                    : "not-allowed",
+                }}
               >
                 <circle
                   cx={positions[index].x}
                   cy={positions[index].y}
                   r="25"
-                  fill={colors.milestoneColor}
-                  style={{ transition: "all 0.3s", cursor: "pointer" }}
+                  fill={
+                    isMilestoneAccessible(index)
+                      ? colors.milestoneColor
+                      : "#gray"
+                  }
+                  opacity={isMilestoneAccessible(index) ? 1 : 0.5}
+                  style={{ transition: "all 0.3s" }}
                 />
                 <text
                   x={positions[index].x + (index % 2 === 0 ? 60 : 80)} // Adjusted text placement
                   y={positions[index].y + 5}
                   fontSize="16"
-                  fill="black"
+                  fill={isMilestoneAccessible(index) ? "black" : "gray"}
                   fontWeight="bold"
                 >
                   {milestone.milestoneName}
+                  {milestone.completed && " ✓"}
                 </text>
 
                 {/* Tooltip for showing milestone details */}
-                {activeMilestone === index && (
+                {activeMilestone === index && isMilestoneAccessible(index) && (
                   <foreignObject
                     x={positions[index].x + 15}
                     y={positions[index].y - 80}
@@ -141,25 +198,27 @@ const Roadmap: React.FC<{
                       <p className="text-sm text-gray-400 pb-3">
                         {milestone.milestoneDescription}
                       </p>
-                      {milestone.milestoneLink && (
-                        <a
-                          href={milestone.milestoneLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-500 underline"
+                      <div className="flex justify-between">
+                        {milestone.milestoneLink && (
+                          <a
+                            href={milestone.milestoneLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 underline"
+                          >
+                            Course Link
+                          </a>
+                        )}
+                        <button
+                          onClick={() => {
+                            setQuizMilestone(milestone);
+                            setShowQuiz(true);
+                          }}
+                          className=" bg-blue-500 text-white font-semibold py-1 px-2 rounded hover:bg-blue-700"
                         >
-                          Course Link
-                        </a>
-                      )}
-                      <button
-                        onClick={() => {
-                          setQuizMilestone(milestone);
-                          setShowQuiz(true);
-                        }}
-                        className="mt-2 bg-blue-500 text-white font-semibold py-1 px-2 rounded hover:bg-blue-700"
-                      >
-                        Take Quiz
-                      </button>
+                          Take Quiz
+                        </button>
+                      </div>
                     </div>
                   </foreignObject>
                 )}
@@ -167,7 +226,10 @@ const Roadmap: React.FC<{
             ))}
         </svg>
       ) : (
-        <Quiz milestone={quizMilestone as any} />
+        <Quiz
+          milestone={quizMilestone as any}
+          onQuizComplete={handleQuizComplete}
+        />
       )}
     </div>
   );

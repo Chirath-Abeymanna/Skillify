@@ -6,6 +6,7 @@ interface IMilestone extends Document {
   milestoneDescription: string;
   milestoneLink: string;
   completed: boolean;
+  accessible: boolean; // Add this field
   roadmap: mongoose.Types.ObjectId;
 }
 
@@ -15,6 +16,7 @@ const MilestoneSchema: Schema = new Schema({
   milestoneDescription: { type: String, required: true },
   milestoneLink: { type: String, required: true },
   completed: { type: Boolean, default: false },
+  accessible: { type: Boolean, default: false }, // Add this field
   roadmap: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Roadmap",
