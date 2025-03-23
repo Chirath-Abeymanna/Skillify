@@ -58,7 +58,7 @@ export default function TechStackMatcher(): JSX.Element {
         {/* Heading Section */}
         <header className="flex flex-col items-center md:flex-row md:items-center md:justify-center gap-4 pt-6 pb-6">
           <img
-            src="/images/DeegreeMatcher/bluebg2.jpg"
+            src="/images/aboutus/imgsix.svg"
             alt="Tech Stack Icon"
             className="w-20 h-20 md:w-24 md:h-24 lg:w-32 lg:h-32"
           />
