@@ -1,6 +1,7 @@
-import openai
 import yaml
 import json
+import httpx
+from openai import OpenAI
 
 # Load API Key from Config
 CONFIG_PATH = r"config.yaml"
@@ -10,13 +11,16 @@ with open(CONFIG_PATH) as file:
 
 OPENAI_API_KEY = data['OPENAI_API_KEY']
 
-# Set OpenAI API key for authentication
-openai.api_key = OPENAI_API_KEY
-
 def extract_career_paths(resume_data):
     """
     Uses OpenAI to analyze a resume and extract suitable career paths.
     """
+    # Initialize OpenAI client with custom http client
+    http_client = httpx.Client()
+    client = OpenAI(
+        api_key=OPENAI_API_KEY,
+        http_client=http_client
+    )
 
     prompt = '''
     You are an AI career advisor. Your task is to:
@@ -51,7 +55,7 @@ def extract_career_paths(resume_data):
         {"role": "user", "content": resume_data}
     ]
 
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=messages,
         temperature=0.0,
@@ -59,7 +63,7 @@ def extract_career_paths(resume_data):
     )
 
     try:
-        json_data = json.loads(response.choices[0].message['content'].strip())
+        json_data = json.loads(response.choices[0].message.content.strip())
         return json_data
     except json.JSONDecodeError:
         return {"error": "Invalid JSON format received from OpenAI"}

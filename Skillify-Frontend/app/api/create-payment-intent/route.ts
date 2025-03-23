@@ -5,6 +5,13 @@ export async function POST(request: NextRequest) {
   try {
     const { amount } = await request.json();
 
+    if (!amount || typeof amount !== "number") {
+      return NextResponse.json(
+        { error: "Amount is required and must be a number" },
+        { status: 400 }
+      );
+    }
+
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount,
       currency: "usd",
