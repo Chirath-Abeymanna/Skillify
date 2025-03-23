@@ -6,7 +6,7 @@ function Home() {
   return (
     <Page className="flex flex-col md:flex-row min-h-screen min-w-full relative overflow-hidden">
       {/* Left Side - Chat Section */}
-      <div className="w-full md:w-1/2 h-[60vh] md:h-screen relative z-20 p-4 md:p-6">
+      <div className="w-full lg:w-1/2 h-screen relative z-20 p-4 md:p-6">
         {/* Header */}
         <div className="text-center mb-4 md:mb-6">
           <Text
@@ -25,12 +25,10 @@ function Home() {
         </div>
       </div>
 
-      {/* Right Side - Spline Scene */}
-      <div className="w-full md:w-1/2 h-[40vh] md:h-screen relative">
-        <div className="absolute inset-4 md:inset-8 lg:inset-12">
-          {" "}
-          {/* Changed from inset-0 */}
-          <Spline scene="https://prod.spline.design/zs8GpA71FRj9sBdb/scene.splinecode" />{" "}
+      {/* Right Side - Spline Scene (Hidden on mobile and tablet) */}
+      <div className="hidden lg:block w-1/2 h-screen relative">
+        <div className="absolute inset-12">
+          <Spline scene="https://prod.spline.design/zs8GpA71FRj9sBdb/scene.splinecode" />
         </div>
       </div>
     </Page>
