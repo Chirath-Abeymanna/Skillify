@@ -248,6 +248,10 @@ const CareerMapPage: React.FC = () => {
                 onProgressCalculated={calculateProgress(roadmap.milestones)} // Pass the promise
                 onView={() => viewRoadmap(roadmap._id)}
                 onDelete={() => handleDeleteRoadmap(roadmap._id)}
+                roadmapId={roadmap._id}
+                onViewCertificate={function (id: string): void {
+                  throw new Error("Function not implemented.");
+                }}
               />
             ))}
           </div>
