@@ -11,7 +11,7 @@ const developers = [
     instagram: "#!",
   },
   {
-    name: "Devmina Ranasinghe",
+    name: "Dev Ranasinghe",
     role: "Full stack Developer & AI/ML Engineer",
     image: "images/team/Devmina.jpg",
     linkedIn: "https://www.linkedin.com/in/dev-ranasinghe",
