@@ -8,9 +8,8 @@ import MessageBox from "@/components/MessageBox";
 import CheckoutPage from "@/components/CheckoutPage/CheckOutPage";
 import convertToSubcurrency from "@/app/lib/convertToSubcurrency";
 
-const stripePublicKey = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || 'your-default-stripe-public-key-here';
+const stripePublicKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || 'your-default-stripe-public-key-here';
 const stripePromise = loadStripe(stripePublicKey);
-
 
 const paymentSchema = z.object({
   cardNumber: z
@@ -47,7 +46,6 @@ const paymentSchema = z.object({
     ),
 });
 
-  
 export default function PaymentForm() {
   const [errors, setErrors] = useState<
     z.ZodFormattedError<{
@@ -107,57 +105,6 @@ export default function PaymentForm() {
     setMessages([{ message: "Payment successful!", type: "success" }]);
     console.log("Payment Data:", data);
   };
-
-  function validateForm(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const data = {
-      cardNumber: cardNumber.replace(/\s/g, ""), // Remove spaces before validation
-      expiryDate,
-      cvv,
-      orderNumber,
-    };
-    const result = paymentSchema.safeParse(data);
-    if (!result.success) {
-      setErrors(result.error.format());
-      return;
-    }
-    setErrors({
-      _errors: [],
-      cardNumber: { _errors: [] },
-      expiryDate: { _errors: [] },
-      cvv: { _errors: [] },
-      orderNumber: { _errors: [] },
-    });
-    console.log("Payment Data:", data);
-  }
-
-  function handleCardNumberChange(event: React.ChangeEvent<HTMLInputElement>) {
-    let value = event.target.value.replace(/\D/g, ""); // Remove non-digit characters
-    value = value.slice(0, 16); // Limit to 16 digits
-
-    // Automatically format with spaces every 4 digits
-    value = value.replace(/(\d{4})(?=\d)/g, "$1 "); // Add spaces after every 4 digits
-    setCardNumber(value); // Update the card number state
-  }
-
-  function handleExpiryDateChange(event: React.ChangeEvent<HTMLInputElement>) {
-    let value = event.target.value.replace(/\D/g, ""); // Remove non-digit characters
-    if (value.length > 2) {
-      value = value.slice(0, 2) + "/" + value.slice(2, 4); // Add '/' after the second digit
-    }
-    if (value.length > 5) {
-      value = value.slice(0, 5); // Limit the length to "MM/YY"
-    }
-    setExpiryDate(value); // Update the expiry date state
-  }
-
-  function handleCvvChange(event: React.ChangeEvent<HTMLInputElement>) {
-    let value = event.target.value.replace(/\D/g, ""); // Remove non-digit characters
-    if (value.length > 3) {
-      value = value.slice(0, 3); // Limit to 3 digits
-    }
-    setCvv(value); // Update the CVV state
-  }
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -268,90 +215,32 @@ export default function PaymentForm() {
             </div>
           </div>
 
-          <form onSubmit={validateForm} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium">Card Number</label>
-              <input
-                type="text"
-                name="cardNumber"
-                placeholder="1234 5678 9012 3456"
-                className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#0036E8]"
-                maxLength={19} // Includes spaces
-                value={cardNumber} // Controlled component
-                onChange={handleCardNumberChange}
-              />
-              {errors.cardNumber && (
-                <p className="text-red-500 text-sm">
-                  {errors.cardNumber._errors[0]}
-                </p>
-              )}
-            </div>
+          <Elements
+            stripe={stripePromise}
+            options={{
+              mode: "payment",
+              amount: convertToSubcurrency(amount),
+              currency: "usd",
+            }}
+          >
+            <CheckoutPage amount={amount} />
+          </Elements>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium">
-                  Expiry Date (MM/YY)
-                </label>
-                <input
-                  type="text"
-                  name="expiryDate"
-                  placeholder="MM/YY"
-                  className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#0036E8]"
-                  value={expiryDate} // Controlled component
-                  onChange={handleExpiryDateChange}
-                />
-                {errors.expiryDate && (
-                  <p className="text-red-500 text-sm">
-                    {errors.expiryDate._errors[0]}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label className="block text-sm font-medium">CVV</label>
-                <input
-                  type="text"
-                  name="cvv"
-                  placeholder="123"
-                  className="w-full p-2 border rounded-lg focus:outline-none focus:border-[#0036E8]"
-                  maxLength={3}
-                  value={cvv} // Controlled component
-                  onChange={handleCvvChange}
-                />
-                {errors.cvv && (
-                  <p className="text-red-500 text-sm">
-                    {errors.cvv._errors[0]}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <Elements
-                stripe={stripePromise}
-                options={{
-                mode: "payment",
-                amount: convertToSubcurrency(amount),
-                currency: "usd",
-                }}
+          <div className="flex justify-between mt-6">
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="px-8 py-2 border border-[#B82828] text-[#F40000] rounded-full"
             >
-                <CheckoutPage amount={amount} />
-            </Elements>
-
-            <div className="flex justify-between mt-6">
-              <button
-                type="button"
-                onClick={handleCancel}
-                className="px-8 py-2 border border-[#B82828] text-[#F40000] rounded-full"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handlePay}
-                className="px-14 py-2 border border-[#1949E9] bg-[#002DF4] text-white rounded-full"
-              >
-                Pay
-              </button>
-            </div>
-          </form>
+              Cancel
+            </button>
+            <button
+              onClick={handlePay}
+              className="px-14 py-2 border border-[#1949E9] bg-[#002DF4] text-white rounded-full"
+            >
+              Pay
+            </button>
+          </div>
         </div>
       </div>
     </div>

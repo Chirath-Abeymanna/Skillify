@@ -14,6 +14,8 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
   const [errorMessage, setErrorMessage] = useState<string>();
   const [clientSecret, setClientSecret] = useState("");
   const [loading, setLoading] = useState(false);
+  const NEXTAUTH_URL =  process.env.NEXTAUTH_URL ;
+
 
   useEffect(() => {
     fetch("/api/create-payment-intent", {
@@ -36,18 +38,18 @@ const CheckoutPage = ({ amount }: { amount: number }) => {
     }
 
     const { error: submitError } = await elements.submit();
-
+    
     if (submitError) {
       setErrorMessage(submitError.message);
       setLoading(false);
       return;
     }
-
+    console.log("url", NEXTAUTH_URL );
     const { error } = await stripe.confirmPayment({
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `http://www.localhost:3000/payment-success?amount=${amount}`,
+        return_url: 'https://skillify.solutions/',
       },
     });
 
