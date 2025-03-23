@@ -1,9 +1,10 @@
 "use client";
+
 import Certificate from "@/components/certificate/Certificate";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 
-export default function Home() {
+function CertificatePage() {
   const searchParams = useSearchParams();
   const roadmapId = searchParams.get("roadmapId");
   const [milestones, setMilestones] = useState([]);
@@ -21,7 +22,6 @@ export default function Home() {
       }
 
       try {
-        // Use the correct query parameter name 'id'
         const response = await fetch(`/api/getRoadmap?roadmapId=${roadmapId}`);
 
         if (!response.ok) {
@@ -29,7 +29,6 @@ export default function Home() {
         }
 
         const data = await response.json();
-
         setSelectedRoadmap(data);
         setSelectedMilestones(data.milestones);
       } catch (error) {
@@ -52,7 +51,6 @@ export default function Home() {
     );
   if (!selectedRoadmap) return <div>No roadmap found</div>;
 
-  // Check if all milestones are completed
   const allMilestonesCompleted = selectedMilestones?.every(
     (milestone: any) => milestone.completed === true
   );
@@ -68,4 +66,13 @@ export default function Home() {
   }
 
   return <Certificate />;
+}
+
+// Wrap your page in a Suspense boundary
+export default function Home() {
+  return (
+    <Suspense fallback={<div>Loading certificate page...</div>}>
+      <CertificatePage />
+    </Suspense>
+  );
 }
