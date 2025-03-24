@@ -76,11 +76,8 @@ const CareerMapPage: React.FC = () => {
   }, [session]);
 
   const submit = async () => {
-    console.log("Career Map Submitted");
-    console.log("Career Goals:", careerGoals);
-    console.log("Skills:", skills);
-
     try {
+      setIsLoading(true);
       const response = await fetch("/api/generateRoadmap", {
         method: "POST",
         headers: {
@@ -90,8 +87,10 @@ const CareerMapPage: React.FC = () => {
       });
 
       const data = await response.json();
-      setRoadmap(data); // Update to set the entire roadmap data
-      setShowRoadmap(true);
+      setRoadmap(data);
+      setSelectedRoadmap(null); // Reset selected roadmap
+      setShowCreateUI(false); // Hide the create UI
+      setShowRoadmap(true); // Show the roadmap view
 
       // Save roadmap to the database
       await fetch("/api/saveRoadmap", {
@@ -105,8 +104,18 @@ const CareerMapPage: React.FC = () => {
           colors,
         }),
       });
+
+      // Fetch updated roadmaps
+      const updatedRoadmapsResponse = await fetch(
+        `/api/getUserRoadmaps?email=${session?.user?.email}`
+      );
+      const updatedRoadmapsData = await updatedRoadmapsResponse.json();
+      setUserRoadmaps(updatedRoadmapsData.roadmaps || []);
     } catch (error) {
       console.error("Error fetching roadmap:", error);
+      setMessages([{ message: "Error generating roadmap", type: "error" }]);
+    } finally {
+      setIsLoading(false);
     }
   };
 
