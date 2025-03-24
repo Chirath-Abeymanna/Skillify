@@ -37,7 +37,7 @@ const Navbar = () => {
 
             {/* LINKS */}
             <div className="hidden lg:flex items-center after:content-[''] after:h-12 after:w-[1px] after:bg-gray-200 after:ml-4">
-              <div className="flex justify-center space-x-14">
+              <div className="flex flex-nowrap justify-center space-x-10 w-max">
                 <Link
                   href={"/#banner-section"}
                   className={`${style.navlinks} ${

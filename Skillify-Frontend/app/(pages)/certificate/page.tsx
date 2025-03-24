@@ -65,7 +65,7 @@ function CertificatePage() {
     );
   }
 
-  return <Certificate />;
+  return <Certificate roadmapName={selectedRoadmap.roadmapName} />;
 }
 
 // Wrap your page in a Suspense boundary
