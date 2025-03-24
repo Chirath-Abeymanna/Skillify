@@ -45,7 +45,8 @@ const Roadmap: React.FC<{
     roadColor: string;
   };
   onRoadmapUpdate?: (updatedRoadmap: any) => void;
-}> = ({ roadmap, colors, onRoadmapUpdate }) => {
+  onBack?: () => void; // Add this prop
+}> = ({ roadmap, colors, onRoadmapUpdate, onBack }) => {
   const [screenWidth, setScreenWidth] = useState(0);
   const [screenHeight, setScreenHeight] = useState(0);
   const [activeMilestone, setActiveMilestone] = useState<number | null>(null); // State to track active milestone
@@ -111,6 +112,15 @@ const Roadmap: React.FC<{
       className="relative w-full min-h-screen flex items-end justify-center overflow-auto"
       style={{ backgroundColor: colors.backgroundColor }}
     >
+      {/* Add back button */}
+      {onBack && (
+        <button
+          onClick={onBack}
+          className="absolute top-10 left-4 bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-700 z-10"
+        >
+          ← Back to Roadmaps
+        </button>
+      )}
       <div>
         <img src="images/CareerMap/bg.svg" alt="" />
       </div>

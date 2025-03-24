@@ -274,6 +274,7 @@ const CareerMapPage: React.FC = () => {
           }
           colors={colors}
           onRoadmapUpdate={handleRoadmapUpdate}
+          onBack={handleBackToRoadmaps}
         />
       )}
     </div>
