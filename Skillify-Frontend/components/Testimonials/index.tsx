@@ -49,13 +49,6 @@ const MultipleItems: React.FC = () => {
           {reviews.map((review, i) => (
             <div key={review._id} className="relative">
               <div className="bg-white shadow-lg rounded-2xl p-6">
-                <Image
-                  src={`/images/testimonial/user${(i % 3) + 1}.svg`}
-                  alt="user"
-                  width={50}
-                  height={50}
-                  className="rounded-full mx-auto mb-4"
-                />
                 <p className="text-gray-600 text-sm mb-4 line-clamp-3">
                   {review.comment}
                 </p>

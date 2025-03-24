@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const Banner = () => {
   return (
-    <div className="mx-auto -mt-14 lg:-mt-20  max-w-7xl sm:py-10 px-6 lg:px-8 h-[80vh]">
+    <div className="mx-auto flex items-center justify-center -mt-14 lg:-mt-20  max-w-7xl sm:py-10 px-6 lg:px-8 h-screen">
       <div className="grid grid-cols-1 lg:grid-cols-2 my-8">
         {/* COLUMN-1 */}
 
@@ -32,7 +32,7 @@ const Banner = () => {
 
         {/* COLUMN-2 - Spline Element */}
 
-        <div className="relative top-[13vh] left-[5vw] hidden lg:block  p-7 h-[80vh] w-[40vw] ">
+        <div className="relative left-[5vw] hidden lg:block  p-7 h-[80vh] w-[40vw  ">
           <Spline scene="https://prod.spline.design/i-2zBouq-1c8R9gK/scene.splinecode" />{" "}
         </div>
       </div>
