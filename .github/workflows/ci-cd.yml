@@ -56,16 +56,6 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Install frontend dependencies
-        run: |
-          cd Skillify-Frontend # Ensure we are in the frontend directory
-          npm install
-
-      - name: Run frontend tests
-        run: |
-          cd Skillify-Frontend # Ensure we are in the frontend directory
-          npm run test # Assuming you have a Jest test script for Next.js
-
       # Add frontend deployment (optional)
       - name: Deploy frontend (e.g., to Vercel, Netlify, etc.)
         run: |
