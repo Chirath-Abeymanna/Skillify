@@ -2,12 +2,12 @@ import type { Config } from "jest";
 
 const config: Config = {
   preset: "ts-jest",
-  testEnvironment: "node", // Use 'node' environment for backend testing
+  testEnvironment: "node",
   moduleNameMapper: {
-    "^@/(.*)$": "<rootDir>/$1", // Map @/ to the project root folder
+    "^@/(.*)$": "<rootDir>/$1",
   },
   transform: {
-    "^.+\\.tsx?$": "ts-jest", // Transform TypeScript files
+    "^.+\\.tsx?$": "ts-jest",
   },
 };
 
